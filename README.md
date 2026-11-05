@@ -58,3 +58,5 @@ Don't use "Send invitation" for trainees. Supabase's built-in email only sends t
 2. The lesson pages are public to anyone with the link. They use made-up practice data only. The progress records are only visible after sign-in.
 3. To reset a password, run query 4 in supabase/admin.sql in the SQL Editor. For someone on the Supabase team, you can also click the user and use Send password recovery.
 4. Times show as fixed UTC-4, labeled EDT. To change that, edit TIME_ZONE and TIME_LABEL in js/config.js.
+
+Last site update: Nov 5, 2026 (home page with lesson cards).
