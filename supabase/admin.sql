@@ -13,3 +13,9 @@ from public.profiles p
 left join (select user_id, lesson_id, count(distinct part) as parts
            from public.lesson_events where part <> 'open' group by user_id, lesson_id) d on d.user_id = p.id
 group by p.full_name, p.email order by p.full_name;
+
+-- 4. Set a new password for someone (the dashboard can only email a reset link,
+--    and those emails only reach people on the Supabase team).
+--    Type the new password between the quotes, run it, then send it to them privately.
+update auth.users set encrypted_password = extensions.crypt('TYPE-NEW-PASSWORD-HERE', extensions.gen_salt('bf'))
+where email = 'trainee@example.com';
