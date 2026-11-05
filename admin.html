@@ -1,0 +1,81 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="robots" content="noindex">
+<title>Training Progress</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Source+Sans+3:wght@400;600;700&display=swap">
+<link rel="stylesheet" href="css/site.css">
+</head>
+<body>
+<header class="ob-hdr"><div class="in"><div class="ob-brand"><i></i><div>FieldPulse Office Manager Training<small>Progress</small></div></div><div id="barhost" class="fpt-bar"></div></div></header>
+<main class="site">
+  <h1>Who finished what</h1>
+  <p class="muted" id="sub">Loading...</p>
+  <div class="tools"><button class="btn ghost" id="reload" type="button">Refresh</button><button class="btn ghost" id="csv" type="button">Download CSV</button></div>
+  <div class="tbl-wrap"><table class="grid" id="grid"></table></div>
+  <p class="legend"><span class="st done">Done</span> all 3 parts &nbsp; <span class="st part">2/3</span> parts done &nbsp; <span class="st none">.</span> not opened. Lesson = walk-through + check questions + practice. Click a name for the full log.</p>
+  <section id="detail"></section>
+</main>
+<script src="js/config.js"></script>
+<script src="js/vendor/supabase-2.117.3.min.js"></script>
+<script src="js/lessons.js"></script>
+<script src="js/track.js"></script>
+<script>
+(async function(){
+  var T = window.FPTrack, esc = T.esc, M = window.FP_LESSONS.modules, L = [], TITLE = {}, P = [], E = [], SEL = null;
+  M.forEach(function(m){ m.lessons.forEach(function(l){ L.push(l.id); TITLE[l.id] = l.title; }); });
+  var p = null; try{ p = await T.init(); }catch(e){}
+  if(!p){ location.replace("index.html?next=admin.html"); return; }
+  var b = document.getElementById("barhost");
+  b.innerHTML = (T.live?"":'<span class="fpt-demo">Demo mode</span>')+'<a href="index.html">All modules</a><span class="fpt-who">'+esc(p.full_name||p.email)+'</span><button type="button" id="out">Sign out</button>';
+  document.getElementById("out").onclick = async function(){ await T.signOut(); location.href = "index.html"; };
+  if(p.role!=="admin"){ document.getElementById("sub").textContent = "This page is for trainers only."; document.querySelector(".tools").hidden = true; document.querySelector(".tbl-wrap").hidden = true; document.querySelector(".legend").hidden = true; return; }
+
+  function short(id){ return id.toUpperCase().replace("-", "."); }
+  function stat(uid){
+    var s = {}; E.forEach(function(e){ if(e.user_id!==uid) return; var x = s[e.lesson_id] = s[e.lesson_id]||{parts:{}, min:0, last:""}; if(e.part!=="open") x.parts[e.part] = e; x.min = Math.max(x.min, +e.minutes||0); if(e.created_at>x.last) x.last = e.created_at; });
+    return s;
+  }
+  function render(){
+    var trainees = P.filter(function(u){ return u.role!=="admin"; }).concat(P.filter(function(u){ return u.role==="admin"; }));
+    var h = '<thead><tr><th>Trainee</th><th>Done</th><th>Minutes</th><th>Last active</th>'+M.map(function(m){ return m.lessons.map(function(l){ return '<th class="c" title="'+esc(l.title)+'">'+short(l.id)+'</th>'; }).join(""); }).join("")+'</tr></thead><tbody>';
+    h += trainees.map(function(u){
+      var s = stat(u.id), done = 0, min = 0, last = "";
+      var cells = L.map(function(id){ var x = s[id]; if(!x) return '<td class="c"><span class="st none">.</span></td>';
+        var n = ["walk","check","practice"].filter(function(k){ return x.parts[k]; }).length; min += x.min; if(x.last>last) last = x.last; if(n===3) done++;
+        return '<td class="c" title="'+esc(TITLE[id])+'"><span class="st '+(n===3?"done":"part")+'">'+(n===3?"Done":n+"/3")+'</span></td>'; }).join("");
+      return '<tr class="pick'+(SEL===u.id?" sel":"")+'" data-u="'+esc(u.id)+'" tabindex="0"><td><b>'+esc(u.full_name||u.email)+'</b>'+(u.role==="admin"?' <span class="muted">(trainer)</span>':"")+'<br><span class="muted">'+esc(u.email)+'</span></td><td>'+done+' of '+L.length+'</td><td>'+(min<10?Math.round(min*10)/10:Math.round(min))+'</td><td>'+esc(last?T.fmtTime(last):"Not started")+'</td>'+cells+'</tr>';
+    }).join("") + '</tbody>';
+    document.getElementById("grid").innerHTML = h;
+    var nt = trainees.filter(function(u){ return u.role!=="admin"; }).length; document.getElementById("sub").textContent = nt+(nt===1?" trainee":" trainees")+". Updated "+T.fmtTime(new Date().toISOString())+".";
+    detail();
+  }
+  function detail(){
+    var d = document.getElementById("detail"); if(!SEL){ d.innerHTML = ""; return; }
+    var u = P.find(function(x){ return x.id===SEL; }); if(!u){ d.innerHTML = ""; return; }
+    var rows = E.filter(function(e){ return e.user_id===SEL; }).slice().reverse();
+    var NAME = {open:"Opened", walk:"Walk-through done", check:"Check questions done", practice:"Practice passed"};
+    d.innerHTML = '<h2>'+esc(u.full_name||u.email)+': full log</h2>'+(rows.length?'<div class="tbl-wrap"><table class="grid"><thead><tr><th>When</th><th>Lesson</th><th>What</th><th>Check score (first try)</th><th>Hints used</th><th>Minutes on lesson</th></tr></thead><tbody>'+rows.map(function(e){
+      return '<tr><td>'+esc(T.fmtTime(e.created_at))+'</td><td>'+short(e.lesson_id)+' '+esc(TITLE[e.lesson_id]||"")+'</td><td>'+esc(NAME[e.part]||e.part)+'</td><td>'+(e.part==="check"&&e.total!=null?e.score+" of "+e.total:"")+'</td><td>'+(e.part==="practice"&&e.hints!=null?e.hints:"")+'</td><td>'+(e.minutes!=null?e.minutes:"")+'</td></tr>'; }).join("")+'</tbody></table></div>':'<p class="muted">Nothing yet.</p>');
+  }
+  async function load(){
+    document.getElementById("sub").textContent = "Loading...";
+    try{ var r = await Promise.all([T.profiles(), T.events()]); P = r[0]; E = r[1]; render(); }
+    catch(e){ document.getElementById("sub").textContent = "Couldn't load progress. Check your internet and click Refresh."; }
+  }
+  document.getElementById("grid").addEventListener("click", function(e){ var tr = e.target.closest("tr[data-u]"); if(!tr) return; SEL = SEL===tr.dataset.u ? null : tr.dataset.u; render(); if(SEL) document.getElementById("detail").scrollIntoView({behavior:"smooth", block:"start"}); });
+  document.getElementById("grid").addEventListener("keydown", function(e){ if(e.key==="Enter"){ var tr = e.target.closest("tr[data-u]"); if(tr) tr.click(); } });
+  document.getElementById("reload").onclick = load;
+  document.getElementById("csv").onclick = function(){
+    var by = {}; P.forEach(function(u){ by[u.id] = u; });
+    var lines = [["when ("+(window.FP_CONFIG.TIME_LABEL||"EDT")+")","name","email","lesson","lesson title","part","score","total","hints","minutes"]].concat(E.map(function(e){ var u = by[e.user_id]||{}; return [T.fmtTime(e.created_at), u.full_name||"", u.email||"", e.lesson_id, TITLE[e.lesson_id]||"", e.part, e.score, e.total, e.hints, e.minutes]; }));
+    var csv = lines.map(function(r){ return r.map(function(v){ v = v==null?"":String(v); if(/^[=+\-@]/.test(v)) v = "'"+v; return /[",\n]/.test(v)?'"'+v.replace(/"/g,'""')+'"':v; }).join(","); }).join("\n");
+    var a = document.createElement("a"); a.href = URL.createObjectURL(new Blob([csv], {type:"text/csv"})); a.download = "training-progress.csv"; document.body.appendChild(a); a.click(); a.remove();
+  };
+  load();
+})();
+</script>
+</body>
+</html>

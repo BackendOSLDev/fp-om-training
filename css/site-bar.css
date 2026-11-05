@@ -1,0 +1,8 @@
+/* signed-in bar (also used inside lesson pages) */
+.fpt-bar{display:flex;flex-wrap:wrap;align-items:center;gap:6px 14px;font-size:.88rem}
+.fpt-bar a{color:#fff;font-weight:600}
+.fpt-bar .fpt-who{color:var(--hdr-muted)}
+.fpt-bar button{font:inherit;font-size:.85rem;background:transparent;color:#fff;border:1px solid rgba(255,255,255,.4);border-radius:7px;padding:3px 10px;cursor:pointer}
+.fpt-bar .fpt-st{color:#ffd28a}
+.fpt-demo{background:#ffd28a;color:#3a2a00;border-radius:99px;padding:1px 8px;font-size:.75rem;font-weight:700}
+.ob-hdr .in{flex-wrap:wrap}

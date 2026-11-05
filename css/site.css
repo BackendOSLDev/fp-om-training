@@ -1,0 +1,52 @@
+:root{--page:#f4f6fa;--hdr:#0b0a4d;--hdr-muted:#b9bce6;--accent:#1976d2;--accent-ink:#1565c0;--accent-soft:#eaf3fd;--accent-line:#c9e0fa;--fg:#1f2a37;--muted:#667085;--line:#e4e7ec;--ok:#1e7b46;--ok-soft:#e6f4ea;--warn-soft:#fff4e0;color-scheme:light}
+*{box-sizing:border-box}
+html,body{margin:0;background:var(--page);color:var(--fg);font-family:"Source Sans 3",system-ui,-apple-system,"Segoe UI",sans-serif;font-size:16px;line-height:1.5}
+a{color:var(--accent-ink)}
+.ob-hdr{background:var(--hdr);color:#fff}
+.ob-hdr .in{max-width:1180px;margin:0 auto;padding:12px max(16px,env(safe-area-inset-left));display:flex;flex-wrap:wrap;gap:10px 24px;align-items:center;justify-content:space-between}
+.ob-brand{display:flex;align-items:center;gap:10px;font-weight:700;font-size:1.1rem}
+.ob-brand i{width:28px;height:28px;border-radius:7px;background:var(--accent);box-shadow:inset 0 0 0 7px #fff;flex:none}
+.ob-brand small{display:block;font-weight:400;color:var(--hdr-muted);font-size:.8rem}
+/* signed-in bar (also used inside lesson pages) */
+.fpt-bar{display:flex;flex-wrap:wrap;align-items:center;gap:6px 14px;font-size:.88rem}
+.fpt-bar a{color:#fff;font-weight:600}
+.fpt-bar .fpt-who{color:var(--hdr-muted)}
+.fpt-bar button{font:inherit;font-size:.85rem;background:transparent;color:#fff;border:1px solid rgba(255,255,255,.4);border-radius:7px;padding:3px 10px;cursor:pointer}
+.fpt-bar .fpt-st{color:#ffd28a}
+.fpt-demo{background:#ffd28a;color:#3a2a00;border-radius:99px;padding:1px 8px;font-size:.75rem;font-weight:700}
+main.site{max-width:1180px;margin:0 auto;padding:24px max(16px,env(safe-area-inset-left)) 48px}
+.card{background:#fff;border:1px solid var(--line);border-radius:12px;box-shadow:0 1px 2px rgba(16,24,40,.06);padding:20px}
+h1{font-size:1.5rem;margin:0 0 6px}
+h2{font-size:1.15rem;margin:0 0 6px}
+.muted{color:var(--muted)}
+.login{max-width:400px;margin:40px auto}
+.login label{display:block;font-weight:600;font-size:.9rem;margin:14px 0 4px}
+.login input{width:100%;font:inherit;padding:9px 11px;border:1px solid #cfd4dc;border-radius:8px}
+.login input:focus,.btn:focus-visible{outline:3px solid var(--accent-line);outline-offset:1px}
+.btn{font:inherit;font-weight:600;background:var(--accent);color:#fff;border:1px solid var(--accent);border-radius:8px;padding:9px 16px;cursor:pointer;text-decoration:none;display:inline-block}
+.btn.ghost{background:#fff;color:var(--fg);border-color:var(--line)}
+.btn[disabled]{opacity:.6;cursor:default}
+.login .btn{width:100%;margin-top:18px}
+.err{color:#b42318;font-size:.9rem;margin:10px 0 0;min-height:1.2em}
+.demo-note{background:var(--warn-soft);border:1px solid #f5d39b;border-radius:8px;padding:8px 12px;font-size:.88rem;margin-bottom:14px}
+.mods{display:grid;grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:16px;margin-top:18px}
+.mods .card p{margin:4px 0 12px}
+.bar{height:8px;border-radius:99px;background:#eaecf0;overflow:hidden;margin:6px 0 14px}.bar i{display:block;height:100%;background:var(--accent)}
+.prog{font-size:.88rem;color:var(--muted)}
+/* admin */
+.tools{display:flex;flex-wrap:wrap;gap:10px;align-items:center;margin:14px 0}
+.tbl-wrap{overflow-x:auto;border:1px solid var(--line);border-radius:12px;background:#fff}
+table.grid{border-collapse:collapse;width:100%;font-size:.88rem;font-variant-numeric:tabular-nums}
+table.grid th,table.grid td{padding:8px 10px;border-bottom:1px solid var(--line);text-align:left;white-space:nowrap}
+table.grid th{background:#f8f9fb;font-weight:600;color:var(--muted);font-size:.8rem;position:sticky;top:0}
+table.grid td.c{text-align:center}
+table.grid tr.pick{cursor:pointer}
+table.grid tr.pick:hover td{background:var(--accent-soft)}
+table.grid tr.sel td{background:var(--accent-soft)}
+.st{display:inline-block;min-width:34px;border-radius:6px;padding:1px 6px;font-weight:600;font-size:.8rem}
+.st.done{background:var(--ok-soft);color:var(--ok)}
+.st.part{background:var(--warn-soft);color:#8a5a00}
+.st.none{color:#b0b6c0}
+.legend{font-size:.84rem;color:var(--muted);margin:8px 0 0}
+#detail{margin-top:22px}
+@media (max-width:600px){ main.site{padding-top:16px} .login{margin-top:16px} }

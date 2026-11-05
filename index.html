@@ -1,0 +1,79 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="robots" content="noindex">
+<title>FieldPulse OM Training</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Source+Sans+3:wght@400;600;700&display=swap">
+<link rel="stylesheet" href="css/site.css">
+</head>
+<body>
+<header class="ob-hdr"><div class="in"><div class="ob-brand"><i></i><div>FieldPulse Office Manager Training<small>Sign in to start</small></div></div><div id="barhost"></div></div></header>
+<main class="site">
+  <section id="login" class="card login" hidden>
+    <h1>Sign in</h1>
+    <p class="muted">Use the email and password your trainer gave you.</p>
+    <div id="demonote" class="demo-note" hidden>Demo mode: nothing is saved online. Use any email and the password <b>demo</b>. Put "admin" in the email to see the Progress page.</div>
+    <form id="lf" novalidate>
+      <label for="em">Email</label><input id="em" type="email" autocomplete="username" required>
+      <label for="pw">Password</label><input id="pw" type="password" autocomplete="current-password" required>
+      <button class="btn" id="go" type="submit">Sign in</button>
+      <p class="err" id="err" role="alert"></p>
+    </form>
+    <p class="muted" style="font-size:.88rem;margin:6px 0 0">Forgot your password? Ask your trainer to reset it.</p>
+  </section>
+  <section id="home" hidden>
+    <h1 id="hi"></h1>
+    <p class="muted">Each lesson has 3 parts: the walk-through, the check questions, and practice. A lesson is done when all 3 are done. Your progress saves as you go.</p>
+    <div class="mods" id="mods"></div>
+  </section>
+</main>
+<script src="js/config.js"></script>
+<script src="js/vendor/supabase-2.117.3.min.js"></script>
+<script src="js/lessons.js"></script>
+<script src="js/track.js"></script>
+<script>
+(async function(){
+  var T = window.FPTrack, M = window.FP_LESSONS.modules, esc = T.esc;
+  var q = new URLSearchParams(location.search), next = q.get("next") || "";
+  if(!/^(m\d+|admin)\.html(#[a-z0-9-]*)?$/.test(next)) next = "";
+  function hdr(p){
+    var b = document.getElementById("barhost"); b.innerHTML = "";
+    if(!p) return;
+    b.className = "fpt-bar";
+    b.innerHTML = (T.live?"":'<span class="fpt-demo">Demo mode</span>')+(p.role==="admin"?'<a href="admin.html">Progress</a>':"")+'<span class="fpt-who">'+esc(p.full_name||p.email)+'</span><button type="button" id="out">Sign out</button>';
+    document.getElementById("out").onclick = async function(){ await T.signOut(); location.href = "index.html"; };
+    document.querySelector(".ob-brand small").textContent = "Your lessons";
+  }
+  async function home(p){
+    if(next){ location.replace(next); return; }
+    hdr(p);
+    document.getElementById("login").hidden = true;
+    document.getElementById("hi").textContent = "Hi " + (p.full_name || p.email);
+    var rows = []; try{ rows = await T.myEvents(); }catch(e){}
+    var prog = T.progressFrom(rows);
+    document.getElementById("mods").innerHTML = M.map(function(m){
+      var n = m.lessons.length, d = m.lessons.filter(function(l){ var x = prog[l.id]||{}; return x.walk && x.check && x.practice; }).length;
+      var started = m.lessons.some(function(l){ return rows.some(function(r){ return r.lesson_id===l.id; }); });
+      return '<div class="card"><h2>'+esc(m.title)+'</h2><p class="muted">'+esc(m.summary)+'</p><div class="prog">'+d+' of '+n+' lessons done</div><div class="bar"><i style="width:'+Math.round(100*d/n)+'%"></i></div><a class="btn" href="'+esc(m.page)+'">'+(d===n?"Review":started?"Continue":"Start")+'</a></div>';
+    }).join("");
+    document.getElementById("home").hidden = false;
+  }
+  var p = null; try{ p = await T.init(); }catch(e){}
+  if(p){ home(p); return; }
+  document.getElementById("demonote").hidden = T.live;
+  document.getElementById("login").hidden = false;
+  document.getElementById("lf").onsubmit = async function(e){
+    e.preventDefault();
+    var go = document.getElementById("go"), err = document.getElementById("err"), em = document.getElementById("em").value.trim(), pw = document.getElementById("pw").value;
+    if(!em || !pw){ err.textContent = "Enter your email and password."; return; }
+    go.disabled = true; go.textContent = "Signing in..."; err.textContent = "";
+    try{ var prof = await T.signIn(em, pw); home(prof); }
+    catch(x){ err.textContent = /invalid/i.test(String(x && x.message)) ? "That email and password don't match. Try again or ask your trainer." : "Couldn't sign in. Check your internet and try again."; }
+    finally{ go.disabled = false; go.textContent = "Sign in"; }
+  };
+})();
+</script>
+</body>
+</html>
