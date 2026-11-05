@@ -23,12 +23,25 @@
     </form>
     <p class="muted" style="font-size:.88rem;margin:6px 0 0">Forgot your password? Ask your trainer to reset it.</p>
   </section>
+  <section id="setpw" class="card login" hidden>
+    <h1>Set your password</h1>
+    <p class="muted">Pick a password for <b id="spem"></b>. You'll use it every time you sign in.</p>
+    <form id="sf" novalidate>
+      <label for="p1">New password (at least 8 characters)</label><input id="p1" type="password" autocomplete="new-password" required minlength="8">
+      <label for="p2">Type it again</label><input id="p2" type="password" autocomplete="new-password" required minlength="8">
+      <button class="btn" id="sgo" type="submit">Save password</button>
+      <p class="err" id="serr" role="alert"></p>
+    </form>
+  </section>
   <section id="home" hidden>
     <h1 id="hi"></h1>
     <p class="muted">Each lesson has 3 parts: the walk-through, the check questions, and practice. A lesson is done when all 3 are done. Your progress saves as you go.</p>
     <div class="mods" id="mods"></div>
   </section>
 </main>
+<script>/* read an invite or reset link before the login code clears it */
+window.FP_LINK = (function(){ var h = location.hash || "", g = function(k){ var m = h.match(new RegExp("[#&]"+k+"=([^&]*)")); return m ? decodeURIComponent(m[1].replace(/\+/g," ")) : ""; };
+  return {type:g("type"), error:g("error_description") || g("error")}; })();</script>
 <script src="js/config.js"></script>
 <script src="js/vendor/supabase-2.117.3.min.js"></script>
 <script src="js/lessons.js"></script>
@@ -46,6 +59,20 @@
     document.getElementById("out").onclick = async function(){ await T.signOut(); location.href = "index.html"; };
     document.querySelector(".ob-brand small").textContent = "Your lessons";
   }
+  function setpw(p){
+    hdr(p); document.getElementById("spem").textContent = p.email;
+    document.getElementById("setpw").hidden = false;
+    document.getElementById("sf").onsubmit = async function(e){
+      e.preventDefault();
+      var a = document.getElementById("p1").value, b = document.getElementById("p2").value, err = document.getElementById("serr"), go = document.getElementById("sgo");
+      if(a.length < 8){ err.textContent = "Use at least 8 characters."; return; }
+      if(a !== b){ err.textContent = "The two passwords don't match."; return; }
+      go.disabled = true; go.textContent = "Saving..."; err.textContent = "";
+      try{ await T.setPassword(a); document.getElementById("setpw").hidden = true; home(p); }
+      catch(x){ err.textContent = /different|same/i.test(String(x && x.message)) ? "Pick a different password than before." : /weak|short|least/i.test(String(x && x.message)) ? "That password is too weak. Try a longer one." : "Couldn't save it. Check your internet and try again."; }
+      finally{ go.disabled = false; go.textContent = "Save password"; }
+    };
+  }
   async function home(p){
     if(next){ location.replace(next); return; }
     hdr(p);
@@ -60,8 +87,11 @@
     }).join("");
     document.getElementById("home").hidden = false;
   }
-  var p = null; try{ p = await T.init(); }catch(e){}
+  var L = window.FP_LINK || {}, p = null; try{ p = await T.init(); }catch(e){}
+  try{ if(L.type || L.error) history.replaceState(null, "", location.pathname + location.search); }catch(e){}
+  if(p && (L.type==="invite" || L.type==="recovery")){ setpw(p); return; }
   if(p){ home(p); return; }
+  if(L.error) document.getElementById("err").textContent = "That link has expired or was already used. Ask your trainer for a new one.";
   document.getElementById("demonote").hidden = T.live;
   document.getElementById("login").hidden = false;
   document.getElementById("lf").onsubmit = async function(e){
