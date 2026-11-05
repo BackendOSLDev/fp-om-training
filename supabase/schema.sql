@@ -31,12 +31,24 @@ language sql stable security definer set search_path = public as $$
   select exists (select 1 from public.profiles where id = auth.uid() and role = 'admin');
 $$;
 
--- 4. New login -> new profile row (name comes from "full_name" in user metadata, else the email)
+-- 4. Trainer list: anyone whose email is here becomes an admin when their login is created (fill it in the Supabase SQL Editor; keep emails out of this repo)
+create table if not exists public.admin_emails (
+  email     text primary key,
+  full_name text not null default ''
+);
+alter table public.admin_emails enable row level security;
+revoke all on public.admin_emails from anon, authenticated;
+
+-- New login -> new profile row (name from "full_name" in user metadata, else the trainer list, else the email)
 create or replace function public.handle_new_user() returns trigger
 language plpgsql security definer set search_path = public as $$
+declare a public.admin_emails;
 begin
-  insert into public.profiles (id, email, full_name)
-  values (new.id, coalesce(new.email,''), coalesce(nullif(new.raw_user_meta_data->>'full_name',''), split_part(coalesce(new.email,''),'@',1)))
+  select * into a from public.admin_emails where lower(email) = lower(coalesce(new.email,''));
+  insert into public.profiles (id, email, full_name, role)
+  values (new.id, coalesce(new.email,''),
+          coalesce(nullif(new.raw_user_meta_data->>'full_name',''), nullif(a.full_name,''), split_part(coalesce(new.email,''),'@',1)),
+          case when a.email is not null then 'admin' else 'trainee' end)
   on conflict (id) do nothing;
   return new;
 end $$;
