@@ -16,6 +16,7 @@ function supa(){
     async session(){ var d = chk(await sb.auth.getSession()); return d.session ? d.session.user : null; },
     async signIn(email, pw){ var d = chk(await sb.auth.signInWithPassword({email:email, password:pw})); return d.user; },
     async signOut(){ await sb.auth.signOut(); },
+    async setPassword(pw){ chk(await sb.auth.updateUser({password:pw})); },
     async profile(uid){ return chk(await sb.from("profiles").select("id,email,full_name,role").eq("id", uid).maybeSingle()); },
     async insert(row){ chk(await sb.from("lesson_events").insert(row)); },
     async myEvents(uid){ return all(function(){ return sb.from("lesson_events").select("lesson_id,part,score,total,hints,minutes,created_at").eq("user_id", uid).order("id"); }); },
@@ -37,6 +38,7 @@ function demo(){
       var d = db(), id = "demo-"+email; if(!d.users[id]) d.users[id] = {id:id, email:email, full_name:email.split("@")[0], role:/admin/.test(email)?"admin":"trainee", created_at:new Date().toISOString()};
       put(d); ls("fpdemo:me", id); return {id:id, email:email}; },
     async signOut(){ ls("fpdemo:me", null); },
+    async setPassword(pw){ await wait(); if(!ls("fpdemo:me")) throw new Error("Not signed in"); },
     async profile(uid){ return db().users[uid] || null; },
     async insert(row){ await wait(); var d = db(), me = ls("fpdemo:me"); if(!me) throw new Error("Not signed in");
       d.events.push(Object.assign({user_id:me, created_at:new Date().toISOString()}, row)); put(d); },
@@ -85,6 +87,7 @@ var T = window.FPTrack = {
     flush(); return PROF;
   },
   async signOut(){ await B.signOut(); ME = PROF = null; },
+  setPassword: function(pw){ return B.setPassword(pw); },
   /* the lesson pages call these */
   open: function(id){ if(!ME) return; var o = ls(OPENKEY) || {}; if(o[id]) return; o[id] = 1; ls(OPENKEY, o); queue({lesson_id:id, part:"open", minutes:0}); },
   event: function(id, part, extra){ if(!ME) return; extra = extra || {};
