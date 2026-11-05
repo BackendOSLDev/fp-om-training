@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
 <meta name="robots" content="noindex">
-<title>FieldPulse OM Module 2</title>
+<title>BCB Partners Academy · Module 2</title>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Source+Sans+3:wght@400;500;600;700&display=swap">
 <style>/* Practice copy of FieldPulse. Light only on purpose: it copies the FieldPulse web app, which is light. */
 #px{--nv:#0b0a4d;--bl:#1976d2;--bl-d:#135ea8;--bl-l:#e3f0fc;--gr:#5cb531;--gr-d:#4a9827;--pg:#eef1f5;--sf:#fff;--ln:#d9dee5;--ln2:#eceff3;--ink:#1f2633;--ink2:#5b6474;--ink3:#8a93a3;--ok:#2e7d32;--ok-l:#e5f4e6;--bad:#c62828;--bad-l:#fdecea;--warn:#8a5a00;--warn-l:#fff4dc;--hl:#f5a623;
@@ -585,6 +585,49 @@
 #px .fp-pgc .fp-uchk .fp-chk{white-space:nowrap;display:flex;align-items:center;gap:6px;margin:3px 0}
 #px .fp-pgl .lnk{font-size:11.5px}
 
+/* ===== A&N job status colors (live Custom Status, Nov 5 2026) ===== */
+#px .c-jgreen{--sb:#d2f9d9;--sd:#1fdf3f;--st:#2b7838} #px .c-jpurple{--sb:#f3e3f6;--sd:#ba68c8;--st:#6d2f78} #px .c-jamber{--sb:#fff3cd;--sd:#ffc107;--st:#7a5b00}
+#px .c-black{--sb:#e8e6e6;--sd:#100101;--st:#100101} #px .c-jred{--sb:#fbdedd;--sd:#d93c37;--st:#8e2420} #px .c-jteal{--sb:#e3fbf9;--sd:#5fd6ca;--st:#22655e}
+#px .c-jroyal{--sb:#dfe5fc;--sd:#0b2cdf;--st:#0b2cdf} #px .c-jgold{--sb:#fdf2d3;--sd:#f2bd21;--st:#7a5c00}
+#px .fp-co{margin-left:auto;display:flex;align-items:center;gap:22px;font-size:16px;color:#fff;white-space:nowrap}
+#px .fp-co + .fp-ticons{margin-left:18px}
+@media (max-width:1250px){#px .fp-co{display:none} #px .fp-co + .fp-ticons{margin-left:auto} #px .fp-co + .fp-ticons > .sep:first-child{display:none}}
+
+/* ===== A&N dashboard layout ===== */
+#px .fp-dtop{margin:20px 0 12px}
+#px .fp-qc{border-radius:5px;min-height:48px;padding:6px 14px;font-size:12.8px;color:#5c5c5c}
+#px .fp-qc .fp-dh{display:inline-flex;align-items:center;gap:8px}
+#px .fp-dgrid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px 20px}
+#px .fp-dcard{background:#fff;border:1px solid rgba(0,0,0,.12);border-radius:5px;min-width:0;display:flex;flex-direction:column;height:300px;overflow:hidden}
+#px .fp-dcard.sm{height:auto}
+#px .fp-dcard .dh{padding:12px 15px 8px;font-size:13.6px;color:rgba(0,0,0,.87)}
+#px .fp-dcard .db{flex:1;min-height:0;overflow:auto;padding:0 15px 10px}
+#px .fp-ovw{display:flex;align-items:center;justify-content:space-around;gap:10px;height:100%}
+#px .fp-ovw .g{width:200px;flex:none} #px .fp-ovw .gn{font:700 40px Arial,sans-serif;fill:#5c5c5c} #px .fp-ovw .gl{font:700 11.5px Arial,sans-serif;fill:#777}
+#px .fp-ovw .st{text-align:right;font-size:17.6px;font-weight:300;line-height:1.95;color:rgba(0,0,0,.87)} #px .fp-ovw .st b{font-weight:400;color:#00034d}
+#px .fp-ovw .td{font-size:22.4px;font-weight:700;color:#00034d;display:flex;align-items:center;justify-content:flex-end;gap:6px}
+#px .fp-bars{display:flex;align-items:flex-end;gap:18px;height:220px;border-bottom:1px solid #e6e6e6;padding:10px 10px 0}
+#px .fp-bars .b{flex:1;height:100%;display:flex;flex-direction:column;justify-content:flex-end;align-items:stretch;position:relative}
+#px .fp-bars .b i{display:block;background:#cfe6fb;min-height:1px} #px .fp-bars .b small{position:absolute;bottom:-20px;left:0;right:0;text-align:center;font-size:11px;color:#5c5c5c}
+#px .fp-bars .b .v{font-size:9.5px;color:#46515b;text-align:center;margin-bottom:2px}
+#px .fp-dcard:nth-child(2) .db{padding-bottom:28px}
+#px .fp-djr{display:grid;grid-template-columns:118px 30px minmax(0,1fr) auto minmax(0,1.1fr);gap:8px;align-items:center;width:100%;text-align:left;padding:6px 4px;font-size:12.5px;color:#5c5c5c;border-bottom:1px solid #f0f0f0}
+#px .fp-djr:nth-child(odd){background:#f8f9fa} #px .fp-djr small{display:block;font-size:10.5px;color:#8a93a3}
+#px .fp-djr .ti,#px .fp-djr .cu{white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+#px .fp-dsi{width:28px;height:22px;border-radius:12px;border:1px solid var(--sd);background:var(--sb);color:var(--st);display:grid;place-items:center}
+#px .fp-dts{display:flex;align-items:center;gap:12px;padding:10px 0;border-bottom:1px solid #e6e6e6;font-size:16px;color:rgba(0,0,0,.87)}
+#px .fp-dts i{width:3px;align-self:stretch;background:#cfe6fb;margin-left:auto} #px .fp-dts .n{width:150px} #px .fp-dts .v{width:45%;font-size:12px}
+#px .fp-dl .fp-dlr{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:8px;width:100%;text-align:left;padding:5px 2px;font-size:12.5px;color:#5c5c5c;align-items:center}
+#px .fp-dl .fp-dlr:nth-child(odd){background:#f8f9fa} #px .fp-dl .fp-dlr span{white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+#px .fp-dl .fp-dlr.e{grid-template-columns:44px 96px minmax(0,1fr) minmax(0,1fr) 70px 70px}
+#px .fp-dcv small{display:block;color:#6b7280} #px .fp-dcv b{font-size:26px;font-weight:400}
+@media (max-width:1100px){#px .fp-dgrid{grid-template-columns:minmax(0,1fr)}}
+/* top bar fits the space it has, not the window (lesson column takes some width) */
+#px .fp-mainwrap{container-type:inline-size;container-name:fpmain;min-width:0}
+#px .fp-top .fp-title{white-space:nowrap;overflow:hidden;text-overflow:ellipsis;min-width:0}
+@container fpmain (max-width:1000px){ #px .fp-co{display:none} #px .fp-co + .fp-ticons{margin-left:auto} #px .fp-co + .fp-ticons > .sep:first-child{display:none} }
+@container fpmain (max-width:760px){ #px .fp-ticons .ti{display:none} }
+
 /* Option B shell: FieldPulse navy header, white Trainual-style cards. Light only. */
 :root{--page:#f4f6fa;--hdr:#0b0a4d;--hdr-muted:#b9bce6;--accent:#1976d2;--accent-ink:#1565c0;--accent-soft:#eaf3fd;--accent-line:#c9e0fa;--fg:#1f2a37;--muted:#667085;--line:#e4e7ec;color-scheme:light}
 html,body{margin:0;background:var(--page);color:var(--fg)}
@@ -747,11 +790,34 @@ body{background:var(--page)}
 #px .g-task p{font-weight:400;font-size:1rem;line-height:1.55}
 #px .g-fin{font-size:1rem}
 #px .g-mode button{white-space:nowrap;padding:8px 4px}
+
+/* ===== FieldPulse first: the practice copy fills the page, the lesson sits in a slim side column that never covers a button (Nov 5 redesign) ===== */
+@media (min-width:1101px){
+  .ob-wrap{max-width:none;padding:12px 16px 20px}
+  #px .g-grid{grid-template-columns:minmax(0,1fr) 340px;gap:14px}
+  #px .g-frame{min-height:calc(100vh - 150px)}
+  #px .fp-main{max-height:calc(100vh - 220px)}
+  #px .g-rail{top:12px;max-height:calc(100vh - 24px);border-radius:16px;box-shadow:0 10px 30px rgba(16,26,58,.12),0 0 0 1px rgba(16,26,58,.06);border:0}
+  #px.g-folded .g-grid{grid-template-columns:minmax(0,1fr) 56px}
+  #px.g-folded .g-mini{padding:0;min-height:220px;display:flex;flex-direction:column;align-items:center}
+  #px.g-folded .g-mini .g-ey,#px.g-folded .g-mini b{display:none}
+  #px.g-folded .g-mini .g-min{position:static;margin:10px auto}
+  #px.g-folded .g-mini::after{content:"Lesson";writing-mode:vertical-rl;font-size:13px;font-weight:700;color:var(--muted);letter-spacing:.06em;margin-top:6px}
+}
+#px .g-head{position:relative}
+#px .g-min{position:absolute;right:12px;top:12px;width:34px;height:34px;border-radius:9px;border:1px solid var(--line);background:#fff;color:var(--muted);font-size:12px;cursor:pointer}
+#px .g-min:hover{color:var(--fg);border-color:#c4cad4}
+#px .g-head h2{padding-right:40px}
+#px .g-mini{padding:12px 56px 12px 18px;border-bottom:0}
+#px .g-mini b{display:block;font-size:15px;line-height:1.3;color:var(--fg);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+#px .fp-top .fp-title{white-space:nowrap}
+#px .fp-ovw .st{white-space:nowrap}
+#px .g-tip.g-tip-r::before{left:-5px;top:8px;border:5px solid transparent;border-left:0;border-right-color:#f5a623}
 </style>
 <link rel="stylesheet" href="css/site-bar.css">
 </head>
 <body>
-<header class="ob-hdr"><div class="in"><div class="ob-brand"><i></i><div>FieldPulse Office Manager Training<small>Module 2: Scheduling and dispatch</small></div></div></div></header>
+<header class="ob-hdr"><div class="in"><div class="ob-brand"><i></i><div>BCB Partners Academy<small>Introducing FieldPulse · Module 2: Scheduling and dispatch</small></div></div></div></header>
 <div class="ob-sub"><div class="in"><div class="ob-allw"><button class="ob-all" id="oball" aria-expanded="false" aria-controls="obmenu">All lessons</button><div class="ob-menu" id="obmenu" hidden></div></div><div class="ob-crumb"><b id="crl"></b></div>
 <div class="ob-ov"><span id="ovt"></span><span class="bar"><i id="ovb" style="width:0%"></i></span></div></div></div>
 <main class="ob-wrap"><div id="px"></div></main>
@@ -765,7 +831,7 @@ window.MOD={prefix:"m2-",key:"fpom-m2-progress",title:"Module 2: Scheduling and 
 const M2_LESSONS = {
  "m2-1": {
   why:"A template fills in the job title, tags, time needed and who can do it, so every job of that kind is booked the same way.",
-  goal:"Book Ruth Daniels a drain cleaning from the Drain Cleaning template. Use Find Availability for the first open time, check the arrival window, keep the Service tag, and send the confirmation.",
+  goal:"Book Ruth Daniels a drain cleaning from the Service Call - Evaluation template. Use Find Availability for the first open time, check the arrival window, keep the Type: Service Call tag, and send the confirmation.",
   steps:[
    ["Check your company's booking limits and routing rules before you pick a tech. Some jobs can only go to certain techs.", ""],
    ["Start a new job.", "Work > Jobs > Create Job"],
@@ -900,7 +966,7 @@ const PDAYS = [
 ];
 const TODAY = "11-04";
 const DLAB = Object.fromEntries(PDAYS.map(d => [d.k, d.lab]));
-const WIN_BEFORE = 0, WIN_AFTER = 2;   // practice company default arrival window: from the start time to 2 hours after
+const WIN_BEFORE = 1, WIN_AFTER = 1;   // company default arrival window: 1 hour before to 1 hour after the start time
 const WHOURS = [6,6.5,7,7.5,8,8.5,9,9.5,10,10.5,11,11.5,12,12.5,13,13.5,14,14.5,15,15.5,16,16.5,17,17.5,18,18.5,19,19.5,20];
 const HOURS = [7,7.5,8,8.5,9,9.5,10,10.5,11,11.5,12,12.5,13,13.5,14,14.5,15,15.5,16,16.5,17,17.5,18];
 function fmtH(h){ if(h==null||h==="") return ""; h=+h; const hh=Math.floor(h), mm=Math.round((h-hh)*60); const ap=hh>=12?"PM":"AM"; const h12=((hh+11)%12)+1; return `${h12}:${String(mm).padStart(2,"0")} ${ap}`; }
@@ -909,10 +975,14 @@ function dlab(k){ return DLAB[k] || (k ? (()=>{const [m,d]=k.split("-"); return 
 function dnum(k){ if(!k) return 0; const [m,d]=k.split("-").map(Number); return m*31+d; }
 function daysPast(k){ return dnum(TODAY)-dnum(k); }
 
-const LEAD_SOURCES = ["Google Search","Google LSA","Facebook","Yelp","Nextdoor","Referral","Repeat Customer","Website","Van Sighting","Home Show"];
+const LEAD_SOURCES = ["Real Estate","Word of Mouth","Direct Mail","Out of Home","Advertising","Google Search","Google Ads","Social Media","Facebook","Instagram","Referral","Yelp","Purchased Leads","Angie's List","HomeAdvisor","Thumbtack","Porch","Lowe's","Home Depot","Amazon","Paid"];
 const CUST_TAGS = ["VIP","Property Manager","Do Not Service","Warranty Customer","COI Required"];
-const JOB_TAGS = ["Emergency","Call on Arrival","Gate Code","Warranty","Service","Install","Need Parts","Permit"];
-const JOB_STATUSES = ["New","On The Way","In Progress","Completed","Canceled"];
+const JOB_TAGS = ["Flag: Commercial","Flag: Do Not Service","Flag: Emergency / After Hours","Flag: Follow-Up Needed","Flag: Google Review Left","Flag: Office Review Needed","Flag: Owner-Supplied Parts","Flag: Real Estate Transaction","Flag: Same Day","Flag: Senior Discount","Type: Callback / Warranty","Type: Inspection","Type: Installation","Type: Membership Visit","Type: New Construction","Type: Remodel","Type: Septic","Type: Service Call"];
+const JOB_STATUSES = ["New","On The Way","In Progress","Completed","Canceled","Payment Received","Admin"];
+const CLOSED_ST = ["Completed","Canceled","Payment Received","Admin"];
+const JOB_WORKFLOWS = {"Default Workflow":JOB_STATUSES, "Service":["New","Completed"], "Construction":["New","Pending","Completed","Admin"]};
+const JOB_CF = [["gate","Gate / Access Code","text"],["permit","Permit Number","text"],["coi","COI Required","bool"],["own","Owner or Tenant",["Not Confirmed","Owner","Tenant","Property Manager"]],["septic","Septic System Type",["Not Septic / N/A","Unknown - Confirm On Site","Conventional Gravity","Pressure Distribution","Drip","Aerobic Treatment Unit (ATU)","Enhanced Treatment / Other Specialty"]],["zone","Service Area Zone",["Not Set","Standard Service Area","Extended Service Area","Outer Extended Service Area"]],["tax","Tax Code","text"]];
+const COMPANY = "Summit Ridge Plumbing LLC";
 const EST_STATUSES = ["Draft","Sent","Follow Up Sent","Accepted","Lost","Rejected","Completed"];
 const INV_STATUSES = ["Invoice Draft","Invoiced","Sent","Partially Paid","Paid","Void"];
 const PAY_METHODS = ["Cash","Check","Credit Card","Bank Transfer","Other"];
@@ -924,10 +994,13 @@ const ITEMS = [
 ];
 const ITEM_PRICE = Object.fromEntries(ITEMS);
 const JOB_TEMPLATES = {
-  "Service Call": {title:"Service call - ", tags:["Service"], len:2, notes:"Ask: What is the problem? Where is it, inside or outside? How long has it been going on? Gate code or pets?"},
-  "Emergency -": {title:"EMERGENCY - ", tags:["Emergency"], len:2},
-  "Drain Cleaning": {title:"Drain cleaning", tags:["Service"], len:2},
-  "Water Heater Install": {title:"Water heater install", tags:["Install"], len:4}
+  "Service Call - Evaluation": {title:"Service Call - Evaluation", desc:"$49 Evaluation (up to 10 min on site). Over 10 min = $99 Extended Evaluation.", tags:["Type: Service Call"], len:2, notes:"Ask: What is the problem? Where is it, inside or outside? How long has it been going on? Gate code or pets?"},
+  "Emergency / After-Hours Call": {title:"Emergency / After-Hours Call", desc:"$300 Emergency Dispatch Fee. No water, no working toilet, active leak, or main line backup.", tags:["Flag: Emergency / After Hours"], len:2},
+  "Commercial Plumbing Inspection": {title:"Commercial Plumbing Inspection", desc:"$400 full commercial plumbing inspection. Includes water heater flush and diagnostic with recommendations.", tags:["Type: Inspection","Flag: Commercial"], len:3},
+  "Septic Service Call - Alarm / Issue": {title:"Septic Service Call - Alarm / Issue", desc:"$500 septic service call to troubleshoot an alarm or issue. Does not include a full inspection.", tags:["Type: Septic"], len:2},
+  "Septic - Conventional Gravity Inspection": {title:"Septic - Conventional Gravity Inspection", desc:"$250 septic inspection, conventional gravity system.", tags:["Type: Septic","Type: Inspection"], len:3},
+  "Septic - Pressure/Drip/ATU Inspection": {title:"Septic - Pressure/Drip/ATU Inspection", desc:"$450 septic inspection: pressure distribution, drip, ATU, enhanced treatment, or other specialty system.", tags:["Type: Septic","Type: Inspection"], len:3},
+  "Septic - Property Sale Inspection": {title:"Septic - Property Sale Inspection", desc:"$550 real estate transfer septic inspection, any system type.", tags:["Type: Septic","Type: Inspection","Flag: Real Estate Transaction"], len:3}
 };
 const SUBTASK_TEMPLATES = {
   "Closeout checklist": ["Photos before and after","Customer walk-through done","Area cleaned up","Invoice reviewed with customer"],
@@ -955,14 +1028,14 @@ function pfresh(){
       c4:{first:"Linda",last:"Parks",phone:"(555) 201-0103",email:"",addr:"88 Cedar Lane",city:"Elm Grove",zip:"53122",st:"Current Customer",type:"Residential",ls:"",tags:[],jobNotes:"",contacts:[],locs:[],cards:[],created:"11-02"},
       c5:{first:"Robert",last:"Hayes",phone:"(555) 201-0105",email:"rhayes@example.com",addr:"5 Hill St",city:"Brookfield",zip:"53005",st:"Current Customer",type:"Residential",ls:"Yelp",tags:[],jobNotes:"",contacts:[],locs:[],cards:[],created:"02-11"},
       c6:{first:"Robert",last:"Hayes",phone:"(555) 201-0188",email:"bob.hayes@example.com",addr:"912 River Rd",city:"Waukesha",zip:"53186",st:"Current Customer",type:"Residential",ls:"Facebook",tags:[],jobNotes:"",contacts:[],locs:[],cards:[],created:"08-19"},
-      c7:{first:"Maria",last:"Lopez",phone:"(555) 201-0107",email:"mlopez@example.com",addr:"77 Oak Ave",city:"Brookfield",zip:"53005",st:"Current Customer",type:"Residential",ls:"Repeat Customer",tags:[],jobNotes:"Gate code 4512. Dog in the yard, call on arrival.",contacts:[],locs:[],cards:[],created:"01-08"},
-      c8:{first:"Peter",last:"Shaw",phone:"(555) 201-0108",email:"peter.shaw@example.com",addr:"31 Willow Ct",city:"New Berlin",zip:"53151",st:"Current Customer",type:"Residential",ls:"Google LSA",tags:[],jobNotes:"",contacts:[],locs:[],cards:[{brand:"Visa",last4:"4417"}],created:"06-30"},
+      c7:{first:"Maria",last:"Lopez",phone:"(555) 201-0107",email:"mlopez@example.com",addr:"77 Oak Ave",city:"Brookfield",zip:"53005",st:"Current Customer",type:"Residential",ls:"Word of Mouth",tags:[],jobNotes:"Gate code 4512. Dog in the yard, call on arrival.",contacts:[],locs:[],cards:[],created:"01-08"},
+      c8:{first:"Peter",last:"Shaw",phone:"(555) 201-0108",email:"peter.shaw@example.com",addr:"31 Willow Ct",city:"New Berlin",zip:"53151",st:"Current Customer",type:"Residential",ls:"Google Ads",tags:[],jobNotes:"",contacts:[],locs:[],cards:[{brand:"Visa",last4:"4417"}],created:"06-30"},
       c9:{first:"Rita",last:"Gomez",phone:"(555) 201-0109",email:"rita.g@example.com",addr:"9 Spruce Way",city:"Elm Grove",zip:"53122",st:"Current Customer",type:"Residential",ls:"Facebook",tags:[],jobNotes:"",contacts:[],locs:[],cards:[],created:"10-29"},
-      c10:{first:"Tom",last:"Baker",phone:"(555) 201-0110",email:"tbaker@example.com",addr:"64 Ash St",city:"Waukesha",zip:"53186",st:"Current Customer",type:"Residential",ls:"Nextdoor",tags:[],jobNotes:"",contacts:[],locs:[],cards:[],created:"10-12"},
+      c10:{first:"Tom",last:"Baker",phone:"(555) 201-0110",email:"tbaker@example.com",addr:"64 Ash St",city:"Waukesha",zip:"53186",st:"Current Customer",type:"Residential",ls:"Social Media",tags:[],jobNotes:"",contacts:[],locs:[],cards:[],created:"10-12"},
       c11:{first:"Lakeside",last:"Property Mgmt",company:"Lakeside Property Mgmt",phone:"(555) 201-0111",email:"ap@lakeside.example",addr:"400 Lake Shore Dr",city:"Pewaukee",zip:"53072",st:"Current Customer",type:"Commercial",ls:"Referral",tags:["Property Manager"],jobNotes:"Check in at the office first.",contacts:[],locs:[],cards:[],created:"01-20",qb:"failed"},
-      c12:{first:"Alan",last:"Brooks",phone:"(555) 201-0112",email:"abrooks@example.com",addr:"12 Fir St",city:"Brookfield",zip:"53005",st:"Current Customer",type:"Residential",ls:"Website",tags:[],jobNotes:"",contacts:[],locs:[],cards:[],created:"07-07"},
+      c12:{first:"Alan",last:"Brooks",phone:"(555) 201-0112",email:"abrooks@example.com",addr:"12 Fir St",city:"Brookfield",zip:"53005",st:"Current Customer",type:"Residential",ls:"Google Search",tags:[],jobNotes:"",contacts:[],locs:[],cards:[],created:"07-07"},
       c13:{first:"Nora",last:"Fields",phone:"(555) 201-0113",email:"nfields@example.com",addr:"3 Elm Ct",city:"Elm Grove",zip:"53122",st:"Current Customer",type:"Residential",ls:"Google Search",tags:[],jobNotes:"",contacts:[],locs:[],cards:[],created:"10-02"},
-      c14:{first:"Owen",last:"Price",phone:"(555) 201-0114",email:"oprice@example.com",addr:"27 Pine Ridge",city:"New Berlin",zip:"53151",st:"Current Customer",type:"Residential",ls:"Home Show",tags:[],jobNotes:"",contacts:[],locs:[],cards:[],created:"09-15"},
+      c14:{first:"Owen",last:"Price",phone:"(555) 201-0114",email:"oprice@example.com",addr:"27 Pine Ridge",city:"New Berlin",zip:"53151",st:"Current Customer",type:"Residential",ls:"Advertising",tags:[],jobNotes:"",contacts:[],locs:[],cards:[],created:"09-15"},
       c15:{first:"Ruth",last:"Daniels",phone:"(555) 201-0115",email:"rdaniels@example.com",addr:"150 Valley Rd",city:"Brookfield",zip:"53005",st:"Current Customer",type:"Residential",ls:"Google Search",tags:[],jobNotes:"",contacts:[],locs:[],cards:[],created:"08-01"},
       c17:{first:"Carla",last:"Dunn",phone:"(555) 201-0117",email:"",addr:"5 Lake View Dr",city:"Brookfield",zip:"53005",st:"Current Customer",type:"Residential",ls:"",tags:[],jobNotes:"",contacts:[],locs:[],cards:[],created:"11-03"},
       c16:{first:"Sunset",last:"Apartments",company:"Sunset Apartments LLC",phone:"(555) 201-0116",email:"office@sunset.example",addr:"800 Sunset Blvd",city:"Waukesha",zip:"53186",st:"Current Customer",type:"Commercial",ls:"",tags:["Property Manager"],jobNotes:"",contacts:[],locs:[],cards:[],created:"04-04"}
@@ -1011,15 +1084,15 @@ function pfresh(){
     nextJob:1060, nextEst:3030, nextInv:2060, nextCust:20, nextPay:500, nextPO:1008, nextTs:200
   };
   const J = (id,c,title,st,date,s,e,users,extra) => { W.jobs[id] = Object.assign({id,c,title,st,date,s,e,users,tags:[],notes:"",fnotes:"",win:"",visits:[],subtasks:[],archived:false,created:"10-30"}, extra||{}); };
-  J("1030","c1","Water heater flush","Completed","11-02",9,11,["u4"],{tags:["Service"]});
-  J("1031","c8","Kitchen sink clog","Completed","11-02",13,15,["u5"],{tags:["Service"]});
-  J("1032","c2","Toilet running","Completed","11-03",8,10,["u6"],{tags:["Service"]});
-  J("1033","c12","Garbage disposal install","In Progress","11-03",10,12,["u4"],{tags:["Install"],subtasks:[{series:"Closeout",items:[{n:"Photos before and after",req:true,done:true},{n:"Customer walk-through done",req:true,done:false},{n:"Area cleaned up",req:true,done:true}]}]});
-  J("1034","c3","Leak under sink","Completed","11-02",14,16,["u6"],{tags:["Service"]});
-  J("1035","c2","Faucet replace","New","11-06",9,11,["u5"],{tags:["Emergency"]});
-  J("1036","c14","Water heater install","New","11-05",8,12,["u4"],{tags:["Install"]});
-  J("1037","c13","Main line camera","Completed","11-03",13,15,["u5"],{tags:["Service"]});
-  J("1038","c15","Repipe bathroom","In Progress","11-04",8,12,["u4"],{tags:["Install"]});
+  J("1030","c1","Water heater flush","Completed","11-02",9,11,["u4"],{tags:["Type: Service Call"]});
+  J("1031","c8","Kitchen sink clog","Completed","11-02",13,15,["u5"],{tags:["Type: Service Call"]});
+  J("1032","c2","Toilet running","Completed","11-03",8,10,["u6"],{tags:["Type: Service Call"]});
+  J("1033","c12","Garbage disposal install","In Progress","11-03",10,12,["u4"],{tags:["Type: Installation"],subtasks:[{series:"Closeout",items:[{n:"Photos before and after",req:true,done:true},{n:"Customer walk-through done",req:true,done:false},{n:"Area cleaned up",req:true,done:true}]}]});
+  J("1034","c3","Leak under sink","Completed","11-02",14,16,["u6"],{tags:["Type: Service Call"]});
+  J("1035","c2","Faucet replace","New","11-06",9,11,["u5"],{tags:["Flag: Emergency / After Hours"]});
+  J("1036","c14","Water heater install","New","11-05",8,12,["u4"],{tags:["Type: Installation"]});
+  J("1037","c13","Main line camera","Completed","11-03",13,15,["u5"],{tags:["Type: Service Call"]});
+  J("1038","c15","Repipe bathroom","In Progress","11-04",8,12,["u4"],{tags:["Type: Installation"]});
   J("1045","c9","Dishwasher hookup","New","11-05",10,12,["u6"],{created:"11-03"});
   J("1047","c10","Shower valve replace","New","11-06",13,15,["u5"]);
   J("1049","c4","Annual drain service","New","11-06",8,10,["u6"]);
@@ -1027,10 +1100,10 @@ function pfresh(){
   J("1051","c16","Unit 3 leak","New","",null,null,[]);
   J("1052","c13","Water softener (needs estimate)","New","11-04",14,16,["u5"]);
   J("1053","c11","Unit 12 shut-off valve","New","11-09",9,11,["u4"]);
-  J("1054","c11","Unit 5 toilet","Completed","11-03",15,17,["u6"],{tags:["Service"]});
+  J("1054","c11","Unit 5 toilet","Completed","11-03",15,17,["u6"],{tags:["Type: Service Call"]});
   J("1055","c6","Shut-off valve replace","New","11-06",10,12,["u7"]);
   J("1058","c17","Leaky shower","New","11-06",15,17,["u5"],{created:"11-03",fnotes:"Made by Ben in the app. Grace Kim referred her."});
-  J("1056","c12","Bathroom remodel","In Progress","11-02",8,16,["u4","u5"],{tags:["Install"]});
+  J("1056","c12","Bathroom remodel","In Progress","11-02",8,16,["u4","u5"],{tags:["Type: Installation"]});
   J("1029","c7","Toilet rebuild","Completed","10-28",9,10,["u5"]);
   J("1001","c7","Toilet replace","Completed","10-02",9,12,["u4"]);
   J("1002","c3","Water heater replace","Completed","10-05",8,12,["u4"]);
@@ -1153,7 +1226,7 @@ const IP = {
  gear:"M12 9a3 3 0 1 0 0 6 3 3 0 0 0 0-6z", edit:"M4 20h4L19 9l-4-4L4 16z", card:"M3 6h18v12H3zM3 10h18", pin:"M12 21s7-6 7-12a7 7 0 0 0-14 0c0 6 7 12 7 12z",
  clock:"M12 4a8 8 0 1 0 0 16 8 8 0 0 0 0-16zM12 8v4l3 2", file:"M6 3h9l4 4v14H6z", grip:"M9 6h.1M9 12h.1M9 18h.1M15 6h.1M15 12h.1M15 18h.1",
  gear2:"M12 15a3 3 0 1 0 0-6 3 3 0 0 0 0 6zM19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 1 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 1 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 1 1-2.83-2.83l.06-.06A1.65 1.65 0 0 0 4.68 15a1.65 1.65 0 0 0-1.51-1H3a2 2 0 1 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 1 1 2.83-2.83l.06.06A1.65 1.65 0 0 0 9 4.68a1.65 1.65 0 0 0 1-1.51V3a2 2 0 1 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 1 1 2.83 2.83l-.06.06A1.65 1.65 0 0 0 19.4 9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 1 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z",
- spark:"M11 3l1.7 4.6L17 9.3l-4.3 1.7L11 15.6 9.3 11 5 9.3l4.3-1.7zM18 14l.8 2 2 .8-2 .8-.8 2-.8-2-2-.8 2-.8z", refresh:"M20 11a8 8 0 1 0-2.3 5.7M20 4v7h-7",
+ pause:"M9 5v14M15 5v14", house:"M3 11l9-7 9 7v9H5v-9", spark:"M11 3l1.7 4.6L17 9.3l-4.3 1.7L11 15.6 9.3 11 5 9.3l4.3-1.7zM18 14l.8 2 2 .8-2 .8-.8 2-.8-2-2-.8 2-.8z", refresh:"M20 11a8 8 0 1 0-2.3 5.7M20 4v7h-7",
  note:"M5 4h14v10l-6 6H5zM13 20v-6h6", pluscirc:"M12 3a9 9 0 1 0 0 18 9 9 0 0 0 0-18zM12 8v8M8 12h8", help:"M12 3a9 9 0 1 0 0 18 9 9 0 0 0 0-18zM9.5 9a2.5 2.5 0 1 1 3.5 2.3c-.6.3-1 .8-1 1.5V14M12 17h.01",
  up:"M6 15l6-6 6 6", dollar:"M12 3v18M16 7.5c-.8-1.2-2.2-2-4-2-2.2 0-4 1.2-4 3s1.8 2.6 4 3 4 1.3 4 3-1.8 3-4 3c-1.8 0-3.3-.8-4.2-2", wrench:"M14.7 6.3a4 4 0 0 0-5.4 5.2L3 17.8V21h3.2l6.3-6.3a4 4 0 0 0 5.2-5.4l-2.6 2.6-2.4-.6-.6-2.4z",
  sync:"M4 12a8 8 0 0 1 13.7-5.7L20 9M20 4v5h-5M20 12a8 8 0 0 1-13.7 5.7L4 15M4 20v-5h5", ext:"M14 4h6v6M20 4l-9 9M18 14v6H4V6h6", tag:"M3 12V4h8l9 9-8 8zM7.5 7.5h.01",
@@ -1187,8 +1260,8 @@ function winAuto(){ if(U.form["m.wlock"]) return; const s = U.form["m.s"]; if(s=
 function ddiff(a, b){ const [am,ad] = a.split("-").map(Number), [bm,bd] = b.split("-").map(Number); return Math.round((Date.UTC(2026,am-1,ad)-Date.UTC(2026,bm-1,bd))/864e5); }
 function winLabel(ws, we){ return ws==null || ws==="" || we==null || we==="" ? "" : fmtH(+ws)+" - "+fmtH(+we); }
 const dayOpts = () => [["","No date"]].concat(PDAYS.map(d => [d.k, d.lab]));
-const ST_COL = {"Invoice Draft":"amber","Invoiced":"sky","Sent":"sky","Partially Paid":"lime","Paid":"green","Void":"red","Draft":"teal","Follow Up Sent":"yellow","Accepted":"green","Lost":"red2","Rejected":"red","Completed":"grey","New":"green","On The Way":"purple","In Progress":"orange","Canceled":"red"};
-const ST_IC = {"Invoice Draft":"file","Invoiced":"loader","Sent":"mail","Partially Paid":"bill","Paid":"dcirc","Void":"xcirc","Draft":"file","Follow Up Sent":"mail","Accepted":"check2","Lost":"ban","Rejected":"xcirc","Completed":"check2","New":"cal","On The Way":"truck","In Progress":"play","Canceled":"xcirc"};
+const ST_COL = {"Invoice Draft":"amber","Invoiced":"sky","Sent":"sky","Partially Paid":"lime","Paid":"green","Void":"red","Draft":"teal","Follow Up Sent":"yellow","Accepted":"green","Lost":"red2","Rejected":"red","Completed":"black","New":"jgreen","On The Way":"jpurple","In Progress":"jamber","Canceled":"jred","Payment Received":"jteal","Admin":"jroyal","Pending":"jgold"};
+const ST_IC = {"Invoice Draft":"file","Invoiced":"loader","Sent":"mail","Partially Paid":"bill","Paid":"dcirc","Void":"xcirc","Draft":"file","Follow Up Sent":"mail","Accepted":"check2","Lost":"ban","Rejected":"xcirc","Completed":"check2","New":"house","On The Way":"truck","In Progress":"play","Canceled":"xcirc","Payment Received":"dcirc","Admin":"spark","Pending":"pause"};
 function stPill(s, kind){ return `<span class="fp-sp ${kind||"out"} c-${ST_COL[s]||"grey"}">${kind==="fill"?"":ic(ST_IC[s]||"file",13)}${E(s)}${kind==="fill"?`<span class="ar">${ic("sort",12)}</span>`:""}</span>`; }
 function chips(list, cur, act, ds){ const ci = list.indexOf(cur); return `<div class="fp-chips" role="group" aria-label="Status">${list.map((s,i) => `<button class="fp-chip ${s===cur?"on c-"+(ST_COL[s]||"grey"):i<ci?"past":"next"}" data-a="${act}" data-v="${E(s)}" ${ds||""} data-hk="chip-${E(s)}">${ic(ST_IC[s]||"file",14)}${E(s)}</button>`).join("")}</div>`; }
 function topTabs(items, sub){ return `<div class="fp-ltabs top${sub?" sub":""}" role="tablist">${items.map(t => typeof t==="string" ? `<button data-a="na-tab" data-v="${E(t)}">${E(t)}</button>` : `<button class="${t.on?"on":""} ${t.cls||""}" data-a="${t.a||"na-tab"}" data-v="${E(t.v??t.l)}" ${t.hk?`data-hk="${t.hk}"`:""} ${t.ds||""}>${t.i?ic(t.i,16):""}${E(t.l)}</button>`).join("")}${sub?"":`<span class="sp"></span>`}</div>`; }
@@ -1211,8 +1284,8 @@ const NAV = [
   {p:"customers", l:"Customers", i:"cust", t:"pu"},
   {p:"schedule", l:"Schedule", i:"cal", t:"bl"},
   {g:"Work", i:"work", t:"or", kids:[["na","Projects"],["jobs","Jobs"],["na","Subtasks"],["na","Agreements"]]},
-  {g:"Sales", i:"sales", t:"gr", kids:[["estimates","Estimates"],["invoices","Invoices"],["na","Material Lists"],["pos","Purchase Orders"],["na","Pricebooks"],["fppay","FP Payments"]]},
-  {g:"Management", i:"mgmt", t:"rd", kids:[["team","Team Members"],["na","Internal Activity"],["comms","Communications"],["ts","Timesheets"],["na","Forms"],["na","Assets"],["rep","Reporting"],["booking","Booking Requests"]]},
+  {g:"Sales", i:"sales", t:"gr", kids:[["estimates","Estimates"],["invoices","Invoices"],["na","Material Lists"],["pos","Purchase Orders"],["na","Pricebooks"],["na","Variant Proposals"],["na","Dynamic Proposals"],["fppay","FP Payments"]]},
+  {g:"Management", i:"mgmt", t:"rd", kids:[["team","Team Members"],["na","Internal Activity"],["comms","Communications"],["ts","Timesheets"],["na","Forms"],["na","Assets"],["na","HighLevel"],["rep","Reporting"],["booking","Booking Requests"]]},
   {p:"settings", l:"Company Settings", i:"gear2", t:"gy"}
 ];
 const FPLOGO = `<svg width="22" height="22" viewBox="0 0 24 24" aria-hidden="true"><path fill="#00034d" d="M5 3h14l-3 4H5zM5 10h11l-3 4H5zM8 17h11l-3 4H5z"/></svg>`;
@@ -1241,23 +1314,37 @@ function renderTop(){
   const t = U.r.p==="dash" ? `<span class="fp-dlogo">${FPLOGO.replace('#00034d','#fff')}</span><b class="fp-title up">PULSE DASHBOARD</b>` : `<b class="fp-title">${E(TITLES[U.r.p]||"")}</b>${gear?`<span class="fp-tg">${ic("gear2",19)}</span>`:""}`;
   return `${back?`<button class="fp-back" data-a="back" aria-label="Back">${ic("left",20)}</button>`:""}${t}
    <span class="fp-prac" title="Practice date: Wed, Nov 4, 2:15 PM">PRACTICE COPY</span>
-   <span class="fp-ticons"><span aria-hidden="true" class="ti">${["search","spark","bell"].map(k=>ic(k,19)).join("")}</span><button class="fp-phone" data-a="eng-open" data-hk="eng-open" aria-label="Open Engage" title="Engage">${ic("phone",19)}</button><span aria-hidden="true" class="ti">${["refresh","note","pluscirc","help"].map(k=>ic(k,19)).join("")}</span><i class="sep"></i><span class="fp-av sm">YO</span><span class="nm">You</span>${ic("down",16)}</span>`;
+   <span class="fp-co" aria-hidden="true">${E(COMPANY)}${ic("down",16)}</span><span class="fp-ticons"><i class="sep"></i><span aria-hidden="true" class="ti">${["search","spark","bell"].map(k=>ic(k,19)).join("")}</span><button class="fp-phone" data-a="eng-open" data-hk="eng-open" aria-label="Open Engage" title="Engage">${ic("phone",19)}</button><span aria-hidden="true" class="ti">${["refresh","note","pluscirc","help"].map(k=>ic(k,19)).join("")}</span><i class="sep"></i><span class="fp-av sm">YO</span><span class="nm">You</span>${ic("down",16)}</span>`;
 }
 
 /* ---------- dashboard ---------- */
 function scrDash(){
-  const wk = Object.values(W.jobs).filter(j => j.date>="11-02" && j.date<="11-08");
-  const vals = {"Jobs Completed": `${wk.filter(j=>j.st==="Completed").length} of ${wk.length}`, "New Estimates": Object.values(W.est).filter(e=>e.created>="11-02").length, "Payments Collected": money(allPays().filter(p=>p.date>="11-02").reduce((a,p)=>a+p.amt,0)), "New Customers": Object.values(W.cust).filter(c=>c.created>="11-02").length, "Open Jobs": Object.values(W.jobs).filter(j=>!["Completed","Canceled"].includes(j.st)).length};
-  let h = `<div class="fp-dtop"><div class="fp-qc">${[["cust","Create Customer","t-or","cust-new"],["work","Create Job","t-bl","job-new"],["file","Create Estimate","t-pu","est-new"],["sales","Create Invoice","t-gr","na-tab"]].map(([i,l,t,a])=>`<button data-a="${a}"><i class="fp-ico ${t}">${ic(i,14)}</i>${l}</button>`).join("")}</div>
-   <div class="fp-qc r"><button data-a="dash-config" data-hk="dash-config"><i class="fp-ico t-or">${ic("spark",14)}</i>Configure Dashboard</button><span class="fp-dh">Default Homepage: <b>Dashboard</b></span></div></div>
-  <p class="fp-small muted">Date range: ${E(W.dashRange)}</p><div class="fp-tiles">`;
-  W.dash.forEach(w => {
-    let body;
-    if(w.type==="Custom"){ const r = W.reports.find(x=>x.name===w.w); body = r ? `<small>${E(r.tab)} report</small><b>${repRows(r.tab,{filters:r.filters,range:"This Year"}).length} rows</b>` : `<small>Pick a widget</small>`; }
-    else body = `<b>${E(vals[w.w]??"-")}</b>`;
-    h += `<div class="fp-tile"><div class="th">${E(w.w)}${w.type==="Custom"?" (custom)":""}</div>${body}</div>`;
-  });
-  return h + `</div>`;
+  const all = Object.values(W.jobs).filter(j => !j.archived), today = all.filter(j => j.date===TODAY);
+  const done = today.filter(j => CLOSED_ST.includes(j.st) && j.st!=="Canceled").length, tot = today.length || 1;
+  const pct = Math.min(1, done/tot), ang = Math.PI*(1.25 - 1.5*pct), R = 80, cx = 100, cy = 100;
+  const arc = `M ${cx+R*Math.cos(Math.PI*1.25)} ${cy-R*Math.sin(Math.PI*1.25)} A ${R} ${R} 0 ${pct>2/3?1:0} 1 ${cx+R*Math.cos(ang)} ${cy-R*Math.sin(ang)}`;
+  const stat = (n,l) => `<div><b>${n}</b> ${l}</div>`;
+  const nJobs = all.filter(j=>j.created===TODAY).length, nEst = Object.values(W.est).filter(e=>e.created===TODAY).length, nInv = Object.values(W.inv).filter(i=>i.date===TODAY).length;
+  const nPay = allPays().filter(p=>p.date===TODAY).length, nCust = Object.values(W.cust).filter(c=>c.created===TODAY).length;
+  const days = PDAYS.slice(0,5), sales = days.map(d => Object.values(W.inv).filter(i=>i.date===d.k).reduce((a,i)=>a+i.items.reduce((x,y)=>x+y.q*y.p,0),0) + Object.values(W.est).filter(e=>e.created===d.k).reduce((a,e)=>a+estTotal(e),0));
+  const mx = Math.max(1, ...sales);
+  const card = (t, body, cls) => `<section class="fp-dcard ${cls||""}"><div class="dh">${E(t)}</div><div class="db">${body}</div></section>`;
+  const jt = (today.length ? today : all.filter(j=>j.date && !CLOSED_ST.includes(j.st)).slice(0,6)).slice(0,7).map(j => `<button class="fp-djr" data-a="open-job" data-v="${j.id}"><span class="t">${E(dlab(j.date))}, ${fmtH(j.s)}<small>→${fmtH(j.e)}</small></span><span class="fp-dsi c-${ST_COL[j.st]||"grey"}">${ic(ST_IC[j.st]||"cal",13)}</span><span class="ti">${E(j.title)}</span>${avs(j.users)}<span class="cu">${E(cname(W,j.c))}<small>${E((W.cust[j.c]||{}).addr||"")}</small></span></button>`).join("");
+  const techs = Object.entries(W.users).filter(([k,u])=>u.tech).slice(0,5).map(([k,u]) => `<div class="fp-dts"><span class="fp-av sm" style="background:${u.color}">${E(u.name.split(" ").map(x=>x[0]).join("").slice(0,2))}</span><span class="n">${E(u.name)}</span><i></i><span class="v">${money(0)}</span></div>`).join("");
+  const custs = Object.entries(W.cust).slice(-8).reverse().map(([id,c]) => `<button class="fp-dlr" data-a="open-cust" data-v="${id}"><span>${E(cname(W,id))}</span><span class="lk">${E(c.email||"-")}</span><span>${E(c.st||"")}</span></button>`).join("");
+  const ests = Object.values(W.est).slice(-6).reverse().map(e => `<button class="fp-dlr e" data-a="open-est" data-v="${e.id}"><span>${E(e.id)}</span>${stPill(e.st)}<span>${E(e.title)}</span><span>${E(cname(W,e.c))}</span><span>${E(dlab(e.created))}</span><span>${money(estTotal(e))}</span></button>`).join("");
+  const custom = W.dash.filter(w=>w.type==="Custom").map(w => { const r = W.reports.find(x=>x.name===w.w); return card(w.w+" (custom)", r ? `<p class="fp-dcv"><small>${E(r.tab)} report</small><b>${repRows(r.tab,{filters:r.filters,range:"This Year"}).length} rows</b></p>` : `<p class="muted">Pick a widget</p>`, "sm"); }).join("");
+  return `<div class="fp-dtop"><div class="fp-qc">${[["cust","Create Customer","t-or","cust-new"],["work","Create Job","t-bl","job-new"],["file","Create Estimate","t-pu","est-new"],["sales","Create Invoice","t-gr","na-tab"]].map(([i,l,t,a])=>`<button data-a="${a}"><i class="fp-ico ${t}">${ic(i,14)}</i>${l}</button>`).join("")}</div>
+   <div class="fp-qc r"><button data-a="dash-config" data-hk="dash-config"><i class="fp-ico t-or">${ic("spark",14)}</i>Configure Dashboard</button><span class="fp-dh">${ic("house",17)} Default Homepage: <b>Dashboard</b> ${ic("down",15)}</span></div></div>
+  <div class="fp-dgrid">
+   ${card("Overview - Today", `<div class="fp-ovw"><svg viewBox="0 0 200 175" class="g" role="img" aria-label="${done} of ${today.length} jobs completed today"><path d="M ${cx+R*Math.cos(Math.PI*1.25)} ${cy-R*Math.sin(Math.PI*1.25)} A ${R} ${R} 0 1 1 ${cx+R*Math.cos(-Math.PI*0.25)} ${cy-R*Math.sin(-Math.PI*0.25)}" fill="none" stroke="#e6e6e6" stroke-width="14" stroke-linecap="round"/>${done?`<path d="${arc}" fill="none" stroke="#64b5e3" stroke-width="14" stroke-linecap="round"/>`:""}<text x="100" y="104" text-anchor="middle" class="gn">${done}/${today.length}</text><text x="100" y="126" text-anchor="middle" class="gl">Jobs Completed Today</text></svg><div class="st"><div class="td">${ic("left",16)} Today</div>${stat(nJobs,"New Jobs Created")}${stat(nEst,"New Estimate Created")}${stat(nInv,"New Invoice Created")}${stat(nPay,"New Payments Collected")}${stat(nCust,"New Customers Created")}</div></div>`)}
+   ${card("Invoice & Estimate Sales - Default", `<div class="fp-bars">${sales.map((v,i)=>`<div class="b"><span class="v">${v?money(v):""}</span><i style="height:${Math.round(100*v/mx)}%"></i><small>${E(days[i].sh)}</small></div>`).join("")}</div>`)}
+   ${card("Jobs - Today", `<div class="fp-djl">${jt || '<p class="muted">No jobs today.</p>'}</div>`)}
+   ${card("Team Member Sales - This Week", techs)}
+   ${card("Customers - Recent 20", `<div class="fp-dl">${custs}</div>`)}
+   ${card("Estimate - Recent 10", `<div class="fp-dl">${ests}</div>`)}
+   ${custom}
+  </div>`;
 }
 
 /* ---------- customers ---------- */
@@ -1315,8 +1402,8 @@ function jobList(view){
   let L = Object.values(W.jobs).filter(j => !j.archived);
   const v = W.views.find(x => x.name===view);
   const f = v ? v.f : null;
-  if(view==="Open") L = L.filter(j => !["Completed","Canceled"].includes(j.st));
-  if(view==="Closed") L = L.filter(j => ["Completed","Canceled"].includes(j.st));
+  if(view==="Open") L = L.filter(j => !CLOSED_ST.includes(j.st));
+  if(view==="Closed") L = L.filter(j => CLOSED_ST.includes(j.st));
   if(view==="Unassigned") L = L.filter(j => !j.users.length && j.st!=="Canceled");
   if(view==="Unscheduled") L = L.filter(j => !j.date && j.st!=="Canceled");
   if(view==="Unassigned & Unscheduled") L = L.filter(j => !j.users.length && !j.date && j.st!=="Canceled");
@@ -1369,7 +1456,7 @@ function scrJob(){
   h += `<div class="fp-two plain">${kv([["Scheduled Date/Time",`<b>${j.date?`${dlab(j.date)}, ${fmtH(j.s)} - ${fmtH(j.e)}`:"Unscheduled"}</b>`],["Customer Arrival Window",`<b>${E(j.win||"Unscheduled")}</b>`],["Travel Time","<b>0 Minutes</b>"],["Location Name","<b>Main Location</b>"],["Location",`<b>${E(c.addr||"")}${c.city?", "+E(c.city):""}</b>`],["Assigned Team Members",`<b>${j.users.map(u=>E(uname(W,u))).join(", ")||"Unassigned"}</b>`],["Tags",(j.tags.map(t=>`<span class="fp-tag bl">${E(t)}</span>`).join(" ")||"")+` <span class="fp-addtag">${ic("tag",13)} Add Tag</span>`]])}<div class="fp-map" aria-hidden="true"></div></div></div>
    <div class="fp-rcard"><div class="fp-two plain">${kv([["Job Notes",`<b>${E(j.notes||"-")}</b>`]])}${kv([["Field Notes",j.fnotes?`<b>${E(j.fnotes)}</b>`:'<span class="muted">Add Field Notes</span>']])}</div></div>
    <div class="fp-rcard"><h3 class="fp-sh">Source <span>${btn("na-tab",(j.calls||[]).length?"Manage Linked Engage Calls":"+ Link Engage Call to Record","wt2")}</span></h3>${(j.calls||[]).length?j.calls.map(k=>`<p>${k.primary?ic("star",13)+" ":""}Main Line · ${E(k.date.replace(", 2026",""))}, ${E(k.time)}${k.primary&&k.ls?` · Lead Source: <b>${E(k.ls)}</b>`:""}</p>`).join(""):'<p class="fp-none">No Engage calls linked.</p>'}</div>
-   <div class="fp-rcard"><div class="fp-two plain">${kv([["Gate / Access Code",`<b>${E((j.cf||{}).gate||"-")}</b>`]])}${kv([["Owner or Tenant",`<b>${E((j.cf||{}).own||"Not Confirmed")}</b>`]])}</div></div>
+   <div class="fp-rcard"><div class="fp-two plain">${kv(JOB_CF.filter((x,i)=>i%2===0).map(([k,l,t])=>[l,`<b>${E((j.cf||{})[k]||(t==="bool"?"False":Array.isArray(t)?t[0]:"-"))}</b>`]))}${kv(JOB_CF.filter((x,i)=>i%2===1).map(([k,l,t])=>[l,`<b>${E((j.cf||{})[k]||(t==="bool"?"False":Array.isArray(t)?t[0]:"-"))}</b>`]))}</div></div>
    <div class="fp-rcard"><h3 class="fp-sh">Invoices and Estimates</h3>${invs.map(i=>`<p><button class="lnk" data-a="open-inv" data-v="${i.id}">Invoice #${i.id}</button> ${stPill(i.st)}</p>`).join("")}${ests.map(e=>`<p><button class="lnk" data-a="open-est" data-v="${e.id}">Estimate #${e.id}</button> ${stPill(e.st)}</p>`).join("")}${!invs.length&&!ests.length?'<p class="fp-none">None yet.</p>':""}</div>
    <div class="fp-rcard"><h3 class="fp-sh">Site Visits <span>${btn("visit-new",`${ic("plus",15)} Add Site Visit`,"gout",`data-v="${j.id}"`,"btn-addvisit")}</span></h3>${j.visits.map(v=>`<p><b>${E(v.name)}</b> ${dlab(v.date)} ${fmtH(v.s)} - ${fmtH(v.e)} · ${v.users.map(u=>E(uname(W,u))).join(", ")}</p>`).join("")||'<p class="fp-none">No extra visits.</p>'}</div></div>`;
   return h;
@@ -1380,9 +1467,9 @@ function scrSchedule(){
   const day = U.schedDay, rows = Object.keys(W.users).filter(k => W.users[k].tech && W.users[k].st==="Activated");
   const span = 11; // 7am..6pm
   const blocks = [];
-  Object.values(W.jobs).forEach(j => { if(j.archived||j.st==="Canceled"||j.date!==day) return; j.users.forEach(u => blocks.push({u, id:j.id, s:j.s, e:j.e, t:`#${j.id} ${cname(W,j.c)}`, em:j.tags.includes("Emergency")})); j.visits.forEach(v => { if(v.date===day) v.users.forEach(u => blocks.push({u,id:j.id,s:v.s,e:v.e,t:`#${j.id} ${v.name}`,visit:true})); }); });
+  Object.values(W.jobs).forEach(j => { if(j.archived||j.st==="Canceled"||j.date!==day) return; j.users.forEach(u => blocks.push({u, id:j.id, s:j.s, e:j.e, t:`#${j.id} ${cname(W,j.c)}`, em:j.tags.includes("Flag: Emergency / After Hours")})); j.visits.forEach(v => { if(v.date===day) v.users.forEach(u => blocks.push({u,id:j.id,s:v.s,e:v.e,t:`#${j.id} ${v.name}`,visit:true})); }); });
   Object.values(W.jobs).forEach(j => j.visits.forEach(v => { if(v.date===day && j.date!==day) v.users.forEach(u => blocks.push({u,id:j.id,s:v.s,e:v.e,t:`#${j.id} ${v.name}`,visit:true})); }));
-  const un = Object.values(W.jobs).filter(j => !j.archived && !["Completed","Canceled"].includes(j.st) && (!j.users.length || !j.date));
+  const un = Object.values(W.jobs).filter(j => !j.archived && !CLOSED_ST.includes(j.st) && (!j.users.length || !j.date));
   let h = `<div class="fp-ltabs top">${[["List","list"],["Calendar","cal"],["Dispatch","list"],["Map","map"]].map(([v,i])=>`<button class="${v==="Dispatch"?"on":""}" data-a="${v==="Dispatch"?"noop":"sched-other"}">${ic(i,16)}${v}</button>`).join("")}<span class="sp"></span><span class="fp-cj">${createBtn("job-new","Create Job")}<span class="dd">${ic("down",16)}</span></span></div>
   ${topTabs([{l:"Day",on:true,a:"noop"},"Week","Month"],true)}
   <div class="fp-bar"><div class="fp-days">${PDAYS.map(d=>`<button class="${d.k===day?"on":""}" data-a="sched-day" data-v="${d.k}" data-hk="sd-${d.k}">${d.sh}</button>`).join("")}</div>
@@ -1502,7 +1589,7 @@ function scrTeam(){
 }
 function scrUser(){
   const x = W.users[U.r.id]; if(!x) return "";
-  const open = Object.values(W.jobs).filter(j => j.users.includes(U.r.id) && !["Completed","Canceled"].includes(j.st));
+  const open = Object.values(W.jobs).filter(j => j.users.includes(U.r.id) && !CLOSED_ST.includes(j.st));
   return `<div class="fp-rec"><div class="fp-rcard"><div class="fp-rtop"><div class="fp-rtl"><span class="fp-av lg" style="background:${x.color}">${E(x.name.split(" ").map(s=>s[0]).join("").slice(0,2))}</span><div><h1>${E(x.name)}</h1><small>${E(x.role)} · ${x.st==="Activated"?"Active":"Deactivated"}</small></div></div><div class="r"><div class="fp-rbtns">${btn("user-edit",`${ic("edit",15)} Edit`,"blue",`data-v="${U.r.id}"`,"btn-user-edit")}</div></div></div>
   ${kv([["Teams",`<b>${E(x.teams.join(", ")||"-")}</b>`]])}</div>
   <div class="fp-rcard"><h3 class="fp-sh">Open jobs (${open.length})</h3>${open.map(j=>`<p><button class="lnk" data-a="open-job" data-v="${j.id}">#${j.id}</button> ${E(j.title)} · ${j.date?dlab(j.date):"Unscheduled"}</p>`).join("")||'<p class="fp-none">None.</p>'}</div></div>`;
@@ -1678,7 +1765,26 @@ function scrSettings(){
   else if(t==="Automatic Triggers") h += `<div class="fp-card"><table class="fp-t"><thead><tr><th>When</th><th>Send</th><th>How</th></tr></thead><tbody>${W.triggers.map(r=>`<tr><td>${E(r[0])}</td><td>${E(r[1])}</td><td>${E(r[2])}</td></tr>`).join("")}</tbody></table></div>`;
   return h;
 }
-function scrNA(){ return `<div class="fp-card pad"><h2>${E(U.r.label||"This screen")}</h2><p class="muted">This screen is not part of the practice. Use the menu to go back.</p></div>`; }
+const NA_PAGES = {
+  "Projects": {tabs:["All","Active","Completed"], create:"Create Project", cols:["Project","Customer","Status","Start Date","End Date"], rows:[["Lakeside Unit Repipes","Lakeside Property Mgmt","Active","Nov 2, 2026","Dec 18, 2026"],["Sunset Apartments Water Heaters","Sunset Apartments LLC","Active","Oct 19, 2026","Nov 20, 2026"]]},
+  "Subtasks": {tabs:["Open","Completed","All"], create:"Create Subtask", cols:["Subtask","Job","Assigned To","Due Date","Status"], rows:[["Photos before and after","#1033 Garbage disposal install","Carlos Diaz","Nov 3, 2026","Completed"],["Customer walk-through done","#1033 Garbage disposal install","Carlos Diaz","Nov 3, 2026","Open"],["Invoice reviewed with customer","#1033 Garbage disposal install","Carlos Diaz","Nov 3, 2026","Open"]]},
+  "Agreements": {tabs:["Active","Pending","Expired","All"], create:"Create Agreement", cols:["Agreement","Customer","Plan","Start","Renewal","Status"], rows:[["Annual drain service","Linda Parks","Yearly","Jan 5, 2026","Jan 5, 2027","Active"],["Water heater care","Grace Kim","Yearly","Mar 2, 2026","Mar 2, 2027","Active"]]},
+  "Material Lists": {tabs:["All","Draft","Ordered"], create:"Create Material List", cols:["Material List","Job","Items","Created","Status"], rows:[["Repipe bathroom","#1038 Repipe bathroom","14","Nov 2, 2026","Draft"]]},
+  "Pricebooks": {tabs:["Items","Services","Categories"], create:"Create Item", cols:["Item","Category","Price","Taxable"], rows:ITEMS.slice(0,12).map(([n,p])=>[n,"Plumbing",money(p),"Yes"])},
+  "Variant Proposals": {tabs:["All","Sent","Accepted"], create:"Create Variant Proposal", cols:["Proposal","Customer","Options","Status","Created"], rows:[["Water heater options","Owen Price","3","Sent","Nov 3, 2026"]]},
+  "Dynamic Proposals": {tabs:["All","Sent","Accepted"], create:"Create Dynamic Proposal", cols:["Proposal","Customer","Status","Created"], rows:[["Whole home repipe","Alan Brooks","Draft","Nov 2, 2026"]]},
+  "Internal Activity": {tabs:["All","Jobs","Customers","Estimates","Invoices"], cols:["When","Who","What"], rows:[["Nov 4, 2:02 PM","Lisa Grant","Moved job #1050 to Thu, Nov 5"],["Nov 4, 1:40 PM","Pat Moreno","Created estimate #2051"],["Nov 4, 11:15 AM","Carlos Diaz","Marked job #1038 In Progress"]]},
+  "Forms": {tabs:["Form Templates","Submitted Forms"], create:"Create Form", cols:["Form","Used On","Fields","Last Edited"], rows:[["Job Completion Debrief","Jobs","18","Oct 28, 2026"],["Plumbing Inspection","Jobs","24","Oct 21, 2026"],["Septic Inspection","Jobs","31","Oct 21, 2026"]]},
+  "Assets": {tabs:["All","Water Heaters","Softeners","Septic"], create:"Create Asset", cols:["Asset","Customer","Location","Installed","Warranty"], rows:[["50 gal gas water heater","Grace Kim","210 Maple St","Mar 2, 2021","Mar 2, 2027"],["Water softener","Nora Fields","3 Elm Ct","Jun 14, 2024","Jun 14, 2029"]]},
+  "HighLevel": {note:"HighLevel opens in its own website, outside FieldPulse. It is not part of this practice."}
+};
+function scrNA(){
+  const L = U.r.label || "This screen", P = NA_PAGES[L];
+  if(!P) return `<div class="fp-card pad fp-na"><h2>${E(L)}</h2><p class="muted">There is nothing here yet in this practice company.</p><p><button class="lnk" data-a="back">Go back</button></p></div>`;
+  if(P.note) return `<div class="fp-card pad fp-na"><h2>${E(L)}</h2><p class="muted">${E(P.note)}</p></div>`;
+  return topTabs(P.tabs.map((t,i)=>({l:t, on:i===0, a:"noop"}))) + `<div class="fp-tool">${toolSearch("naq","","Search for "+L.toLowerCase())}<button class="fp-btn wt" data-a="noop">${ic("filter",17)} Filters</button><span class="sp"></span>${P.create?createBtn("noop",P.create):""}</div>
+   <div class="fp-tw"><table class="fp-t lv"><thead><tr>${P.cols.map(c=>`<th>${E(c)}</th>`).join("")}</tr></thead><tbody>${P.rows.map(r=>`<tr>${r.map(c=>`<td>${E(c)}</td>`).join("")}</tr>`).join("")}</tbody></table></div>`;
+}
 
 /* ===== menus and pop-up windows ===== */
 function renderMenu(id){
@@ -1765,7 +1871,7 @@ function renderModal(){
         <div class="fp-dact"><button class="lnk" data-a="win-clear">${ic("x",13)} Clear Dates</button><button class="lnk" data-a="win-insert" data-hk="btn-win-insert">${ic("wrench",13)} Insert Job Date/Time</button></div></div>
       </section>
       <section class="fp-pgc"><h3>Source</h3><button class="fp-btn wt2" data-a="na-tab">${ic("plus",13)} Link Engage Call to Record</button></section>
-      <section class="fp-pgc"><h3>Additional Fields</h3><div class="fp-grid2">${fld("Gate / Access Code", inp("m.cf.gate",fv("m.cf.gate","")))}${fld("Owner or Tenant", sel("m.cf.own",["Not Confirmed","Owner","Tenant","Property Manager"],fv("m.cf.own","Not Confirmed")))}</div></section>
+      <section class="fp-pgc"><h3>Additional Fields</h3><div class="fp-grid2">${JOB_CF.map(([k,l,t])=>fld(l, t==="text" ? inp("m.cf."+k,fv("m.cf."+k,"")) : t==="bool" ? sel("m.cf."+k,["False","True"],fv("m.cf."+k,"False")) : sel("m.cf."+k,t,fv("m.cf."+k,t[0])))).join("")}</div></section>
       <section class="fp-pgc"><h3>Notes and Files</h3><div class="fp-grid2">${fld("Notes", `<textarea data-f="m.notes" rows="3" data-hk="f-notes" placeholder="Sample Notes">${E(fv("m.notes",""))}</textarea>`)}${fld("Field Notes", `<textarea data-f="m.fnotes" rows="3">${E(fv("m.fnotes",""))}</textarea>`)}</div></section>
      </div></div></div>`;
   }
@@ -1863,7 +1969,7 @@ function act(a, ds){
   const v = ds.v;
   switch(a){
   case "noop": return;
-  case "na-tab": toast("That part of FieldPulse is not in this practice.","rk"); return;
+  case "na-tab": { if(U.modal || !v){ toast("That part of FieldPulse is not set up in this practice.","rk"); return; } nav("na",{label:v}); return; }
   case "qb-ok": toast("This record is already synced with QuickBooks.","rk"); return;
   case "go": HIST.length=0; go(v, v==="na"?{label:ds.label}:{}); if(v==="jobs"){ U.jobsView="Open"; U.showJobFilters=false; U.jobsFilter={st:[],inv:"Any",sd:"Any"}; U.jfApplied=false; } if(v==="estimates"){ U.estTab="Estimates"; U.showEstFilters=false; U.estFilter={st:[],by:""}; } if(v==="customers"){ U.q=""; U.qf="Name"; } if(v==="rep" && !U.rep.tab) U.rep={tab:"jobs"}; return;
   case "back": { if(U.r.p==="preview"){ U.pf = {}; } const prev = HIST.pop(); if(prev) U.r = prev; else go("dash"); U.menu=null; return; }
@@ -1932,7 +2038,7 @@ function act(a, ds){
     closeModal(); toast("View saved."); return; }
   case "job-new": { const f={"m.tags":[],"m.cmode":"existing"}; if(ds.c){ f["m.cust"]=ds.c; } openModal("job",{from:ds.from||(ds.c?"cust":"jobs")}, f); U.menu=null; log("job-form",{from:ds.from||(ds.c?"cust":"jobs"),c:ds.c||""}); return; }
   case "job-cmode": U.form["m.cmode"]=v; return;
-  case "job-edit": { const j=W.jobs[v]; const f={"m.cust":j.c,"m.title":j.title,"m.tags":j.tags.slice(),"m.date":j.date,"m.s":j.s==null?"":String(j.s),"m.e":j.e==null?"":String(j.e),"m.ws":j.ws==null?"":String(j.ws),"m.we":j.we==null?"":String(j.we),"m.wprev":j.s==null?"":String(j.s),"m.wlock":true,"m.sub":j.sub||"","m.cf.gate":(j.cf||{}).gate||"","m.cf.own":(j.cf||{}).own||"Not Confirmed","m.notes":j.notes,"m.fnotes":j.fnotes,"m.cmode":"existing"}; j.users.forEach(u=>f["m.u."+u]=true); openModal("job",{id:v},f); return; }
+  case "job-edit": { const j=W.jobs[v]; const f={"m.cust":j.c,"m.title":j.title,"m.tags":j.tags.slice(),"m.date":j.date,"m.s":j.s==null?"":String(j.s),"m.e":j.e==null?"":String(j.e),"m.ws":j.ws==null?"":String(j.ws),"m.we":j.we==null?"":String(j.we),"m.wprev":j.s==null?"":String(j.s),"m.wlock":true,"m.sub":j.sub||"","m.cf.gate":(j.cf||{}).gate||"","m.cf.permit":(j.cf||{}).permit||"","m.cf.coi":(j.cf||{}).coi||"False","m.cf.own":(j.cf||{}).own||"Not Confirmed","m.cf.septic":(j.cf||{}).septic||"Not Septic / N/A","m.cf.zone":(j.cf||{}).zone||"Not Set","m.cf.tax":(j.cf||{}).tax||"","m.notes":j.notes,"m.fnotes":j.fnotes,"m.cmode":"existing"}; j.users.forEach(u=>f["m.u."+u]=true); openModal("job",{id:v},f); return; }
   case "find-avail": { const len = (+U.form["m.e"]-+U.form["m.s"])>0 ? (+U.form["m.e"]-+U.form["m.s"]) : 2; U.modal.slots = openAvail(len); log("find-avail"); return; }
   case "slot-pick": { const s=U.modal.slots[+v]; U.form["m.date"]=s.d; U.form["m.s"]=String(s.s); U.form["m.e"]=String(s.e); Object.keys(W.users).forEach(u=>delete U.form["m.u."+u]); U.form["m.u."+s.u]=true; winAuto(); log("slot-pick",{s}); return; }
   case "job-cleardates": ["m.date","m.s","m.e","m.ws","m.we"].forEach(k=>U.form[k]=""); U.form["m.cc"]=""; return;
@@ -2109,7 +2215,7 @@ function saveJob(force){
   if(!force && date && users.length){ const cf=conflictFor(users,date,s,e,m.id); if(cf){ m._form=Object.assign({},f); openModal("conflict",{msg:cf,back:m}); U.form=m._form; return; } }
   if(!m.id && f["m.cmode"]==="new"){ const d={first:f["m.nfirst"].trim(),last:(f["m.nlast"]||"").trim(),phone:f["m.nphone"]||"",email:f["m.nemail"]||"",addr:(f["m.naddr"]||"").split(",")[0],city:((f["m.naddr"]||"").split(",")[1]||"").trim(),type:f["m.ntype"]||"Residential",ls:f["m.nls"]||""};
     const dup=findDupOf(d.first,d.last,d.phone,d.email); c=newCust(d); log("cust-create",{id:c,d,dup,viaJob:true}); if(dup) slip(`Made a second record for ${cname(W,dup)}. Search before you create.`, true); }
-  const vals={c,title:(f["m.title"]||"").trim()||"Job",users,tags:(f["m.tags"]||[]).slice(),date,s,e,ws:f["m.ws"]===""||f["m.ws"]==null?null:+f["m.ws"],we:f["m.we"]===""||f["m.we"]==null?null:+f["m.we"],win:winLabel(f["m.ws"],f["m.we"]),notes:f["m.notes"]||"",fnotes:f["m.fnotes"]||"",sub:f["m.sub"]||"",cf:{gate:f["m.cf.gate"]||"",own:f["m.cf.own"]||"Not Confirmed"}};
+  const vals={c,title:(f["m.title"]||"").trim()||"Job",users,tags:(f["m.tags"]||[]).slice(),date,s,e,ws:f["m.ws"]===""||f["m.ws"]==null?null:+f["m.ws"],we:f["m.we"]===""||f["m.we"]==null?null:+f["m.we"],win:winLabel(f["m.ws"],f["m.we"]),notes:f["m.notes"]||"",fnotes:f["m.fnotes"]||"",sub:f["m.sub"]||"",cf:{gate:f["m.cf.gate"]||"",permit:f["m.cf.permit"]||"",coi:f["m.cf.coi"]||"False",own:f["m.cf.own"]||"Not Confirmed",septic:f["m.cf.septic"]||"Not Septic / N/A",zone:f["m.cf.zone"]||"Not Set",tax:f["m.cf.tax"]||""}};
   if(m.id){ const j=W.jobs[m.id]; const before={date:j.date,s:j.s,e:j.e,users:j.users.slice(),tags:j.tags.slice(),notes:j.notes}; Object.assign(j,vals); log("job-edit",{id:j.id,before,after:Object.assign({},vals)}); closeModal(); toast("Job saved."); return; }
   const id=String(W.nextJob++); W.jobs[id]=Object.assign({id,st:"New",visits:[],subtasks:[],archived:false,created:TODAY,tpl:f["m.tpl"]||"",fromEst:m.fromEst||""},vals);
   if(m.fromEst){ W.est[m.fromEst].job=id; }
@@ -2143,15 +2249,15 @@ const PROGRAM = [
    hint:"Company Settings > Customer Communications > Automatic Triggers, then Management > Communications", hk:["nav-settings","set-comm","nav-comms"],
    q:[{q:"Which message waits for someone to confirm before it sends?", o:["The On the Way text","The new appointment confirmation","The Arrived text"], a:1},{q:"What was the last message FieldPulse sent to Grace Kim?", o:["Invoice #2036 email","On the Way text","Estimate email"], a:0}],
    check:() => did("settings", e=>e.tab==="Automatic Triggers") && did("nav", e=>e.p==="comms")},
-  {id:"d1-newcust", les:"f-1", t:"Create a new customer", b:"New caller: Omar Haddad, (555) 201-0150, 18 Pine St, Brookfield. Residential. He found you on Nextdoor. He has not booked yet, so he is a Lead. Search first, then create him.",
+  {id:"d1-newcust", les:"f-1", t:"Create a new customer", b:"New caller: Omar Haddad, (555) 201-0150, 18 Pine St, Brookfield. Residential. He found you on social media. He has not booked yet, so he is a Lead. Search first, then create him.",
    hint:"Customers > Create Customer. Set Status, Account Type and Lead Source, then Save Customer.", hk:["nav-customers","btn-create-customer","f-status","f-type","f-ls","f-first","f-phone","f-addr","btn-savecust"],
-   check:() => { const id = findCust("Omar","Haddad"); const c = C_(id); return !!id && c.st==="Lead" && c.type==="Residential" && c.ls==="Nextdoor" && digits(c.phone).endsWith("2010150") && /18 pine/i.test(c.addr) && !c.tax; }},
+   check:() => { const id = findCust("Omar","Haddad"); const c = C_(id); return !!id && c.st==="Lead" && c.type==="Residential" && c.ls==="Social Media" && digits(c.phone).endsWith("2010150") && /18 pine/i.test(c.addr) && !c.tax; }},
   {id:"d1-loc", les:"f-2", t:"Add a contact and a second address", b:"Grace Kim owns a rental at 40 Lake Dr, Brookfield. First add her tenant Tom Lee, (555) 201-0160, as an Additional Contact. Then add the rental as an Additional Location named Rental, with Tom Lee as the Related Contact.",
    hint:"Customers > Grace Kim > Edit > Additional Contact, then Edit > Additional Location (the record page has the same buttons)", hk:["nav-customers","cust-c1","btn-cust-edit","btn-edit-addcontact","btn-edit-addloc","btn-addcontact","btn-addloc","f-lname","f-lrel"],
    check:() => { const c = C_("c1"); return (c.contacts||[]).some(x=>/tom lee/i.test(x.name)) && (c.locs||[]).some(l=>/40 lake/i.test(l.addr) && /rental/i.test(l.name) && /tom lee/i.test(l.rel||"")); }},
-  {id:"d1-tags", les:"f-3", t:"Fix the tags on a job", b:"Job #1035 (Dana Ruiz, Fri) has the Emergency tag by mistake. Take it off and add Call on Arrival from the list. Don't type a new tag.",
-   hint:"Work > Jobs > #1035 > Edit > Job Tags", hk:["nav-jobs","job-1035","btn-job-edit","m.tags","tag-Call on Arrival","btn-savejob"],
-   check:() => { const j = W.jobs["1035"]; return j.tags.includes("Call on Arrival") && !j.tags.includes("Emergency"); }},
+  {id:"d1-tags", les:"f-3", t:"Fix the tags on a job", b:"Job #1035 (Dana Ruiz, Fri) has the Flag: Emergency / After Hours tag by mistake. Take it off and add Flag: Office Review Needed from the list. Don't type a new tag.",
+   hint:"Work > Jobs > #1035 > Edit > Job Tags", hk:["nav-jobs","job-1035","btn-job-edit","m.tags","tag-Flag: Office Review Needed","btn-savejob"],
+   check:() => { const j = W.jobs["1035"]; return j.tags.includes("Flag: Office Review Needed") && !j.tags.includes("Flag: Emergency / After Hours"); }},
   {id:"d1-ls", les:"f-4", t:"Give a customer a lead source", b:"Dana Ruiz has no lead source. She told you she found you on Google Search. Fix it on her customer record.",
    hint:"Customers > Dana Ruiz > Edit > Lead Source", hk:["nav-customers","cust-c2","btn-cust-edit","f-ls","btn-savecust"],
    check:() => C_("c2").ls==="Google Search"},
@@ -2179,12 +2285,12 @@ const PROGRAM = [
    hint:"Lesson M1-9: Review call recordings weekly", hk:[],
    q:[{q:"Which calls do you review each week?", o:["Only booked calls","5 per person: booked, not booked and missed-then-returned","Only complaints"], a:1},{q:"The same miss shows up twice. What do you fix?", o:["The person only","The call script or the training","Nothing"], a:1}],
    check:() => true},
-  {id:"d2-emerg", les:"m1-4", t:"Book an emergency so it stands out", b:"Grace Kim has a burst pipe at home. Book an emergency job from the \"Emergency -\" template for today, Wed Nov 4, 3:00 PM to 5:00 PM, with Carlos Diaz. Then look at it on the Schedule (Dispatch).",
-   hint:"Work > Jobs > Create Job > Import Template: Emergency -. Then Schedule.", hk:["nav-jobs","btn-createjob","f-tpl","f-cust","u-u4","f-date","f-start","f-end","btn-savejob","nav-schedule"],
-   check:() => { const e = EV.find(x=>x.k==="job-create" && x.tpl==="Emergency -"); if(!e) return false; const j = W.jobs[e.id]; return j.c==="c1" && j.date==="11-04" && j.s===15 && j.users.includes("u4") && j.tags.includes("Emergency") && evAfter("nav", e.t, x=>x.p==="schedule"); }},
+  {id:"d2-emerg", les:"m1-4", t:"Book an emergency so it stands out", b:"Grace Kim has a burst pipe at home. Book an emergency job from the \"Emergency / After-Hours Call\" template for today, Wed Nov 4, 3:00 PM to 5:00 PM, with Carlos Diaz. Then look at it on the Schedule (Dispatch).",
+   hint:"Work > Jobs > Create Job > Import Template: Emergency / After-Hours Call. Then Schedule.", hk:["nav-jobs","btn-createjob","f-tpl","f-cust","u-u4","f-date","f-start","f-end","btn-savejob","nav-schedule"],
+   check:() => { const e = EV.find(x=>x.k==="job-create" && x.tpl==="Emergency / After-Hours Call"); if(!e) return false; const j = W.jobs[e.id]; return j.c==="c1" && j.date==="11-04" && j.s===15 && j.users.includes("u4") && j.tags.includes("Flag: Emergency / After Hours") && evAfter("nav", e.t, x=>x.p==="schedule"); }},
   {id:"d2-web", les:"m1-5", t:"Work a web request", b:"Open Booking Requests. Make Hannah Cole's customer and job together (Customer & Job). Then open her customer record and set the Lead Source to Website.",
    hint:"Management > Booking Requests > + Create New > Customer & Job. Then Customers > Hannah Cole > Edit.", hk:["nav-booking","bk-new-b1","bk-both-b1","btn-savejob","btn-conf-yes"],
-   check:() => { const id = findCust("Hannah","Cole"); return !!id && C_(id).ls==="Website" && Object.values(W.jobs).some(j=>j.c===id); }},
+   check:() => { const id = findCust("Hannah","Cole"); return !!id && C_(id).ls==="Google Search" && Object.values(W.jobs).some(j=>j.c===id); }},
   {id:"d2-web2", les:"m1-5", t:"Don't make a duplicate from a web request", b:"Peter Shaw's request uses a new email, so FieldPulse won't match it. He is already a customer. Book the job on his existing record: \"Slow drain in the basement\", Fri Nov 6, 1:00 to 3:00 PM, Mike Turner.",
    hint:"Customers > search Peter Shaw > Create Job (don't use Create New on the request)", hk:["nav-customers","cust-search","cust-c8","btn-cust-createjob","u-u6","btn-savejob"],
    check:() => Object.values(W.jobs).some(j=>j.c==="c8" && /drain/i.test(j.title) && j.date==="11-06" && j.users.includes("u6") && j.created===TODAY) && Object.keys(W.cust).filter(id=>/peter/i.test(W.cust[id].first)&&/shaw/i.test(W.cust[id].last)).length===1},
@@ -2199,9 +2305,9 @@ const PROGRAM = [
   {id:"d2-card", les:"m1-7", t:"Save a card on file", b:"Owen Price wants a card on file and said yes to storing it. Add it with the practice number 4242 4242 4242 4242. Tick the consent box.",
    hint:"Customers > Owen Price > Saved Payment Methods > + Add New Payment Method", hk:["nav-customers","cust-c14","btn-addcard","f-cnum","f-consent","btn-savecard"],
    check:() => (C_("c14").cards||[]).length>0},
-  {id:"d2-tpl", les:"m2-1", t:"Book from a template", b:"Book a drain cleaning for Ruth Daniels from the Drain Cleaning template. Click Find Availability and pick an open time. Check the arrival window is 2 hours.",
+  {id:"d2-tpl", les:"m2-1", t:"Book from a template", b:"Book a drain cleaning for Ruth Daniels from the Service Call - Evaluation template. Click Find Availability and pick an open time. Check the arrival window is 2 hours.",
    hint:"Work > Jobs > Create Job > Import Template: Drain Cleaning > Find Availability > pick a time > Customer Arrival Window", hk:["nav-jobs","btn-createjob","f-tpl","f-cust","btn-findavail","slot-0","f-win","btn-savejob"],
-   check:() => { const e = EV.find(x=>x.k==="job-create" && x.tpl==="Drain Cleaning" && x.c==="c15"); if(!e) return false; const j = W.jobs[e.id]; return j.ws!=null && j.we-j.ws===2 && j.tags.includes("Service") && EV.some(x=>x.k==="slot-pick" && x.t<e.t); }}
+   check:() => { const e = EV.find(x=>x.k==="job-create" && x.tpl==="Service Call - Evaluation" && x.c==="c15"); if(!e) return false; const j = W.jobs[e.id]; return j.ws!=null && j.we-j.ws===2 && j.tags.includes("Type: Service Call") && EV.some(x=>x.k==="slot-pick" && x.t<e.t); }}
  ]},
  {d:3, title:"Scheduling and invoicing", read:["m2-2","m2-3","m2-4","m2-5","m2-6","m3-1","m3-2","m3-3","m3-4","m3-10","m7-3"], tasks:[
   {id:"d3-visit", les:"m2-2", t:"Add a second visit", b:"Job #1038 (Ruth Daniels repipe) needs a return trip Mon, Nov 9, 9:00 to 11:00 AM with Carlos Diaz. Add a site visit. If FieldPulse warns about a conflict, move it to 1:00 to 3:00 PM instead.",
@@ -2247,9 +2353,9 @@ const PROGRAM = [
    hint:"Company Settings > Customer Communications > Automatic Triggers", hk:["nav-settings","set-comm","settab-Automatic Triggers"],
    q:[{q:"When does this company's review request go out?", o:["When the job is booked","When the invoice is Paid","When the estimate is sent"], a:1},{q:"A paid customer complained about a mess. Do you ask for a review?", o:["Yes, right away","No, skip it","Only by text"], a:1}],
    check:() => did("settings", e=>e.tab==="Automatic Triggers")},
-  {id:"d3-permit", les:"m7-3", t:"Flag a permit job", b:"Job #1036 (water heater install) needs a permit. Add the Permit job tag from the list, and put \"Permit # BP-2291\" in the job Notes.",
-   hint:"Work > Jobs > #1036 > Edit > Job Tags: Permit, and Notes", hk:["nav-jobs","job-1036","btn-job-edit","m.tags","tag-Permit","f-notes","btn-savejob"],
-   check:() => W.jobs["1036"].tags.includes("Permit") && /BP-2291/.test(W.jobs["1036"].notes)}
+  {id:"d3-permit", les:"m7-3", t:"Record a permit on a job", b:"Job #1036 (water heater install) needs a permit. Put BP-2291 in the job's Permit Number field under Additional Fields.",
+   hint:"Work > Jobs > #1036 > Edit > Additional Fields > Permit Number > Save Job", hk:["nav-jobs","job-1036","btn-job-edit","btn-savejob"],
+   check:() => /BP-2291/i.test((W.jobs["1036"].cf||{}).permit||"")}
  ]},
  {d:4, title:"Getting paid and estimates", read:["m3-5","m3-6","m3-7","m3-8","m3-9","m4-1","m4-2","m4-3","m4-4","m4-5","m7-1","m7-6"], tasks:[
   {id:"d4-chase", les:"m3-5", t:"Build the unpaid invoices list", b:"Reporting > Invoices > Raw Data. Date Type: Due Date. Date Range: This Year. Load Data. In Filters, set Status to only Invoiced, Sent and Partially Paid, and Amount Due Greater Than 0. Save it as a new report.",
@@ -2589,7 +2695,7 @@ function engData(){
     lines:[["Main Line","+15552010100"],["Ben Foster","+15552010131"],["Carlos Diaz","+15552010132"]],
     convs:[
       {id:"e1", num:"(555) 201-0172", c:null, when:"2:09 PM", unread:true, tags:[], ev:[
-        {id:"e1c1", type:"call", dir:"in", date:"Nov 4, 2026", time:"2:09 PM", dur:"3 mins, 12 secs", by:"You", ls:"Repeat Customer", sum:"Maria Lopez called from a new cell about a backed-up kitchen sink. She picked 8 to 10 tomorrow and was told about the $89 service fee.", tr:[
+        {id:"e1c1", type:"call", dir:"in", date:"Nov 4, 2026", time:"2:09 PM", dur:"3 mins, 12 secs", by:"You", ls:"Word of Mouth", sum:"Maria Lopez called from a new cell about a backed-up kitchen sink. She picked 8 to 10 tomorrow and was told about the $89 service fee.", tr:[
           T(1,"Thank you for calling Summit Ridge Plumbing. How can I help you today?"),
           T(2,"Hi, this is Maria Lopez on Oak Avenue. I'm calling from my new cell. Our kitchen sink is backed up and won't drain."),
           T(1,"Sorry to hear that, Maria. Let me pull up your account."),
@@ -2803,12 +2909,12 @@ const GUIDES = {
     q:{ask:"What must the tech know before going?", opts:["Gate code 4512, and a dog in the yard, so call on arrival","Nothing special","She pays by check"], a:0, fb:"Right. Special instructions live in Job Notes. Make sure they reach the tech."}},
    {t:"Book the job", do:"Under <b>LAST JOB</b>, click <b>Create Job</b>. (The arrow next to Update/Save has Create Job too.) The Create Job form opens with Maria filled in.", hk:["ep-createjob"],
     done:() => did("job-form", e=>e.from==="eng")},
-   {t:"Use a template", do:"In <b>Import Template</b>, pick <b>Service Call</b>. It fills in the start of the title, the tag and the questions to ask.", why:"Book every job from your company's templates when one fits. It keeps jobs the same and helps the next person.", hk:["f-tpl"],
-    done:() => U.form["m.tpl"]==="Service Call" || did("job-create", e=>e.c==="c7" && e.tpl==="Service Call")},
+   {t:"Use a template", do:"In <b>Import Template</b>, pick <b>Service Call - Evaluation</b>. It fills in the start of the title, the tag and the questions to ask.", why:"Book every job from your company's templates when one fits. It keeps jobs the same and helps the next person.", hk:["f-tpl"],
+    done:() => U.form["m.tpl"]==="Service Call - Evaluation" || did("job-create", e=>e.c==="c7" && e.tpl==="Service Call - Evaluation")},
    {t:"Fill in the job", do:"After <b>Service call -</b>, type <b>Kitchen sink backed up</b>. Date <b>Thu, Nov 5</b>. Start <b>8 AM</b>, End <b>10 AM</b>.", hk:["f-title","f-date","f-start","f-end"],
     done:() => (U.form["m.date"]==="11-05" && String(U.form["m.s"])==="8" && String(U.form["m.e"])==="10") || did("job-create", e=>e.c==="c7")},
    {t:"Check the arrival window", do:"Look at <b>Customer Arrival Window</b>. This is the time the customer is told.", hk:["f-win"],
-    q:{ask:"What time will Maria's text say?", opts:["8:00 AM to 10:00 AM","7:00 AM to 9:00 AM","Any time Thursday"], a:0, fb:"Right. It matches what you promised her. If it didn't, you'd change the window here."}},
+    q:{ask:"What time will Maria's text say?", opts:["8:00 AM to 10:00 AM","7:00 AM to 9:00 AM","Any time Thursday"], a:1, fb:"Right. This company's default window is 1 hour before to 1 hour after the start time, so an 8 AM start shows 7 to 9. If that's not what you told her, change it here."}},
    {t:"Save the job", do:"Click <b>Save Job</b>.", hk:["btn-savejob"],
     done:() => did("job-create", e=>e.c==="c7" && e.vals.date==="11-05" && e.vals.s===8 && e.vals.e===10)},
    {t:"Send the confirmation", do:"FieldPulse asks to send the appointment confirmation. Click <b>Send</b>.", hk:["btn-conf-yes"],
@@ -2970,8 +3076,8 @@ Object.assign(GUIDES, {
     q:{ask:"What do you do next?", opts:["Make him as a new customer while you book the job","Book the job on a customer with a similar name","Skip the customer and just book a job"], a:0, fb:"Right. He's new, so you can make him right inside the job form."}},
    {t:"Start a job", do:"Go to <b>Work</b>, then <b>Jobs</b>, and click <b>Create Job</b>.", hk:["nav-jobs","btn-createjob"],
     done:() => U.modal && U.modal.kind==="job"},
-   {t:"Use a template", do:"In <b>Import Template</b>, pick <b>Service Call</b>.", why:"Templates fill in the title start, the tag and the questions to ask.", hk:["f-tpl"],
-    done:() => FV("m.tpl")==="Service Call" || did("job-create", e=>e.tpl==="Service Call")},
+   {t:"Use a template", do:"In <b>Import Template</b>, pick <b>Service Call - Evaluation</b>.", why:"Templates fill in the title start, the tag and the questions to ask.", hk:["f-tpl"],
+    done:() => FV("m.tpl")==="Service Call - Evaluation" || did("job-create", e=>e.tpl==="Service Call - Evaluation")},
    {t:"Create the customer here", do:"Under Customer Name, click <b>+ Create New Customer</b>.", hk:["cmode-new"],
     done:() => FV("m.cmode")==="new" || did("job-create")},
    {t:"Fill in the customer", do:"First Name <b>Kevin</b>, Last Name <b>Brooks</b>, Phone <b>(555) 201-0170</b>, Service Address <b>12 Elm St, Brookfield</b>, Lead Source <b>Yelp</b>.", why:"Lead source is how the owner knows which ads work. Never leave it blank.", hk:["f-nfirst","f-nls"],
@@ -3016,12 +3122,12 @@ Object.assign(GUIDES, {
    {t:"Safety first", do:"Answer before you book.", hk:[],
     q:{ask:"Grace says there's water everywhere. What comes before booking?", opts:["Quote the emergency fee","The safety lines in your call script","Book the first open slot"], a:1, fb:"Right. Flooding is a hazard. Follow the safety lines first, then book."}},
    {t:"Start a job", do:"Go to <b>Work</b>, then <b>Jobs</b>, and click <b>Create Job</b>.", hk:["nav-jobs","btn-createjob"], done:() => U.modal && U.modal.kind==="job"},
-   {t:"Use the emergency template", do:"In <b>Import Template</b>, pick <b>Emergency -</b>.", why:"The template adds the Emergency tag, so the job stands out on the board.", hk:["f-tpl"], done:() => FV("m.tpl")==="Emergency -" || did("job-create", e=>e.tpl==="Emergency -")},
+   {t:"Use the emergency template", do:"In <b>Import Template</b>, pick <b>Emergency / After-Hours Call</b>.", why:"The template adds the Flag: Emergency / After Hours tag, so the job stands out on the board.", hk:["f-tpl"], done:() => FV("m.tpl")==="Emergency / After-Hours Call" || did("job-create", e=>e.tpl==="Emergency / After-Hours Call")},
    {t:"Pick the customer", do:"In <b>Customer Name</b>, pick <b>Grace Kim</b>.", hk:["f-cust"], done:() => FV("m.cust")==="c1" || did("job-create", e=>e.c==="c1")},
    {t:"Assign and time it", do:"Tick <b>Carlos Diaz</b>. Date <b>Wed, Nov 4</b>, Start <b>3 PM</b>, End <b>5 PM</b>.", hk:["u-u4","f-date","f-start","f-end"],
     done:() => (!!FV("m.u.u4") && FV("m.date")==="11-04" && String(FV("m.s"))==="15" && String(FV("m.e"))==="17") || did("job-create", e=>e.c==="c1")},
    {t:"Check the tag and save", do:"Check <b>Emergency</b> is in Job Tags. Then click <b>Save Job</b>.", hk:["m.tags","btn-savejob"],
-    done:() => did("job-create", e=>e.tpl==="Emergency -" && e.c==="c1")},
+    done:() => did("job-create", e=>e.tpl==="Emergency / After-Hours Call" && e.c==="c1")},
    {t:"Send the confirmation", do:"Click <b>Send</b>.", hk:["btn-conf-yes"], done:() => did("confirm-sent") || did("confirm-skipped")},
    {t:"See it on the board", do:"Click <b>Schedule</b> in the left menu. Find Carlos Diaz at 3 PM.", hk:["nav-schedule"], done:() => did("nav", e=>e.p==="schedule")},
    {t:"Quick check", do:"Look at the job on the board.", hk:[],
@@ -3036,8 +3142,8 @@ Object.assign(GUIDES, {
    {t:"Save the job", do:"FieldPulse fills in what she typed. Click <b>Save Job</b>.", hk:["btn-savejob"], done:() => { const id = findCust("Hannah","Cole"); return !!id && !!newJobFor(id); }},
    {t:"Skip the confirmation for now", do:"Click <b>Don't Send</b>. You'll call her to set a time first.", why:"The portal only tells her the request is under review.", hk:["btn-conf-no"], done:() => did("confirm-skipped") || did("confirm-sent")},
    {t:"Open her record", do:"Go to <b>Customers</b>, search <b>Hannah</b>, and open <b>Hannah Cole</b>.", hk:["nav-customers","cust-search"], done:() => did("open-cust", e=>e.id===findCust("Hannah","Cole"))},
-   {t:"Set the lead source", do:"Click <b>Edit</b>. Set <b>Lead Source</b> to <b>Website</b>. Click Save.", why:"Requests don't set a lead source. You set it by hand.", hk:["btn-cust-edit","f-ls","btn-savecust"],
-    done:() => { const id = findCust("Hannah","Cole"); return !!id && C_(id).ls==="Website"; }},
+   {t:"Set the lead source", do:"Click <b>Edit</b>. Set <b>Lead Source</b> to <b>Google Search</b>. Click Save.", why:"Requests don't set a lead source. You set it by hand.", hk:["btn-cust-edit","f-ls","btn-savecust"],
+    done:() => { const id = findCust("Hannah","Cole"); return !!id && C_(id).ls==="Google Search"; }},
    {t:"Quick check", do:"One more request is waiting.", hk:[],
     q:{ask:"Peter Shaw sent a request with a new email. He's already a customer. What do you do?", opts:["Book the job on his existing record","Click Create New on the request","Ignore it"], a:0, fb:"Right. FieldPulse only matches the email. Search by name or phone and book on his record."}}
   ]},
@@ -3069,7 +3175,7 @@ Object.assign(GUIDES, {
   steps:[
    {t:"Open the customer", do:"Go to <b>Customers</b> and open <b>Carla Dunn</b>.", hk:["nav-customers","cust-c17"], done:() => did("open-cust", e=>e.id==="c17")},
    {t:"Check the lead source", do:"Look at <b>Lead Source</b> in Workflow.", hk:["cust-ls"],
-    q:{ask:"What does it say?", opts:["Not set","Referral","Website"], a:0, fb:"Right. Jobs made in the app often have no lead source."}},
+    q:{ask:"What does it say?", opts:["Not set","Referral","Google Search"], a:0, fb:"Right. Jobs made in the app often have no lead source."}},
    {t:"Fix it", do:"Click <b>Edit</b>. Set <b>Lead Source</b> to <b>Referral</b> (Grace Kim sent her). Save.", hk:["btn-cust-edit","f-ls","btn-savecust"], done:() => C_("c17").ls==="Referral"},
    {t:"Close the loop", do:"One last question.", hk:[],
     q:{ask:"What do you do after it's fixed?", opts:["Nothing","Reply in the same thread so Ben knows it's handled","Delete his message"], a:1, fb:"Right. Reply in the same thread."}}
@@ -3094,11 +3200,11 @@ Object.assign(GUIDES, {
   call:{who:"Ruth Daniels, on the phone", text:"\"My kitchen drain is slow again.\" Book a drain cleaning at the first open time, with a 2-hour arrival window."},
   steps:[
    {t:"Start a job", do:"Go to <b>Work</b>, then <b>Jobs</b>, and click <b>Create Job</b>.", hk:["nav-jobs","btn-createjob"], done:() => U.modal && U.modal.kind==="job"},
-   {t:"Import the template", do:"In <b>Import Template</b>, pick <b>Drain Cleaning</b>.", why:"Templates fill in the title, the job type tag and the length.", hk:["f-tpl"], done:() => FV("m.tpl")==="Drain Cleaning" || did("job-create", e=>e.tpl==="Drain Cleaning")},
+   {t:"Import the template", do:"In <b>Import Template</b>, pick <b>Service Call - Evaluation</b>.", why:"Templates fill in the title, the job type tag and the length.", hk:["f-tpl"], done:() => FV("m.tpl")==="Service Call - Evaluation" || did("job-create", e=>e.tpl==="Service Call - Evaluation")},
    {t:"Pick the customer", do:"In <b>Customer Name</b>, pick <b>Ruth Daniels</b>.", hk:["f-cust"], done:() => FV("m.cust")==="c15" || did("job-create", e=>e.c==="c15")},
    {t:"Find a time", do:"Click <b>Find Availability</b> and pick the first open time.", hk:["btn-findavail","slot-0"], done:() => did("slot-pick")},
    {t:"Check the window", do:"Look at <b>Customer Arrival Window</b>. It fills in from the start time and shows a 2-hour window.", hk:["f-win"], done:() => (FV("m.ws")!=="" && FV("m.ws")!=null && +FV("m.we")-+FV("m.ws")===2) || did("job-create", e=>e.c==="c15")},
-   {t:"Check the tag and save", do:"Check the <b>Service</b> tag is there. Don't remove it. Click <b>Save Job</b>.", hk:["m.tags","btn-savejob"], done:() => did("job-create", e=>e.tpl==="Drain Cleaning" && e.c==="c15")},
+   {t:"Check the tag and save", do:"Check the <b>Type: Service Call</b> tag is there. Don't remove it. Click <b>Save Job</b>.", hk:["m.tags","btn-savejob"], done:() => did("job-create", e=>e.tpl==="Service Call - Evaluation" && e.c==="c15")},
    {t:"Send the confirmation", do:"Click <b>Send</b>.", hk:["btn-conf-yes"], done:() => did("confirm-sent") || did("confirm-skipped")}
   ]},
  "m2-2": { mod:M2, n:2, of:6,
@@ -3132,7 +3238,7 @@ Object.assign(GUIDES, {
    {t:"Move it", do:"Date <b>Fri, Nov 6</b>, Start <b>2 PM</b>, End <b>4 PM</b>. Keep Mike Turner.", hk:["f-date","f-start","f-end"],
     done:() => (FV("m.date")==="11-06" && String(FV("m.s"))==="14" && String(FV("m.e"))==="16") || W.jobs["1045"].date==="11-06"},
    {t:"Move the window too", do:"The arrival window doesn't move by itself. Click <b>Insert Job Date/Time</b>, then <b>Save Job</b>.", why:"Otherwise Rita is told the old time.", hk:["btn-win-insert","btn-savejob"],
-    done:() => { const j = W.jobs["1045"]; return j.date==="11-06" && j.s===14 && j.e===16 && j.users.includes("u6") && j.ws===14 && j.we===16; }},
+    done:() => { const j = W.jobs["1045"]; return j.date==="11-06" && j.s===14 && j.e===16 && j.users.includes("u6") && j.ws===14-WIN_BEFORE && j.we===14+WIN_AFTER; }},
    {t:"Tell the tech", do:"Answer from the lesson.", hk:[],
     q:{ask:"Who tells Mike his job moved?", opts:["FieldPulse, always","You do, yourself","Nobody needs to"], a:1, fb:"Right. Don't count on FieldPulse for that. Tell the tech and the customer yourself."}},
    {t:"Open Tom's job", do:"Go to <b>Work</b>, <b>Jobs</b>, and open <b>#1047</b>.", hk:["nav-jobs","job-1047"], done:() => did("open-job", e=>e.id==="1047") || (U.r.p==="job" && U.r.id==="1047")},
@@ -3171,7 +3277,8 @@ Object.assign(GUIDES, {
    Undo puts the practice copy back to how it was before the last click, and moves the lesson back with it.
    These function declarations replace the ones in p9_guide.js (the last declaration wins). */
 const CHK = {};        // check answers per lesson: {id:{qi:optionIndex}}
-let UNDO = [];         // snapshots taken before each click or change in the practice copy
+let UNDO = [];
+let RAILMIN = false;     // lesson card folded down to one line         // snapshots taken before each click or change in the practice copy
 const CHK1 = {};       // first answer per check question, for the first-try score: {id:{qi:optionIndex}}
 function m1Prog(part, extra){ try{ if(window.M1Progress) window.M1Progress.mark(GUIDE.id, part, extra); }catch(e){} }
 function m1L(){ const L = window.MOD_LESSONS || (typeof M1_LESSONS!=="undefined" ? M1_LESSONS : {}); return L[GUIDE.id] || {}; }
@@ -3220,7 +3327,10 @@ function gSit(open){
 function gRail(){
   const g = GUIDES[GUIDE.id], L = m1L(), m = GUIDE.mode;
   const title = window.FPCourse ? window.FPCourse.lessonTitle(GUIDE.id) : GUIDE.id;
-  let h = `<div class="g-head"><div class="g-ey">Lesson ${g.n} of ${g.of}</div><h2>${E(title)}</h2>
+  const stepTxt = m==="walk" ? `Step ${Math.min(GUIDE.i+1, g.steps.length)} of ${g.steps.length}` : m==="practice" ? "Practice" : "Steps";
+  const minB = `<button class="g-min" data-a="g-min" aria-label="${RAILMIN?"Show the lesson":"Hide the lesson"}" title="${RAILMIN?"Show":"Hide"}">${RAILMIN?"&#9650;":"&#9660;"}</button>`;
+  if(RAILMIN) return `<div class="g-head g-mini"><div class="g-ey">Lesson ${g.n} · ${stepTxt}</div><b>${E(title)}</b>${minB}</div>`;
+  let h = `<div class="g-head">${minB}<div class="g-ey">Lesson ${g.n} of ${g.of}</div><h2>${E(title)}</h2>
    <div class="g-mode" role="group" aria-label="Lesson mode">${[["walk","Walk-through"],["read","Steps"],["practice","Practice"]].map(([k,l])=>`<button class="${m===k?"on":""}" data-a="g-mode" data-v="${k}" aria-pressed="${m===k}">${l}</button>`).join("")}</div></div>`;
   if(m==="read") return h + gRead(L);
   if(m==="practice") return h + pRail(g, L);
@@ -3280,16 +3390,19 @@ function gMark(){
   if(GUIDE.mode==="walk" && GUIDE.i>=GUIDE.max) si = GUIDE.i;
   if(GUIDE.mode==="practice" && GUIDE.hint>=0) si = GUIDE.hint;
   const s = g.steps[si]; if(!s) return;
-  let first = null;
-  s.hk.forEach(k => ROOT.querySelectorAll(`[data-hk="${CSS.escape(k)}"]`).forEach(el => { el.classList.add("px-hl","g-pulse"); if(!first) first = el; }));
+  let first = null, hits = [];
+  s.hk.forEach(k => ROOT.querySelectorAll(`[data-hk="${CSS.escape(k)}"]`).forEach(el => hits.push(el)));
+  const inPage = hits.filter(el => !el.closest(".fp-side"));
+  if(inPage.length) hits = inPage;
+  hits.forEach(el => { el.classList.add("px-hl","g-pulse"); if(!first) first = el; });
   if(first && first.scrollIntoView && !first.closest('.fp-side')) { try{ first.scrollIntoView({block:'nearest', inline:'nearest'}); }catch(e){} }
   const app = ROOT.querySelector(".g-app");
   if(first && app){
     const a = app.getBoundingClientRect(), r = first.getBoundingClientRect();
     const tip = document.createElement("div"); tip.className = "g-tip"; tip.setAttribute("aria-hidden","true");
     tip.textContent = s.q ? "Look here" : (first.tagName==="SELECT"||first.tagName==="INPUT") ? "Here" : "Click here";
-    tip.style.left = Math.max(4, Math.min(r.left - a.left, a.width - 110)) + "px";
-    tip.style.top = (r.bottom - a.top + 8) + "px";
+    if((first.closest(".fp-side") || first.tagName==="INPUT"||first.tagName==="SELECT"||first.tagName==="TEXTAREA") && r.right + 90 < a.right && r.width > 0){ tip.classList.add("g-tip-r"); tip.style.left = (r.right - a.left + 10) + "px"; tip.style.top = (r.top - a.top + r.height/2 - 13) + "px"; }
+    else { tip.style.left = Math.max(4, Math.min(r.left - a.left, a.width - 110)) + "px"; tip.style.top = (r.bottom - a.top + 8) + "px"; }
     app.appendChild(tip);
   }
 }
@@ -3306,6 +3419,7 @@ function gAct(a, ds){
     case "g-next": GUIDE.i = Math.min(GUIDE.max, GUIDE.i+1); return true;
     case "g-ans": GUIDE.ans[GUIDE.i] = +ds.v; return true;
     case "g-undo": gUndo(); return true;
+    case "g-min": RAILMIN = !RAILMIN; if(ROOT) ROOT.classList.toggle("g-folded", RAILMIN); return true;
     case "g-restart": gStart(GUIDE.id, GUIDE.mode); return true;
     case "g-hint": { const nx = pIdx().find(i => !GUIDE.pd[i]); if(nx!=null){ if(GUIDE.hint!==nx) GUIDE.hints++; GUIDE.hint = nx; } return true; }
     case "g-check": GUIDE.checked = true; return true;
