@@ -50,9 +50,11 @@ A lesson is done when the walk-through, check and practice are all done.
 2. Set their name with query 2 in supabase/admin.sql.
 3. Send them the site link, their email and their password.
 
+Don't use "Send invitation" for trainees. Supabase's built-in email only sends to people on the Supabase team for this project, and only 2 emails an hour. Invites and reset emails to anyone else won't arrive. If an invite does arrive, the link opens the site and asks them to set a password.
+
 ## Things to know
 
 1. On the free Supabase plan, a project pauses after 1 week with no activity. If the site stops letting people sign in, open the Supabase dashboard and click Resume (or Restore).
 2. The lesson pages are public to anyone with the link. They use made-up practice data only. The progress records are only visible after sign-in.
-3. To reset a password, go to Authentication > Users, click the user, and set a new password.
+3. To reset a password, run query 4 in supabase/admin.sql in the SQL Editor. For someone on the Supabase team, you can also click the user and use Send password recovery.
 4. Times show as fixed UTC-4, labeled EDT. To change that, edit TIME_ZONE and TIME_LABEL in js/config.js.
