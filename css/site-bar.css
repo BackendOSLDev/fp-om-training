@@ -1,8 +1,16 @@
-/* signed-in bar (also used inside lesson pages) */
-.fpt-bar{display:flex;flex-wrap:wrap;align-items:center;gap:6px 14px;font-size:.88rem}
-.fpt-bar a{color:#fff;font-weight:600}
-.fpt-bar .fpt-who{color:var(--hdr-muted)}
-.fpt-bar button{font:inherit;font-size:.85rem;background:transparent;color:#fff;border:1px solid rgba(255,255,255,.4);border-radius:7px;padding:3px 10px;cursor:pointer}
-.fpt-bar .fpt-st{color:#ffd28a}
-.fpt-demo{background:#ffd28a;color:#3a2a00;border-radius:99px;padding:1px 8px;font-size:.75rem;font-weight:700}
-.ob-hdr .in{flex-wrap:wrap}
+/* BCB Partners Academy header on the lesson pages (black bar, one red, square corners) */
+.ob-hdr.bcbh{background:#0B0B0B;color:#F2F1EE;border-bottom:1px solid rgba(242,241,238,.12)}
+.ob-hdr.bcbh .in{max-width:none;padding:12px 24px;display:flex;flex-wrap:wrap;align-items:center;gap:10px 22px;justify-content:flex-start}
+.bcbh-brand{display:flex;align-items:center;gap:12px;color:#F2F1EE;text-decoration:none}
+.bcbh-brand .logo{height:24px;width:auto;display:block}
+.bcbh-brand small{font-family:'JetBrains Mono',ui-monospace,Menlo,monospace;font-size:10px;letter-spacing:.22em;text-transform:uppercase;color:rgba(242,241,238,.48);padding-left:12px;border-left:1px solid rgba(242,241,238,.24)}
+.bcbh-day{font-family:'JetBrains Mono',ui-monospace,Menlo,monospace;font-size:11px;letter-spacing:.14em;text-transform:uppercase;color:rgba(242,241,238,.72)}
+.fpt-bar{display:flex;flex-wrap:wrap;align-items:center;gap:4px;margin-left:auto}
+.fpt-bar a{font-family:'JetBrains Mono',ui-monospace,Menlo,monospace;font-size:11px;letter-spacing:.16em;text-transform:uppercase;color:rgba(242,241,238,.72);text-decoration:none;padding:8px 9px;border-bottom:2px solid transparent}
+.fpt-bar a:hover{color:#F2F1EE}
+.fpt-bar a.on{color:#F2F1EE;border-bottom-color:#C6301A}
+.fpt-bar .fpt-who{width:30px;height:30px;margin-left:8px;border:1px solid rgba(242,241,238,.24);display:grid;place-items:center;font-family:'JetBrains Mono',ui-monospace,Menlo,monospace;font-size:11px;color:#F2F1EE}
+.fpt-bar button{font-family:'JetBrains Mono',ui-monospace,Menlo,monospace;font-size:10px;letter-spacing:.16em;text-transform:uppercase;background:transparent;color:rgba(242,241,238,.72);border:1px solid rgba(242,241,238,.24);border-radius:0;padding:7px 10px;cursor:pointer;margin-left:6px}
+.fpt-bar button:hover{color:#F2F1EE;border-color:#F2F1EE}
+.fpt-bar .fpt-st{color:#E8A93C;font-size:12px;margin-right:6px}
+.fpt-demo{font-family:'JetBrains Mono',ui-monospace,Menlo,monospace;font-size:10px;letter-spacing:.14em;text-transform:uppercase;background:#E8A93C;color:#0B0B0B;padding:4px 8px;margin-left:6px}
