@@ -79,6 +79,12 @@ body{margin:0;background:#0B0B0B}
 .plan{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:12px;margin-top:20px}
 .plan>div{border:1px solid var(--line);background:var(--ink2);padding:14px 16px}
 .grp{margin:34px 0 12px;display:flex;align-items:baseline;gap:12px}
+.agenda{list-style:none;margin:20px 0 0;padding:0;border:1px solid var(--line);background:var(--ink2)}
+.agenda>li{display:flex;flex-wrap:wrap;gap:6px 18px;padding:14px 16px;border-top:1px solid var(--line)}
+.agenda>li:first-child{border-top:0}
+.agenda .when{flex:0 0 120px}
+.agenda .what{flex:1 1 300px;min-width:0}
+.agenda ul{margin:6px 0 0;padding-left:18px;font-size:14px;line-height:1.45;color:var(--mut)}
 .card img{width:100%;aspect-ratio:1.8/1;object-fit:cover;object-position:top left;display:block;border-bottom:1px solid var(--line)}
 </style>
 </head>
@@ -157,12 +163,19 @@ body{margin:0;background:#0B0B0B}
           <p class="num" style="margin:0;font-family:var(--mono);font-size:11px;letter-spacing:.18em;text-transform:uppercase;color:var(--mut)">{{cur.count}}</p>
         </div>
 
-        <sc-if value="{{cur.isDay}}" hint-placeholder-val="{{ true }}">
-          <div class="plan" aria-label="Plan for this day">
-            <sc-for list="{{cur.plan}}" as="p" hint-placeholder-count="3">
-              <div><p class="lbl">{{p.n}}</p><p style="margin:6px 0 0;font-size:16px;font-weight:600">{{p.t}}</p><p class="mut" style="margin:4px 0 0;font-size:14px;line-height:1.45">{{p.d}}</p></div>
+        <sc-if value="{{cur.hasAgenda}}" hint-placeholder-val="{{ true }}">
+          <ol class="agenda" aria-label="Agenda for this day">
+            <sc-for list="{{cur.agenda}}" as="a" hint-placeholder-count="4">
+              <li>
+                <p class="lbl when" style="margin:3px 0 0">{{a.when}}</p>
+                <div class="what">
+                  <p style="margin:0;font-size:16px;font-weight:600;color:{{a.color}}">{{a.t}}</p>
+                  <p class="lbl" style="margin:4px 0 0">{{a.who}}</p>
+                  <ul><sc-for list="{{a.d}}" as="x"><li>{{x.t}}</li></sc-for></ul>
+                </div>
+              </li>
             </sc-for>
-          </div>
+          </ol>
         </sc-if>
         <sc-for list="{{cur.groups}}" as="g" hint-placeholder-count="2">
           <div>
@@ -226,11 +239,8 @@ class Component extends DCLogic {
     const nL = ls.length;
     const cur = { kicker: D.id === 'x' ? 'Extra' : 'Day ' + D.num + ' of 5', title: D.name, summary: D.summary,
       count: nL ? doneIn(D.id) + ' of ' + nL + ' done' : '', groups, isDay: nL > 0, isReview: D.id === 'd5',
-      plan: nL ? [
-        { n: '1 · Lessons', t: nL + ' lessons', d: 'Each one has a walk-through, the steps, a practice without hints, and help videos and articles.' },
-        { n: '2 · Practice', t: D.tasks + ' practice tasks', d: 'Do the same work on your own in the practice copy of FieldPulse.' },
-        { n: '3 · Checks', t: D.checks + ' check questions', d: 'Each lesson ends with its check questions. Retry as many times as you need.' }
-      ] : [],
+      agenda: ACAD.agenda(D.id, P, this.props.data.pr).map((a) => Object.assign({}, a, { color: a.color || 'inherit', d: a.d.map((t) => ({ t })) })),
+      hasAgenda: D.id !== 'x',
       steps: [
         { n: '1 · Final check', t: 'Take the final review check', d: '20 questions from Days 1 to 4. Your score shows which lessons to review.', go: 'Open the final check', href: 'final.html' },
         { n: '2 · Review', t: 'Redo any check you missed', d: 'My progress shows every lesson from Days 1 to 4 and which checks are still open.', go: 'Open My progress', href: 'progress.html' },
@@ -248,7 +258,7 @@ class Component extends DCLogic {
       line: S.done + ' of 50 lessons done. ' + dayTxt, up, mods, extras, cur }, ACAD.search(this));
   }
 }
-ACAD.start(Component, { auth: 'user' }, async () => { const rows = await FPTrack.myEvents(); const P = ACAD.progress(rows); return { P, S: ACAD.summary(P), any: rows.length > 0 }; });
+ACAD.start(Component, { auth: 'user' }, async () => { const [rows, pr] = await Promise.all([FPTrack.myEvents(), FPTrack.practiceGet()]); const P = ACAD.progress(rows); return { P, S: ACAD.summary(P), any: rows.length > 0, pr }; });
 
 </script>
 </body>

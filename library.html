@@ -180,7 +180,7 @@ body{margin:0;background:#0B0B0B}
         </sc-if>
 
         <sc-if value="{{hasLes}}" hint-placeholder-val="{{ true }}">
-          <h2 id="practice" class="h3 sec">Practice it</h2>
+          <h2 id="practice" class="h3 sec">Lessons that teach this</h2>
           <div style="display:flex;flex-direction:column;border:1px solid var(--line)">
             <sc-for list="{{les}}" as="l" hint-placeholder-count="2">
               <a href="{{l.href}}" style="display:flex;justify-content:space-between;gap:12px;padding:13px 16px;border-bottom:1px solid var(--line);font-size:15px;text-decoration:none">{{l.t}} <span class="lbl">{{l.where}}</span></a>
@@ -205,7 +205,7 @@ body{margin:0;background:#0B0B0B}
         <sc-if value="{{hasVid}}"><a class="toc" href="#video">Watch the video</a></sc-if>
         <a class="toc" href="#steps">Step by step</a>
         <sc-if value="{{hasTips}}"><a class="toc" href="#tips">Good to know</a></sc-if>
-        <sc-if value="{{hasLes}}"><a class="toc" href="#practice">Practice it</a></sc-if>
+        <sc-if value="{{hasLes}}"><a class="toc" href="#practice">Lessons that teach this</a></sc-if>
       </nav>
     </main>
   </div>

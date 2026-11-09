@@ -6,13 +6,13 @@ A 5-day program with a login. Days 1 to 4 have 50 lessons and 54 practice tasks.
 
 1. index.html: sign in. An invite or reset link also lands here and asks for a new password.
 2. fsm.html: choose your training (FieldPulse now, the others say coming soon).
-3. home.html: the 5-day program, lesson cards by day, and Day 5 steps.
-4. f.html and m1.html to m7.html: the interactive lessons (walk-through, steps, practice, check questions).
+3. home.html: the 5-day program: each day's agenda (a 15-minute start-of-day check with the trainer, then self-paced lessons and practice tasks), lesson cards by day, and Day 5 steps.
+4. f.html and m1.html to m7.html: the interactive lessons (walk-through with check questions, steps, and the knowledge check: the same task on your own, hints counted).
 5. library.html: the SOP Library (45 SOPs).
 6. practice.html: the 54 practice tasks for Days 1 to 4, plus Owner reporting as extra. sandbox.html: free practice, no tasks.
 7. final.html: the final review check (20 questions) and the reflection.
-8. progress.html: My progress. certificate.html: the certificate. verify.html: public certificate check, no login.
-9. team.html and certs.html: admins only (Team progress, Certifications). admin.html sends old links to team.html.
+8. progress.html: My progress, with the grade for each of Days 1 to 4. certificate.html: the certificate. verify.html: public certificate check, no login.
+9. team.html and certs.html: admins only (Team progress with every trainee's day grades, Certifications). admin.html sends old links to team.html.
 
 ## What gets saved
 
@@ -22,7 +22,18 @@ A 5-day program with a login. Days 1 to 4 have 50 lessons and 54 practice tasks.
 4. reflections: one row per trainee (three short answers).
 5. certificates: made only by the database when the rule is met. Admins can revoke (a reason is required) or restore.
 
-Before it issues a certificate, the database checks the trainee's saved rows: a walk-through, check and practice row for all 50 lessons of Days 1 to 4, and a practice result of Ready (54 tasks done, at least 46 on your own, no serious slips). The site saves a check row only when every answer is right. Every issue, revoke and restore is kept in certificate_log.
+Before it issues a certificate, the database checks the trainee's saved rows: a walk-through, check and practice row for all 50 lessons of Days 1 to 4 (the lesson knowledge check is saved as the "practice" part), and a practice result of Ready (54 tasks done, at least 46 on your own, no serious slips). The site saves a check row only when every answer is right. Every issue, revoke and restore is kept in certificate_log.
+
+## Day grades (Days 1 to 4)
+
+Worked out on the page from rows already saved, the same way for everyone. Nothing new is saved.
+
+1. Pass: every lesson and practice task of the day done, at most 2 knowledge checks needed a hint on the first try, at most 2 practice tasks needed a hint, and no serious slips.
+2. Pass with coaching: all done and no serious slips, but more hints than that.
+3. Redo: a serious slip in that day's practice. Start that day over in Practice tasks (the restart is recorded for the trainer).
+4. In progress or Not started otherwise.
+
+The certificate rule does not change: it still uses the totals above.
 
 Trainees see only their own rows. Admins see everyone. The verify page shows only the name, training, date and status of one certificate ID.
 

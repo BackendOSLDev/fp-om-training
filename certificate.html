@@ -176,7 +176,7 @@ class Component extends DCLogic {
     const lesOk = S.done === 50, chkOk = S.chk === 50;
     const done = !!cert && cert.status === 'active', revoked = !!cert && cert.status === 'revoked';
     const reqs = [
-      Object.assign({ t: 'Finish the 50 lessons in Days 1 to 4', d: 'Every walk-through, check and practice in Days 1 to 4. Owner reporting is an extra and not needed.', v: S.done + ' OF 50', vc: lesOk ? ok : warn, go: lesOk ? '' : nxt.go, href: nxt.href }, tick(lesOk)),
+      Object.assign({ t: 'Finish the 50 lessons in Days 1 to 4', d: 'Every walk-through, check questions and knowledge check in Days 1 to 4. Owner reporting is an extra and not needed.', v: S.done + ' OF 50', vc: lesOk ? ok : warn, go: lesOk ? '' : nxt.go, href: nxt.href }, tick(lesOk)),
       Object.assign({ t: 'Pass every lesson check', d: 'All check questions answered right. You can retry a check as many times as you need.', v: S.chk + ' OF 50 PASSED', vc: chkOk ? ok : warn, go: chkOk ? '' : 'Open My progress', href: 'progress.html' }, tick(chkOk)),
       Object.assign({ t: 'Practice result: Ready', d: 'All 54 practice tasks from Days 1 to 4 done, at least 46 on your own, and no serious slips.', v: pr ? (pr.result.toUpperCase() + ' · ' + (pReady ? pr.own + ' ON YOUR OWN' : pr.done + ' OF 54')) : 'NOT STARTED · 0 OF 54', vc: pReady ? ok : warn, go: pReady ? '' : 'Open practice', href: 'practice.html' }, tick(pReady))
     ];

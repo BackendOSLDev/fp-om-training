@@ -123,7 +123,7 @@ table.lt td{padding:10px 16px;border-bottom:1px solid var(--line)}
           <tr>
             <th>Trainee</th><th>Lessons done</th>
             <th class="c" title="Basics and intake">Day 1</th><th class="c" title="Intake follow-up, scheduling and dispatch">Day 2</th><th class="c" title="Invoicing, payments and estimates">Day 3</th><th class="c" title="Payroll prep and compliance">Day 4</th><th class="c" title="Owner reporting, not part of the certificate">Extra</th>
-            <th>Practice</th><th>Final check</th><th>SOPs read</th><th>Time</th><th>Last active</th>
+            <th>Practice tasks</th><th>Final check</th><th>SOPs read</th><th>Time</th><th>Last active</th>
           </tr>
         </thead>
         <tbody>
@@ -140,7 +140,7 @@ table.lt td{padding:10px 16px;border-bottom:1px solid var(--line)}
                 <span class="bar" style="margin-top:6px;width:120px"><i style="width:{{r.pct}}"></i></span>
               </td>
               <sc-for list="{{r.mods}}" as="m" hint-placeholder-count="5">
-                <td class="c num" style="font-family:var(--mono);font-size:12px;color:{{m.c}}">{{m.t}}</td>
+                <td class="c num" style="font-family:var(--mono);font-size:12px;color:{{m.c}}">{{m.t}}<span style="display:block;margin-top:3px;font-family:var(--body);font-size:12px;font-weight:600;white-space:nowrap;color:{{m.gc}}">{{m.g}}</span></td>
               </sc-for>
               <td style="white-space:nowrap;color:{{r.pc}}">{{r.prac}}</td>
               <td class="num">{{r.fin}}</td>
@@ -161,6 +161,17 @@ table.lt td{padding:10px 16px;border-bottom:1px solid var(--line)}
             <h2 class="h2">{{sel.name}}</h2>
             <span class="mut" style="font-size:14px">{{sel.summary}}</span>
           </div>
+          <div style="margin-top:14px;border:1px solid var(--line);overflow-x:auto">
+            <table class="lt">
+              <thead><tr><th>Day</th><th>Lessons</th><th>Knowledge checks</th><th>Practice tasks</th><th>Serious slips</th><th>Grade</th></tr></thead>
+              <tbody>
+                <sc-for list="{{sel.grades}}" as="g" hint-placeholder-count="4">
+                  <tr><td style="white-space:nowrap"><b>{{g.day}}</b></td><td class="num">{{g.les}}</td><td class="num">{{g.kc}}</td><td class="num">{{g.tasks}}</td><td class="num">{{g.serious}}</td><td style="font-weight:600;white-space:nowrap;color:{{g.color}}">{{g.grade}}</td></tr>
+                </sc-for>
+              </tbody>
+            </table>
+          </div>
+          <p class="mut" style="margin:8px 0 0;font-size:13px;line-height:1.5">{{gradeText}}</p>
           <div style="margin-top:14px;border:1px solid var(--line);border-top:0">
             <sc-for list="{{sel.mods}}" as="m" hint-placeholder-count="8">
               <div>
@@ -172,7 +183,7 @@ table.lt td{padding:10px 16px;border-bottom:1px solid var(--line)}
                 <sc-if value="{{m.open}}" hint-placeholder-val="{{ false }}">
                   <div style="overflow-x:auto;background:var(--ink)">
                     <table class="lt">
-                      <thead><tr><th>Lesson</th><th>Walk-through</th><th>Check questions</th><th>Practice</th><th>Time</th><th>Last</th></tr></thead>
+                      <thead><tr><th>Lesson</th><th>Walk-through</th><th>Check questions</th><th>Knowledge check</th><th>Time</th><th>Last</th></tr></thead>
                       <tbody>
                         <sc-for list="{{m.lessons}}" as="l" hint-placeholder-count="5">
                           <tr>
@@ -197,7 +208,7 @@ table.lt td{padding:10px 16px;border-bottom:1px solid var(--line)}
           <sc-if value="{{sel.hasDay5}}" hint-placeholder-val="{{ false }}">
             <h3 class="h3" style="margin:6px 0 10px">Day 5</h3>
             <p style="margin:0 0 8px;font-size:14px"><b>Final check:</b> {{sel.fin}}</p>
-            <p style="margin:0 0 8px;font-size:14px"><b>Practice:</b> {{sel.prac}}</p>
+            <p style="margin:0 0 8px;font-size:14px"><b>Practice tasks:</b> {{sel.prac}}</p>
             <p style="margin:0 0 12px;font-size:14px"><b>Certificate:</b> {{sel.cert}}</p>
             <sc-if value="{{sel.hasRestarts}}"><p style="margin:0 0 4px;font-size:14px"><b>Days started over in practice:</b></p><sc-for list="{{sel.restarts}}" as="x"><p style="margin:0 0 6px;font-size:13.5px;line-height:1.45">{{x.t}} <span class="faint" style="display:block;font-size:12.5px">{{x.when}}</span></p></sc-for></sc-if>
             <sc-for list="{{sel.refl}}" as="x" hint-placeholder-count="3"><p style="margin:0 0 8px;font-size:14px;line-height:1.45"><span class="faint" style="display:block;font-size:12.5px">{{x.q}}</span>{{x.a}}</p></sc-for>
@@ -257,22 +268,25 @@ class Component extends DCLogic {
         prac: t.pr ? t.pr.result + ' · ' + t.pr.done + '/54' : '-', pc: t.pr && t.pr.result === 'Ready' ? OK : t.pr ? INFO : NO,
         aria: 'Show ' + name, cls: 'row' + (this.state.sel === t.u.id ? ' sel' : ''), pick: () => this.setState({ sel: t.u.id }),
         mods: ['d1', 'd2', 'd3', 'd4', 'x'].map((d) => { const ls = ACAD.L.filter((x) => x.day === d), n = ls.filter((x) => ACAD.isDone(t.P, x.id)).length, started = ls.some((x) => t.P[x.id]);
-          return { t: n ? n + '/' + ls.length : (started ? '0/' + ls.length : '-'), c: n === ls.length ? OK : n ? 'var(--paper)' : NO }; }) };
+          const G = d === 'x' ? null : ACAD.dayGrade(t.P, t.pr, d);
+          return { t: n ? n + '/' + ls.length : (started ? '0/' + ls.length : '-'), c: n === ls.length ? OK : n ? 'var(--paper)' : NO,
+            g: G && G.grade !== 'Not started' ? G.grade : '', gc: G ? G.color : NO }; }) };
     });
     const t = T.find((x) => x.u.id === this.state.sel);
     let sel = null;
     if (t) {
-      const NAME = { open: 'Started', walk: 'Finished the walk-through of', check: 'Passed the check questions of', practice: 'Passed the practice of', read: 'Read' };
+      const NAME = { hint: 'Used a hint in the knowledge check of', open: 'Started', walk: 'Finished the walk-through of', check: 'Passed the check questions of', practice: 'Passed the knowledge check of', read: 'Read' };
       const log = t.rows.slice().reverse().slice(0, 10).map((r) => {
         if (r.lesson_id.startsWith('sop-')) return { t: 'Read SOP: ' + (FP_LIB_TITLES[r.lesson_id.slice(4)] || r.lesson_id), when: ACAD.fmtTime(r.created_at), c: INFO };
         const x = ACAD.BY[r.lesson_id], nm = x ? ACAD.modShort(x.mod) + ', lesson ' + x.n + ': ' + x.title : r.lesson_id;
         const extra = r.part === 'check' && r.total ? ' (' + r.score + ' of ' + r.total + ' right on the first try)' : r.part === 'practice' && r.hints ? ' (' + r.hints + (r.hints === 1 ? ' hint)' : ' hints)') : '';
-        return { t: (NAME[r.part] || r.part) + ' ' + nm + extra, when: ACAD.fmtTime(r.created_at), c: r.part === 'open' ? MID : OK };
+        const k = r.part === 'open' && +r.hints > 0 ? 'hint' : r.part;
+        return { t: (NAME[k] || r.part) + ' ' + nm + extra, when: ACAD.fmtTime(r.created_at), c: r.part === 'open' ? MID : OK };
       });
       const cert = t.cert ? (t.cert.status === 'active' ? t.cert.cert_id + ', issued ' + ACAD.fmtDay(t.cert.issued_at) : 'Revoked (' + (t.cert.revoke_reason || 'no reason') + ')') : 'Not yet';
       const RL = t.pr && t.pr.data && Array.isArray(t.pr.data.restarts) ? t.pr.data.restarts : [], RN = (t.pr && t.pr.data && +t.pr.data.restartCount) || RL.length;
       const RS = (RN > RL.length ? [{ t: RN + ' restarts in all, the last ' + RL.length + ' shown', when: '' }] : []).concat(RL.map((r) => ({ t: (+r.d === 5 ? 'Extra' : 'Day ' + r.d) + ': ' + r.done + ' tasks and ' + r.slips + ' slips cleared' + (r.serious ? ' (' + r.serious + ' serious)' : ''), when: ACAD.fmtTime(r.at) })));
-      sel = { hasRestarts: RS.length > 0, restarts: RS, hasDay5: !!(t.fin.length || t.refl || t.pr || t.cert), fin: finTxt(t), prac: t.pr ? t.pr.result + ', ' + t.pr.done + ' of 54 done, ' + t.pr.own + ' on own, ' + t.pr.serious + ' serious slips' : 'Not started', cert,
+      sel = { grades: ACAD.grades(t.P, t.pr), hasRestarts: RS.length > 0, restarts: RS, hasDay5: !!(t.fin.length || t.refl || t.pr || t.cert), fin: finTxt(t), prac: t.pr ? t.pr.result + ', ' + t.pr.done + ' of 54 done, ' + t.pr.own + ' on own, ' + t.pr.serious + ' serious slips' : 'Not started', cert,
         refl: t.refl ? [t.refl.r1, t.refl.r2, t.refl.r3].map((a, i) => ({ q: RQ[i], a: a || '-' })) : [],
         name: t.u.full_name || t.u.email, summary: t.S.done + ' of 50 lessons' + (t.S.extra ? ' + ' + t.S.extra + ' extra' : '') + ' · ' + t.S.sops + ' of 45 SOPs read · ' + ACAD.fmtMin(t.S.min),
         log: log.length ? log : [{ t: 'No activity yet.', when: '', c: NO }],
@@ -281,7 +295,7 @@ class Component extends DCLogic {
           const lessons = ls.map((x) => { const p = t.P[x.id] || {};
             return { n: x.n, t: x.title, w: p.walk ? 'Done' : p.open ? 'Started' : '-', wc: p.walk ? OK : p.open ? MID : NO,
               c: p.check ? 'Passed' + (p.total ? ' (' + p.score + ' of ' + p.total + ' first try)' : '') : p.walk ? 'Not yet' : '-', cc: p.check ? OK : p.walk ? MID : NO,
-              p: p.practice ? 'Passed' + (p.hints ? ', ' + p.hints + (p.hints === 1 ? ' hint' : ' hints') : '') : '-', pc: p.practice ? OK : NO,
+              p: p.practice ? 'Passed' + (p.hinted ? ', needed a hint' : '') : '-', pc: p.practice ? (p.hinted ? MID : OK) : NO,
               min: p.min ? (p.min < 10 ? Math.round(p.min * 10) / 10 : Math.round(p.min)) + ' min' : '-', last: p.last ? ACAD.fmtDay(p.last) : '-' }; });
           const n = ls.filter((x) => ACAD.isDone(t.P, x.id)).length, mins = ls.reduce((a, x) => a + ((t.P[x.id] || {}).min || 0), 0);
           return { name: DAYN[m], count: n + ' of ' + ls.length, time: mins ? ' · ' + ACAD.fmtMin(mins) : '', open, rot: open ? 'transform:rotate(90deg)' : '', lessons,
@@ -289,15 +303,15 @@ class Component extends DCLogic {
         }) };
     }
     const nt = T.filter((x) => x.u.role !== 'admin').length;
-    return { hd: ACAD.hdr(this.props.me), filters, rows, noRows: !rows.length, hasSel: !!sel,
+    return { hd: ACAD.hdr(this.props.me), filters, rows, noRows: !rows.length, hasSel: !!sel, gradeText: ACAD.GRADE_TEXT,
       sub: nt + (nt === 1 ? ' trainee' : ' trainees') + '. Updated ' + ACAD.fmtTime(this.props.data.at) + '.',
-      sel: sel || { name: '', summary: '', mods: [], log: [], hasDay5: false, fin: '', refl: [], prac: '', cert: '', hasRestarts: false, restarts: [] },
+      sel: sel || { grades: [], name: '', summary: '', mods: [], log: [], hasDay5: false, fin: '', refl: [], prac: '', cert: '', hasRestarts: false, restarts: [] },
       csv: () => {
         const q = (v) => { let x = String(v == null ? '' : v); if (x === '-') x = ''; if (/^[=+\-@\t\r]/.test(x)) x = "'" + x; return '"' + x.replace(/"/g, '""') + '"'; };
-        const head = ['Name', 'Email', 'Lessons done (of 50)', 'Day 1', 'Day 2', 'Day 3', 'Day 4', 'Extra', 'Practice result', 'Practice done', 'Practice on own', 'Final check', 'SOPs read', 'Minutes', 'Last active', 'Certificate', 'Practice days started over'];
+        const head = ['Name', 'Email', 'Lessons done (of 50)', 'Day 1', 'Day 2', 'Day 3', 'Day 4', 'Extra', 'Day 1 grade', 'Day 2 grade', 'Day 3 grade', 'Day 4 grade', 'Practice result', 'Practice done', 'Practice on own', 'Final check', 'SOPs read', 'Minutes', 'Last active', 'Certificate', 'Practice days started over'];
         const lines = [head.map(q).join(',')].concat(T.map((t) => { const r = rows.find((x) => x.email === t.u.email) || {};
           const md = ['d1', 'd2', 'd3', 'd4', 'x'].map((d) => ACAD.L.filter((x) => x.day === d && ACAD.isDone(t.P, x.id)).length);
-          return [t.u.full_name, t.u.email, t.S.done].concat(md).concat([t.pr ? t.pr.result : 'Not started', t.pr ? t.pr.done : 0, t.pr ? t.pr.own : 0, finTxt(t), t.S.sops, Math.round(t.S.min), t.S.last ? ACAD.fmtTime(t.S.last) : '', t.cert ? t.cert.cert_id + ' ' + t.cert.status : '', (t.pr && t.pr.data && (+t.pr.data.restartCount || (Array.isArray(t.pr.data.restarts) ? t.pr.data.restarts.length : 0))) || 0]).map(q).join(','); }));
+          return [t.u.full_name, t.u.email, t.S.done].concat(md).concat(ACAD.grades(t.P, t.pr).map((g) => g.grade)).concat([t.pr ? t.pr.result : 'Not started', t.pr ? t.pr.done : 0, t.pr ? t.pr.own : 0, finTxt(t), t.S.sops, Math.round(t.S.min), t.S.last ? ACAD.fmtTime(t.S.last) : '', t.cert ? t.cert.cert_id + ' ' + t.cert.status : '', (t.pr && t.pr.data && (+t.pr.data.restartCount || (Array.isArray(t.pr.data.restarts) ? t.pr.data.restarts.length : 0))) || 0]).map(q).join(','); }));
         const a = document.createElement('a'); a.href = URL.createObjectURL(new Blob([lines.join('\n')], { type: 'text/csv' })); a.download = 'bcb-academy-team-progress.csv'; document.body.appendChild(a); a.click(); a.remove();
       } };
   }

@@ -79,6 +79,10 @@ body{margin:0;background:#0B0B0B}
 .stat{padding:18px 20px;border-right:1px solid var(--line)}
 .stat:last-child{border-right:0}
 .big{font-family:var(--display);font-size:44px;line-height:1}
+table.gt{width:100%;border-collapse:collapse;font-size:14px}
+table.gt th{text-align:left;font-family:var(--mono);font-weight:400;font-size:10px;letter-spacing:.14em;text-transform:uppercase;color:var(--faint);padding:10px 14px;border-bottom:1px solid var(--line2);background:var(--ink2);white-space:nowrap}
+table.gt td{padding:12px 14px;border-bottom:1px solid var(--line);vertical-align:top}
+table.gt td.num{white-space:nowrap}
 </style>
 </head>
 <body>
@@ -95,7 +99,7 @@ body{margin:0;background:#0B0B0B}
   <main style="padding:36px 40px 64px;box-sizing:border-box;width:100%;max-width:1080px;margin:0 auto">
     <p class="lbl">Only you and your admin can see this</p>
     <h1 class="h1" style="margin-top:10px">My progress</h1>
-    <p class="mut" style="margin:10px 0 0;font-size:15px;max-width:620px">A lesson counts as done when you finish the walk-through, the check questions and the practice.</p>
+    <p class="mut" style="margin:10px 0 0;font-size:15px;max-width:620px">A lesson counts as done when you finish the walk-through, the check questions and the knowledge check.</p>
 
     <div class="panel" style="margin-top:26px;display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr))">
       <div class="stat"><p class="lbl">Lessons done</p><p class="num" style="margin:8px 0 0"><span class="big">{{st.done}}</span> <span class="mut">of 50</span></p></div>
@@ -111,6 +115,19 @@ body{margin:0;background:#0B0B0B}
       </div>
       <a class="btn" href="{{up.href}}">{{up.go}}</a>
     </section>
+
+    <h2 class="h2" style="margin:44px 0 14px">Your grade by day</h2>
+    <div style="border:1px solid var(--line);overflow-x:auto">
+      <table class="gt">
+        <thead><tr><th>Day</th><th>Lessons</th><th>Knowledge checks</th><th>Practice tasks</th><th>Serious slips</th><th>Grade</th></tr></thead>
+        <tbody>
+          <sc-for list="{{grades}}" as="g" hint-placeholder-count="4">
+            <tr><td><b>{{g.day}}</b><span class="faint" style="display:block;font-size:12.5px">{{g.name}}</span></td><td class="num">{{g.les}}</td><td class="num">{{g.kc}}</td><td class="num">{{g.tasks}}</td><td class="num">{{g.serious}}</td><td style="font-weight:600;color:{{g.color}};white-space:nowrap">{{g.grade}}</td></tr>
+          </sc-for>
+        </tbody>
+      </table>
+    </div>
+    <p class="mut" style="margin:10px 0 0;font-size:13.5px;line-height:1.5;max-width:900px">{{gradeText}}</p>
 
     <h2 class="h2" style="margin:44px 0 14px">By day</h2>
     <div style="border:1px solid var(--line);border-top:0">
@@ -171,22 +188,23 @@ class Component extends DCLogic {
       const lessons = ls.map((x, i) => { const p = P[x.id] || {};
         return { href: ACAD.href(x), n: i + 1, t: x.title, mod: ACAD.modShort(x.mod) + ', lesson ' + x.n,
           w: p.walk ? 'Walk-through ✓' : 'Walk-through', wc: p.walk ? ok : p.open ? mid : no,
-          c: p.check ? 'Check ✓' : 'Check', cc: p.check ? ok : p.walk ? mid : no,
-          p: p.practice ? 'Practice ✓' : 'Practice', pc: p.practice ? ok : no }; });
+          c: p.check ? 'Check questions ✓' : 'Check questions', cc: p.check ? ok : p.walk ? mid : no,
+          p: p.practice ? 'Knowledge check ✓' : 'Knowledge check', pc: p.practice ? ok : no }; });
       const done = ls.filter((x) => ACAD.isDone(P, x.id)).length, total = ls.length;
       return { name, count: done + ' of ' + total, pct: Math.round(done / total * 100) + '%', open, rot: open ? 'transform:rotate(90deg)' : '', lessons,
         toggle: () => this.setState({ open: Object.assign({}, this.state.open, { [id]: !open }) }) };
     });
-    const NAME = { open: 'Started', walk: 'Finished the walk-through of', check: 'Passed the check questions of', practice: 'Passed the practice of' };
+    const NAME = { hint: 'Used a hint in the knowledge check of', open: 'Started', walk: 'Finished the walk-through of', check: 'Passed the check questions of', practice: 'Passed the knowledge check of' };
     const log = rows.slice().reverse().filter((r) => r.part !== 'open' || !r.lesson_id.startsWith('sop-')).slice(0, 12).map((r) => {
       if (r.lesson_id.startsWith('sop-')) { const d = FP_LIB_TITLES[r.lesson_id.slice(4)] || r.lesson_id; return { t: 'Read SOP: ' + d, when: ACAD.fmtTime(r.created_at), c: 'var(--paper)' }; }
       const x = ACAD.BY[r.lesson_id]; const nm = x ? ACAD.modShort(x.mod) + ', lesson ' + x.n + ': ' + x.title : r.lesson_id;
-      return { t: (NAME[r.part] || r.part) + ' ' + nm, when: ACAD.fmtTime(r.created_at), c: r.part === 'open' ? mid : ok };
+      const k = r.part === 'open' && +r.hints > 0 ? 'hint' : r.part;
+      return { t: (NAME[k] || r.part) + ' ' + nm, when: ACAD.fmtTime(r.created_at), c: r.part === 'open' ? mid : ok };
     });
     const nx = S.next;
     const up = nx ? { kicker: 'Up next · ' + ACAD.where(nx), title: nx.title, href: ACAD.href(nx), go: P[nx.id] ? 'Continue lesson' : 'Start lesson' }
                   : { kicker: 'All lessons done', title: 'Every lesson is finished', href: 'certificate.html', go: 'Open Certificate' };
-    return { hd: ACAD.hdr(this.props.me), mods, log, noLog: !log.length, up,
+    return { hd: ACAD.hdr(this.props.me), mods, log, noLog: !log.length, up, grades: ACAD.grades(P, this.props.data.pr), gradeText: ACAD.GRADE_TEXT,
       st: { done: S.done, sops: S.sops, min: Math.round(S.min), prac: ACAD.pracText(this.props.data.pr) } };
   }
 }

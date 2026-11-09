@@ -2995,7 +2995,7 @@ function gRail(){
     h += `</div></li>`;
   });
   h += `</ol>`;
-  if(fin) h += `<div class="g-fin"><b>Lesson done.</b><p>Now try it with no help in Practice: ${E((LESSON_TASK[GUIDE.id]||{}).t||"the matching task")}.</p><div class="g-row">${`<button class="g-btn" data-a="g-restart">Do it again</button><button class="g-btn pri" data-a="g-practice">Go to practice</button>`}</div></div>`;
+  if(fin) h += `<div class="g-fin"><b>Lesson done.</b><p>Now try it with no help in Practice tasks: ${E((LESSON_TASK[GUIDE.id]||{}).t||"the matching task")}.</p><div class="g-row">${`<button class="g-btn" data-a="g-restart">Do it again</button><button class="g-btn pri" data-a="g-practice">Go to practice</button>`}</div></div>`;
   h += gSop(L) + `</div>`;
   h += `<div class="g-foot"><button class="g-btn" data-a="g-prev" ${GUIDE.i===0?"disabled":""}>Back</button><span class="g-sp"></span><button class="g-btn" data-a="g-restart">Start over</button>${GUIDE.i<GUIDE.max&&!fin?`<button class="g-btn pri" data-a="g-next">Next</button>`:""}</div>`;
   return h;
@@ -3805,18 +3805,18 @@ function gSit(open){
 function gRail(){
   const g = GUIDES[GUIDE.id], L = m1L(), m = GUIDE.mode;
   const title = window.FPCourse ? window.FPCourse.lessonTitle(GUIDE.id) : GUIDE.id;
-  const stepTxt = m==="walk" ? `Step ${Math.min(GUIDE.i+1, g.steps.length)} of ${g.steps.length}` : m==="practice" ? "Practice" : "Steps";
+  const stepTxt = m==="walk" ? `Step ${Math.min(GUIDE.i+1, g.steps.length)} of ${g.steps.length}` : m==="practice" ? "Knowledge check" : "Steps";
   const minB = `<button class="g-min" data-a="g-min" aria-label="${RAILMIN?"Show the lesson":"Hide the lesson"}" title="${RAILMIN?"Show":"Hide"}">${RAILMIN?"&#9650;":"&#9660;"}</button>`;
   if(RAILMIN) return `<div class="g-head g-mini"><div class="g-ey">Lesson ${g.n} · ${stepTxt}</div><b>${E(title)}</b>${minB}</div>`;
   let h = `<div class="g-head">${minB}<div class="g-ey">Lesson ${g.n} of ${g.of}</div><h2>${E(title)}</h2>
-   <div class="g-mode" role="group" aria-label="Lesson mode">${[["walk","Walk-through"],["read","Steps"],["practice","Practice"]].map(([k,l])=>`<button class="${m===k?"on":""}" data-a="g-mode" data-v="${k}" aria-pressed="${m===k}">${l}</button>`).join("")}</div></div>`;
+   <div class="g-mode" role="group" aria-label="Lesson mode">${[["walk","Walk-through"],["read","Steps"],["practice","Knowledge check"]].map(([k,l])=>`<button class="${m===k?"on":""}" data-a="g-mode" data-v="${k}" aria-pressed="${m===k}">${l}</button>`).join("")}</div></div>`;
   if(m==="read") return h + gRead(L);
   if(m==="practice") return h + pRail(g, L);
   const n = g.steps.length, done = Math.min(GUIDE.max, n), fin = GUIDE.max>=n;
   h += `<div class="g-body">${gSit(GUIDE.max===0)}`;
   if(fin){
     h += `<div class="g-fin"><b>Nice, you did it.</b><p>Answer these quick questions. Then try it on your own.</p></div>${gChecks(L)}
-     <div class="g-row g-end"><button class="g-btn" data-a="g-restart">Do it again</button><button class="g-btn pri" data-a="g-mode" data-v="practice">Try it on my own</button></div>`;
+     <div class="g-row g-end"><button class="g-btn" data-a="g-restart">Do it again</button><button class="g-btn pri" data-a="g-mode" data-v="practice">Take the knowledge check</button></div>`;
   } else {
     const s = g.steps[GUIDE.i], past = GUIDE.i<GUIDE.max;
     h += `<div class="g-prog"><span>Step ${GUIDE.i+1} of ${n}</span></div><div class="g-bar"><i style="width:${Math.round(100*done/n)}%"></i></div>
@@ -3848,10 +3848,10 @@ function pRail(g, L){
   const idx = pIdx(), n = idx.length, done = idx.filter(i=>GUIDE.pd[i]).length, fin = done===n;
   let h = `<div class="g-body">${gSit(false)}
    <div class="g-task"><small>Your turn</small><p>${E(L.goal||"Do the whole task on your own.")}</p></div>
-   <p class="g-why">No orange boxes this time. Stuck? Click Hint.</p>
+   <p class="g-why">Knowledge check: no orange boxes this time. Stuck? Click Hint. Hints on your first try count in your day grade.</p>
    <div class="g-prog"><span>${done} of ${n} steps done</span></div><div class="g-bar"><i style="width:${Math.round(100*done/n)}%"></i></div>`;
   if(GUIDE.hint>=0){ const s = g.steps[GUIDE.hint]; h += `<div class="g-hint" role="status"><small>Hint</small><b>${E(s.t)}</b><p>${s.do}</p></div>`; }
-  if(fin) h += `<div class="g-fin"><b>Practice passed.</b><p>${GUIDE.hints?`You used ${GUIDE.hints} hint${GUIDE.hints>1?"s":""}. Try it once more with none.`:"No hints used. Nice work."}</p></div>`;
+  if(fin) h += `<div class="g-fin"><b>Knowledge check passed.</b><p>${GUIDE.hints?`You used ${GUIDE.hints} hint${GUIDE.hints>1?"s":""}. Your first try is the one that counts for your day grade. Trying again with none is still good practice.`:"No hints used. Nice work."}</p></div>`;
   if(fin){
     h += `<p class="g-rh">What you did</p><ol class="g-res">${idx.map(i=>`<li class="${GUIDE.pd[i]?"ok":"miss"}">${GUIDE.pd[i]?ic("check",13):"<i aria-hidden='true'>!</i>"}<span>${E(g.steps[i].t)}${GUIDE.pd[i]?"":" <em>not done yet</em>"}</span></li>`).join("")}</ol>`;
   }
@@ -3902,7 +3902,7 @@ function gAct(a, ds){
     case "g-undo": gUndo(); return true;
     case "g-min": RAILMIN = !RAILMIN; if(ROOT) ROOT.classList.toggle("g-folded", RAILMIN); return true;
     case "g-restart": gStart(GUIDE.id, GUIDE.mode); return true;
-    case "g-hint": { const nx = pIdx().find(i => !GUIDE.pd[i]); if(nx!=null){ if(GUIDE.hint!==nx) GUIDE.hints++; GUIDE.hint = nx; } return true; }
+    case "g-hint": { const nx = pIdx().find(i => !GUIDE.pd[i]); if(nx!=null){ if(GUIDE.hint!==nx){ GUIDE.hints++; try{ const T = window.FPTrack, me = T && T.me ? (T.me() || {}).id : "", K = "acad-kchint:" + (me || ""), o = JSON.parse(localStorage.getItem(K) || "{}"); if(T && me && !o[GUIDE.id]){ o[GUIDE.id] = 1; localStorage.setItem(K, JSON.stringify(o)); T.event(GUIDE.id, "open", {hints:1}); } }catch(e){} } GUIDE.hint = nx; } return true; }
     case "g-check": GUIDE.checked = true; return true;
     case "g-chk": { const L = m1L(), a2 = CHK[GUIDE.id] = CHK[GUIDE.id]||{}, f = CHK1[GUIDE.id] = CHK1[GUIDE.id]||{}; a2[+ds.q] = +ds.v; if(f[+ds.q]==null) f[+ds.q] = +ds.v;
       const qs = L.checks||[]; if(qs.every((q,i)=>a2[i]===q[2])) m1Prog("check", {score:qs.filter((q,i)=>f[i]===q[2]).length, total:qs.length}); return true; }
