@@ -79,7 +79,7 @@ function demo(){
       if(n < NL) throw new Error("Not ready: "+n+" of "+NL+" lessons done");
       var pr = (d.practice||{})[me]; if(!pr || pr.result!=="Ready" || pr.done<NT || pr.own<OWN || pr.serious>0) throw new Error("Not ready: practice result is not Ready yet");
       d.certs = d.certs||[]; d.certNo = (d.certNo||0)+1;
-      var yr = new Intl.DateTimeFormat("en-US", {timeZone:"Etc/GMT+4", year:"numeric"}).format(new Date()), rnd = ""; for(var ri = 0; ri < 4; ri++) rnd += "XY23456789ABCDEF"[Math.floor(Math.random()*16)];
+      var yr = new Intl.DateTimeFormat("en-US", {timeZone:"Etc/GMT+4", year:"numeric"}).format(new Date()), rnd = ""; for(var ri = 0; ri < 8; ri++) rnd += "XY23456789ABCDEF"[Math.floor(Math.random()*16)];
       var c = {cert_id:"BCB-FP-"+yr+"-"+String(d.certNo).padStart(4,"0")+"-"+rnd, user_id:me, full_name:d.users[me].full_name||d.users[me].email, training:"FieldPulse office operations, 5-day program", issued_at:new Date().toISOString(), status:"active", revoked_at:null, revoke_reason:null};
       d.certs.push(c); put(d); return c; },
     async certVerify(id){ id = String(id||"").trim().toUpperCase(); var c = (db().certs||[]).filter(function(x){ return x.cert_id===id; })[0]; return c ? {cert_id:c.cert_id, full_name:c.full_name, training:c.training, issued_at:c.issued_at, status:c.status, revoked_at:c.revoked_at} : null; },

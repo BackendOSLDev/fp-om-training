@@ -25,7 +25,29 @@ function bcbCertPdf(o) {
   c += red + ' RG 1.6 w ' + circle(690, 516, 46);
   c += txt(680, 530, 'F2', 7.5, red, 'BCB', 1.2) + txt(664.5, 513, 'F2', 7.5, red, 'PARTNERS', 1.2) + txt(665, 496, 'F2', 7.5, red, 'CERTIFIED', 1.2);
   c += txt(60, 448, 'F1', 9, gray, 'THIS CERTIFIES THAT', 1.6);
-  c += txt(60, 400, 'F2', ns, ink, name, 0.5);
+  /* A name with any letter the PDF fonts can't show as written (for example Chinese, Arabic, Cyrillic, or ą, ş, ễ) is drawn by the browser
+     and placed as a picture, so it prints exactly right. If the browser can't draw it, the name falls back to text. */
+  let img = null;
+  const needImg = typeof document !== 'undefined' && Array.from(name).some((ch) => { const n = ch.codePointAt(0); return !(n >= 0x20 && n <= 0x7E) && !(n >= 0xA0 && n <= 0xFF) && !WA[ch]; });
+  if (needImg) {
+    try {
+      const fam = 'px Helvetica, Arial, "Noto Sans", "Noto Sans CJK SC", "Noto Sans Arabic", sans-serif';
+      const cv = document.createElement('canvas'); let g = cv.getContext('2d'); let px = 160; g.font = 'bold ' + px + fam;
+      const mw = g.measureText(name).width; if (mw > 7900) px = Math.max(20, Math.floor(px * 7900 / mw));   /* keep the picture inside every browser's canvas limit */
+      const font = 'bold ' + px + fam; g.font = font;
+      const tw = Math.ceil(g.measureText(name).width) + 40, th = Math.ceil(px * 1.35);
+      cv.width = tw; cv.height = th; g = cv.getContext('2d');
+      g.fillStyle = '#ffffff'; g.fillRect(0, 0, tw, th); g.font = font; g.fillStyle = 'rgb(11,11,11)'; g.textBaseline = 'alphabetic'; g.fillText(name, 20, px);
+      /* a blank picture (a browser that blocks drawing) is not used */
+      const pix = g.getImageData(0, 0, tw, th).data; let dark = 0; for (let i = 0; i < pix.length; i += 16) if (pix[i] < 128) { dark++; if (dark > 20) break; }
+      if (dark <= 20) throw new Error('blank');
+      const data = atob(cv.toDataURL('image/jpeg', 0.92).split(',')[1]);
+      let k = ns / px; if (tw * k > 672) k = 672 / tw;
+      const w = (tw * k).toFixed(2), h = (th * k).toFixed(2), x = (60 - 20 * k).toFixed(2), y = (400 - (th - px) * k).toFixed(2);
+      img = { tw, th, data }; c += 'q ' + w + ' 0 0 ' + h + ' ' + x + ' ' + y + ' cm /Im1 Do Q\n';
+    } catch (e) { img = null; }
+  }
+  if (!img) c += txt(60, 400, 'F2', ns, ink, name, 0.5);
   c += txt(60, 370, 'F1', 9, gray, 'COMPLETED THE TRAINING AND PASSED EVERY LESSON CHECK FOR', 1.6);
   c += txt(60, 338, 'F2', 20, red, 'FIELDPULSE OFFICE OPERATIONS', 0.6);
   wrap(o.what, 104).forEach((l, i) => { c += txt(60, 308 - i * 15, 'F1', 10.5, '0.3 0.3 0.3', l, 0); });
@@ -34,12 +56,13 @@ function bcbCertPdf(o) {
   const objs = [
     '<< /Type /Catalog /Pages 2 0 R >>',
     '<< /Type /Pages /Kids [3 0 R] /Count 1 >>',
-    '<< /Type /Page /Parent 2 0 R /MediaBox [0 0 ' + W + ' ' + H + '] /Resources << /Font << /F1 4 0 R /F2 5 0 R >> >> /Contents 6 0 R >>',
+    '<< /Type /Page /Parent 2 0 R /MediaBox [0 0 ' + W + ' ' + H + '] /Resources << /Font << /F1 4 0 R /F2 5 0 R >>' + (img ? ' /XObject << /Im1 8 0 R >>' : '') + ' >> /Contents 6 0 R >>',
     '<< /Type /Font /Subtype /Type1 /BaseFont /Helvetica /Encoding /WinAnsiEncoding >>',
     '<< /Type /Font /Subtype /Type1 /BaseFont /Helvetica-Bold /Encoding /WinAnsiEncoding >>',
     '<< /Length ' + c.length + ' >>\nstream\n' + c + 'endstream',
     '<< /Title (' + asc(o.title || 'Certificate') + ') /Producer (BCB Academy) >>'
   ];
+  if (img) objs.push('<< /Type /XObject /Subtype /Image /Width ' + img.tw + ' /Height ' + img.th + ' /ColorSpace /DeviceRGB /BitsPerComponent 8 /Filter /DCTDecode /Length ' + img.data.length + ' >>\nstream\n' + img.data + '\nendstream');
   let pdf = '%PDF-1.4\n'; const off = [];
   objs.forEach((b, i) => { off.push(pdf.length); pdf += (i + 1) + ' 0 obj\n' + b + '\nendobj\n'; });
   const x = pdf.length;
