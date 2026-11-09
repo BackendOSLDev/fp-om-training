@@ -68,6 +68,8 @@ body{margin:0;background:#0B0B0B}
 .fpt-toast:empty{display:none}
 .loading{padding:80px 24px;text-align:center;font:14px 'Archivo',system-ui,sans-serif;color:#9A9A9A}
 .btn[disabled],.btn.off{opacity:.45;cursor:not-allowed}
+.marker{overflow-wrap:anywhere}
+.px-arm{display:block;margin-top:4px;line-height:1.45}
 @media (max-width:720px){.hdr{padding:12px 16px}.h1{font-size:36px}}
 
 
@@ -139,7 +141,7 @@ class Component extends DCLogic {
   renderVals() {
     const S = this.props.data, n = S.done;
     const F = [
-      { id: 'fp', name: 'FieldPulse', mono: 'FP', live: true, blurb: 'The day-to-day office work, practiced on a FieldPulse look-alike with made-up customers.', facts: ['5-day program, 50 lessons', '45 SOPs', 'Help center videos and articles'] },
+      { id: 'fp', name: 'FieldPulse', mono: 'FP', live: true, blurb: 'The day-to-day office work, practiced on a FieldPulse look-alike with made-up customers.', facts: ['5-day program, ' + ACAD.NL + ' lessons', '45 SOPs', 'Help center videos and articles'] },
       { id: 'hcp', name: 'Housecall Pro', mono: 'HP' },
       { id: 'st', name: 'ServiceTitan', mono: 'ST' },
       { id: 'jb', name: 'Jobber', mono: 'JB' }
@@ -147,7 +149,7 @@ class Component extends DCLogic {
     const cards = F.map((f) => ({ name: f.name, mono: f.mono, blurb: f.blurb || '', facts: f.facts || [], live: !!f.live,
       tag: f.live ? 'Available' : 'Coming soon', tagc: f.live ? '#1E7A3C' : '#E8A93C', cls: 'fsm' + (f.live ? ' live' : ' soon'),
       aria: f.live ? 'Open the FieldPulse training' : f.name + ' training, coming soon',
-      prog: n + ' of 50 lessons', pct: Math.round(n / 50 * 100) + '%', go: n || S.opened ? 'Continue training' : 'Start training' }));
+      prog: n + ' of ' + ACAD.NL + ' lessons', pct: Math.round(n / ACAD.NL * 100) + '%', go: n || S.opened ? 'Continue training' : 'Start training' }));
     return { cards, hd: ACAD.hdr(this.props.me) };
   }
 }

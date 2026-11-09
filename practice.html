@@ -68,6 +68,8 @@ body{margin:0;background:#0B0B0B}
 .fpt-toast:empty{display:none}
 .loading{padding:80px 24px;text-align:center;font:14px 'Archivo',system-ui,sans-serif;color:#9A9A9A}
 .btn[disabled],.btn.off{opacity:.45;cursor:not-allowed}
+.marker{overflow-wrap:anywhere}
+.px-arm{display:block;margin-top:4px;line-height:1.45}
 @media (max-width:720px){.hdr{padding:12px 16px}.h1{font-size:36px}}
 
 
@@ -732,6 +734,9 @@ body{margin:0;background:#0B0B0B}
 #px .fp-qbh{display:flex;flex-wrap:wrap;gap:8px 16px;align-items:center;justify-content:space-between}#px .fp-qbh h3{margin:0}
 #px .fp-qbchips{display:flex;flex-wrap:wrap;gap:6px 14px;align-items:center;font-size:13px}#px .fp-qbchips span{border:1px solid #e4e7ec;border-radius:4px;padding:3px 8px}#px .fp-qbchips i{font-style:normal;background:#fdecea;color:#b42318;border-radius:3px;padding:0 5px;margin-left:4px}
 #px .fp-qbst{border:1px solid;border-radius:3px;padding:1px 6px;font-size:12px}#px .fp-qbst.bad{color:#b42318;border-color:#f2b8b0;background:#fdf0ee}#px .fp-qbst.ok{color:#2e7d32;border-color:#93cf97}
+#px .fp-jc .fp-jcbig{font-size:15px;margin:6px 0}
+#px .fp-jc .fp-jcbig b{display:block;font-size:30px;line-height:1.1;color:#2e7d32}
+#px .fp-jc h4{margin:14px 0 6px}
 
 .lv-empty{display:flex;flex-direction:column;align-items:center;gap:6px;padding:26px;color:#8a94a6;font-size:13px}.lv-empty p{margin:0}
 .lv-empty.big{padding:70px 20px;font-size:15px}.lv-empty select{min-width:240px}
@@ -814,7 +819,7 @@ body{margin:0;background:#0B0B0B}
 </header>
   <div class="prac-top">
     <h1 class="h2" style="margin:0">Practice tasks</h1>
-    <p class="mut" style="margin:0;font-size:14.5px;flex:1 1 360px">The 5-day program's practice. Days 1 to 4 have 54 tasks and give your practice result. Owner reporting is extra. Your work is saved to your account, so your trainer sees your result.</p>
+    <p class="mut" style="margin:0;font-size:14.5px;flex:1 1 360px">The 5-day program's practice. Days 1 to 4 have {{nt}} tasks and give your practice result. Owner reporting is extra. Your work is saved to your account, so your trainer sees your result.</p>
     <a href="sandbox.html" style="font-size:14px;font-weight:600">Free practice, no tasks &rarr;</a>
   </div>
   <div class="sbx-host prac-host" ref="{{setBox}}" aria-label="Practice tasks in a FieldPulse look-alike"></div>
@@ -831,8 +836,8 @@ body{margin:0;background:#0B0B0B}
 
 class Component extends DCLogic {
   renderVals() {
-    if (!this._setBox) this._setBox = (el) => { if (el) { try { bcbPractice(el, this.props.data && this.props.data.data); } catch (e) { console.error(e); el.textContent = 'Practice failed to load: ' + e.message; } } };
-    return { setBox: this._setBox, hd: ACAD.hdr(this.props.me) };
+    if (!this._setBox) this._setBox = (el) => { if (el) { try { bcbPractice(el, this.props.data && this.props.data.data, this.props.data); } catch (e) { console.error(e); el.textContent = 'Practice failed to load: ' + e.message; } } };
+    return { setBox: this._setBox, hd: ACAD.hdr(this.props.me), nt: ACAD.NT };
   }
 }
 ACAD.start(Component, { auth: 'user' }, async () => (await FPTrack.practiceGet()) || null);

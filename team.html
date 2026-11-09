@@ -68,6 +68,8 @@ body{margin:0;background:#0B0B0B}
 .fpt-toast:empty{display:none}
 .loading{padding:80px 24px;text-align:center;font:14px 'Archivo',system-ui,sans-serif;color:#9A9A9A}
 .btn[disabled],.btn.off{opacity:.45;cursor:not-allowed}
+.marker{overflow-wrap:anywhere}
+.px-arm{display:block;margin-top:4px;line-height:1.45}
 @media (max-width:720px){.hdr{padding:12px 16px}.h1{font-size:36px}}
 
 
@@ -136,7 +138,7 @@ table.lt td{padding:10px 16px;border-bottom:1px solid var(--line)}
                 </button>
               </td>
               <td style="min-width:150px">
-                <span class="num" style="font-family:var(--display);font-size:22px">{{r.done}}</span><span class="faint"> of 50</span>
+                <span class="num" style="font-family:var(--display);font-size:22px">{{r.done}}</span><span class="faint"> of {{r.nl}}</span>
                 <span class="bar" style="margin-top:6px;width:120px"><i style="width:{{r.pct}}"></i></span>
               </td>
               <sc-for list="{{r.mods}}" as="m" hint-placeholder-count="5">
@@ -239,7 +241,7 @@ table.lt td{padding:10px 16px;border-bottom:1px solid var(--line)}
 <script>
 
 const OK = 'var(--ok)', NO = 'var(--faint)', MID = 'var(--warn)', INFO = 'var(--paper)';
-const DAYN = { f: 'Day 1 · Foundations', m1: 'Days 1 and 2 · Module 1: Calls and new jobs (lessons 1 to 5 on Day 1, 6 to 9 on Day 2)', m2: 'Day 2 · Module 2: Scheduling and dispatch', m3: 'Day 3 · Module 3: Invoicing and getting paid', m4: 'Day 3 · Module 4: Estimates', m5: 'Day 4 · Module 5: Accounting and payroll', m7: 'Day 4 · Module 7: Compliance and admin', m6: 'Extra · Module 6: Owner reporting (not part of the certificate)' };
+const DAYN = { f: 'Day 1 · Foundations', m1: 'Days 1 and 2 · Module 1: Calls and new jobs (lessons 1 to 5 on Day 1, 6 to 9 on Day 2)', m2: 'Day 2 · Module 2: Scheduling and dispatch', m3: 'Days 3 and 4 · Module 3: Invoicing and getting paid (lessons 1 to 8 on Day 3, 9 and 10 on Day 4)', m4: 'Day 3 · Module 4: Estimates', m5: 'Day 4 · Module 5: Accounting and payroll', m7: 'Day 4 · Module 7: Compliance and admin', m6: 'Extra · Module 6: Owner reporting (not part of the certificate)' };
 const SHOW = ['f', 'm1', 'm2', 'm3', 'm4', 'm5', 'm7', 'm6'];
 const RQ = ['Hardest part of Days 1 to 4', 'Wants more practice on', 'Will check first with a client'];
 function build(D){
@@ -255,7 +257,7 @@ class Component extends DCLogic {
   constructor(p){ super(p); this.T = build(p.data); this.state = { f: 'all', sel: this.T[0] ? this.T[0].u.id : null, open: { f: true } }; }
   renderVals() {
     const T = this.T;
-    const status = (t) => t.S.done === 50 ? 'fin' : t.rows.length ? 'prog' : 'none';
+    const status = (t) => t.S.done === ACAD.NL ? 'fin' : t.rows.length ? 'prog' : 'none';
     const F = [['all', 'All'], ['prog', 'In progress'], ['none', 'Not started'], ['fin', 'Finished']];
     const filters = F.map(([id, name]) => ({ name, n: id === 'all' ? T.length : T.filter((t) => status(t) === id).length,
       on: this.state.f === id, cls: 'tabb' + (this.state.f === id ? ' on' : ''), pick: () => this.setState({ f: id }) }));
@@ -263,9 +265,9 @@ class Component extends DCLogic {
     const vis = T.filter((t) => this.state.f === 'all' || status(t) === this.state.f);
     const rows = vis.map((t) => {
       const name = (t.u.full_name || t.u.email) + (t.u.role === 'admin' ? ' (admin)' : '');
-      return { name, email: t.u.email, done: t.S.done, pct: Math.round(t.S.done / 50 * 100) + '%', sops: t.S.sops, time: t.S.min ? ACAD.fmtMin(t.S.min) : '-',
+      return { nl: ACAD.NL, name, email: t.u.email, done: t.S.done, pct: Math.round(t.S.done / ACAD.NL * 100) + '%', sops: t.S.sops, time: t.S.min ? ACAD.fmtMin(t.S.min) : '-',
         last: t.S.last ? ACAD.fmtTime(t.S.last) : 'Not started', fin: finTxt(t),
-        prac: t.pr ? t.pr.result + ' · ' + t.pr.done + '/54' : '-', pc: t.pr && t.pr.result === 'Ready' ? OK : t.pr ? INFO : NO,
+        prac: t.pr ? ACAD.pracResult(t.pr) + ' · ' + t.pr.done + '/' + ACAD.NT : '-', pc: t.pr && ACAD.pracResult(t.pr) === 'Ready' ? OK : t.pr ? INFO : NO,
         aria: 'Show ' + name, cls: 'row' + (this.state.sel === t.u.id ? ' sel' : ''), pick: () => this.setState({ sel: t.u.id }),
         mods: ['d1', 'd2', 'd3', 'd4', 'x'].map((d) => { const ls = ACAD.L.filter((x) => x.day === d), n = ls.filter((x) => ACAD.isDone(t.P, x.id)).length, started = ls.some((x) => t.P[x.id]);
           const G = d === 'x' ? null : ACAD.dayGrade(t.P, t.pr, d);
@@ -275,27 +277,27 @@ class Component extends DCLogic {
     const t = T.find((x) => x.u.id === this.state.sel);
     let sel = null;
     if (t) {
-      const NAME = { hint: 'Used a hint in the knowledge check of', open: 'Started', walk: 'Finished the walk-through of', check: 'Passed the check questions of', practice: 'Passed the knowledge check of', read: 'Read' };
+      const NAME = { hint: 'Used a hint in the knowledge check of', left: 'Started over the knowledge check of', again: 'Finished the knowledge check again of', open: 'Started', walk: 'Finished the walk-through of', check: 'Passed the check questions of', practice: 'Passed the knowledge check of', read: 'Read' };
       const log = t.rows.slice().reverse().slice(0, 10).map((r) => {
         if (r.lesson_id.startsWith('sop-')) return { t: 'Read SOP: ' + (FP_LIB_TITLES[r.lesson_id.slice(4)] || r.lesson_id), when: ACAD.fmtTime(r.created_at), c: INFO };
         const x = ACAD.BY[r.lesson_id], nm = x ? ACAD.modShort(x.mod) + ', lesson ' + x.n + ': ' + x.title : r.lesson_id;
-        const extra = r.part === 'check' && r.total ? ' (' + r.score + ' of ' + r.total + ' right on the first try)' : r.part === 'practice' && r.hints ? ' (' + r.hints + (r.hints === 1 ? ' hint)' : ' hints)') : '';
-        const k = r.part === 'open' && +r.hints > 0 ? 'hint' : r.part;
+        const k = r.part === 'open' && r.total != null ? 'left' : r.part === 'open' && +r.hints > 0 ? 'hint' : r.part === 'practice' && t.rows.some((q) => q !== r && q.lesson_id === r.lesson_id && q.part === 'practice' && (q.created_at || '') < (r.created_at || '')) ? 'again' : r.part;
+        const extra = k === 'left' ? ' (' + r.score + ' of ' + r.total + ' steps done, ' + (+r.hints || 0) + (+r.hints === 1 ? ' hint)' : ' hints)') : r.part === 'check' && r.total ? ' (' + r.score + ' of ' + r.total + ' right on the first try)' : r.part === 'practice' && r.hints ? ' (' + r.hints + (r.hints === 1 ? ' hint)' : ' hints)') : '';
         return { t: (NAME[k] || r.part) + ' ' + nm + extra, when: ACAD.fmtTime(r.created_at), c: r.part === 'open' ? MID : OK };
       });
       const cert = t.cert ? (t.cert.status === 'active' ? t.cert.cert_id + ', issued ' + ACAD.fmtDay(t.cert.issued_at) : 'Revoked (' + (t.cert.revoke_reason || 'no reason') + ')') : 'Not yet';
       const RL = t.pr && t.pr.data && Array.isArray(t.pr.data.restarts) ? t.pr.data.restarts : [], RN = (t.pr && t.pr.data && +t.pr.data.restartCount) || RL.length;
       const RS = (RN > RL.length ? [{ t: RN + ' restarts in all, the last ' + RL.length + ' shown', when: '' }] : []).concat(RL.map((r) => ({ t: (+r.d === 5 ? 'Extra' : 'Day ' + r.d) + ': ' + r.done + ' tasks and ' + r.slips + ' slips cleared' + (r.serious ? ' (' + r.serious + ' serious)' : ''), when: ACAD.fmtTime(r.at) })));
-      sel = { grades: ACAD.grades(t.P, t.pr), hasRestarts: RS.length > 0, restarts: RS, hasDay5: !!(t.fin.length || t.refl || t.pr || t.cert), fin: finTxt(t), prac: t.pr ? t.pr.result + ', ' + t.pr.done + ' of 54 done, ' + t.pr.own + ' on own, ' + t.pr.serious + ' serious slips' : 'Not started', cert,
+      sel = { grades: ACAD.grades(t.P, t.pr), hasRestarts: RS.length > 0, restarts: RS, hasDay5: !!(t.fin.length || t.refl || t.pr || t.cert), fin: finTxt(t), prac: t.pr ? ACAD.pracResult(t.pr) + ', ' + t.pr.done + ' of ' + ACAD.NT + ' done, ' + t.pr.own + ' on own, ' + t.pr.serious + ' serious slips' : 'Not started', cert,
         refl: t.refl ? [t.refl.r1, t.refl.r2, t.refl.r3].map((a, i) => ({ q: RQ[i], a: a || '-' })) : [],
-        name: t.u.full_name || t.u.email, summary: t.S.done + ' of 50 lessons' + (t.S.extra ? ' + ' + t.S.extra + ' extra' : '') + ' · ' + t.S.sops + ' of 45 SOPs read · ' + ACAD.fmtMin(t.S.min),
+        name: t.u.full_name || t.u.email, summary: t.S.done + ' of ' + ACAD.NL + ' lessons' + (t.S.extra ? ' + ' + t.S.extra + ' extra' : '') + ' · ' + t.S.sops + ' of 45 SOPs read · ' + ACAD.fmtMin(t.S.min),
         log: log.length ? log : [{ t: 'No activity yet.', when: '', c: NO }],
         mods: SHOW.map((m) => {
           const ls = ACAD.L.filter((x) => x.mod === m), open = !!this.state.open[m];
           const lessons = ls.map((x) => { const p = t.P[x.id] || {};
             return { n: x.n, t: x.title, w: p.walk ? 'Done' : p.open ? 'Started' : '-', wc: p.walk ? OK : p.open ? MID : NO,
               c: p.check ? 'Passed' + (p.total ? ' (' + p.score + ' of ' + p.total + ' first try)' : '') : p.walk ? 'Not yet' : '-', cc: p.check ? OK : p.walk ? MID : NO,
-              p: p.practice ? 'Passed' + (p.hinted ? ', needed a hint' : '') : '-', pc: p.practice ? (p.hinted ? MID : OK) : NO,
+              p: (p.practice ? 'Passed' + (p.hinted ? ', needed a hint' : '') : (ACAD.kcText(p) ? 'Not yet' : '-')) + (ACAD.kcText(p) ? ' (' + ACAD.kcText(p) + ')' : ''), pc: p.practice ? (p.hinted ? MID : OK) : ACAD.kcText(p) ? MID : NO,
               min: p.min ? (p.min < 10 ? Math.round(p.min * 10) / 10 : Math.round(p.min)) + ' min' : '-', last: p.last ? ACAD.fmtDay(p.last) : '-' }; });
           const n = ls.filter((x) => ACAD.isDone(t.P, x.id)).length, mins = ls.reduce((a, x) => a + ((t.P[x.id] || {}).min || 0), 0);
           return { name: DAYN[m], count: n + ' of ' + ls.length, time: mins ? ' · ' + ACAD.fmtMin(mins) : '', open, rot: open ? 'transform:rotate(90deg)' : '', lessons,
@@ -308,10 +310,10 @@ class Component extends DCLogic {
       sel: sel || { grades: [], name: '', summary: '', mods: [], log: [], hasDay5: false, fin: '', refl: [], prac: '', cert: '', hasRestarts: false, restarts: [] },
       csv: () => {
         const q = (v) => { let x = String(v == null ? '' : v); if (x === '-') x = ''; if (/^[=+\-@\t\r]/.test(x)) x = "'" + x; return '"' + x.replace(/"/g, '""') + '"'; };
-        const head = ['Name', 'Email', 'Lessons done (of 50)', 'Day 1', 'Day 2', 'Day 3', 'Day 4', 'Extra', 'Day 1 grade', 'Day 2 grade', 'Day 3 grade', 'Day 4 grade', 'Practice result', 'Practice done', 'Practice on own', 'Final check', 'SOPs read', 'Minutes', 'Last active', 'Certificate', 'Practice days started over'];
+        const head = ['Name', 'Email', 'Lessons done (of ' + ACAD.NL + ')', 'Day 1', 'Day 2', 'Day 3', 'Day 4', 'Extra', 'Day 1 grade', 'Day 2 grade', 'Day 3 grade', 'Day 4 grade', 'Knowledge check hints', 'Knowledge check start-overs', 'Practice result', 'Practice done', 'Practice on own', 'Final check', 'SOPs read', 'Minutes', 'Last active', 'Certificate', 'Practice days started over'];
         const lines = [head.map(q).join(',')].concat(T.map((t) => { const r = rows.find((x) => x.email === t.u.email) || {};
           const md = ['d1', 'd2', 'd3', 'd4', 'x'].map((d) => ACAD.L.filter((x) => x.day === d && ACAD.isDone(t.P, x.id)).length);
-          return [t.u.full_name, t.u.email, t.S.done].concat(md).concat(ACAD.grades(t.P, t.pr).map((g) => g.grade)).concat([t.pr ? t.pr.result : 'Not started', t.pr ? t.pr.done : 0, t.pr ? t.pr.own : 0, finTxt(t), t.S.sops, Math.round(t.S.min), t.S.last ? ACAD.fmtTime(t.S.last) : '', t.cert ? t.cert.cert_id + ' ' + t.cert.status : '', (t.pr && t.pr.data && (+t.pr.data.restartCount || (Array.isArray(t.pr.data.restarts) ? t.pr.data.restarts.length : 0))) || 0]).map(q).join(','); }));
+          return [t.u.full_name, t.u.email, t.S.done].concat(md).concat(ACAD.grades(t.P, t.pr).map((g) => g.grade)).concat([ACAD.REQ.reduce((a, id) => a + ((t.P[id] || {}).kcHints || 0), 0), ACAD.REQ.reduce((a, id) => a + ((t.P[id] || {}).kcLeft || 0), 0)]).concat([t.pr ? ACAD.pracResult(t.pr) : 'Not started', t.pr ? t.pr.done : 0, t.pr ? t.pr.own : 0, finTxt(t), t.S.sops, Math.round(t.S.min), t.S.last ? ACAD.fmtTime(t.S.last) : '', t.cert ? t.cert.cert_id + ' ' + t.cert.status : '', (t.pr && t.pr.data && (+t.pr.data.restartCount || (Array.isArray(t.pr.data.restarts) ? t.pr.data.restarts.length : 0))) || 0]).map(q).join(','); }));
         const a = document.createElement('a'); a.href = URL.createObjectURL(new Blob([lines.join('\n')], { type: 'text/csv' })); a.download = 'bcb-academy-team-progress.csv'; document.body.appendChild(a); a.click(); a.remove();
       } };
   }

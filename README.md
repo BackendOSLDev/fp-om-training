@@ -1,6 +1,6 @@
 # BCB Partners Academy (FieldPulse office manager training)
 
-A 5-day program with a login. Days 1 to 4 have 50 lessons and 54 practice tasks. Day 5 is the final review check, the reflection and the certificate. Owner reporting (Module 6) is an extra and does not count toward the certificate.
+A 5-day program with a login. Days 1 to 4 have 54 lessons and 58 practice tasks (12, 10, 16 and 16 lessons a day). Day 5 is the final review check, the reflection and the certificate. Owner reporting (Module 6) is an extra and does not count toward the certificate.
 
 ## Pages
 
@@ -9,7 +9,7 @@ A 5-day program with a login. Days 1 to 4 have 50 lessons and 54 practice tasks.
 3. home.html: the 5-day program: each day's agenda (a 15-minute start-of-day check with the trainer, then self-paced lessons and practice tasks), lesson cards by day, and Day 5 steps.
 4. f.html and m1.html to m7.html: the interactive lessons (walk-through with check questions, steps, and the knowledge check: the same task on your own, hints counted).
 5. library.html: the SOP Library (45 SOPs).
-6. practice.html: the 54 practice tasks for Days 1 to 4, plus Owner reporting as extra. sandbox.html: free practice, no tasks.
+6. practice.html: the 58 practice tasks for Days 1 to 4, plus Owner reporting as extra. sandbox.html: free practice, no tasks.
 7. final.html: the final review check (20 questions) and the reflection.
 8. progress.html: My progress, with the grade for each of Days 1 to 4. certificate.html: the certificate. verify.html: public certificate check, no login.
 9. team.html and certs.html: admins only (Team progress with every trainee's day grades, Certifications). admin.html sends old links to team.html.
@@ -22,7 +22,7 @@ A 5-day program with a login. Days 1 to 4 have 50 lessons and 54 practice tasks.
 4. reflections: one row per trainee (three short answers).
 5. certificates: made only by the database when the rule is met. Admins can revoke (a reason is required) or restore.
 
-Before it issues a certificate, the database checks the trainee's saved rows: a walk-through, check and practice row for all 50 lessons of Days 1 to 4 (the lesson knowledge check is saved as the "practice" part), and a practice result of Ready (54 tasks done, at least 46 on your own, no serious slips). The site saves a check row only when every answer is right. Every issue, revoke and restore is kept in certificate_log.
+Before it issues a certificate, the database checks the trainee's saved rows: a walk-through, check and practice row for all 54 lessons of Days 1 to 4 (the lesson knowledge check is saved as the "practice" part), and a practice result of Ready (58 tasks done, at least 50 on your own, no serious slips). The site saves a check row only when every answer is right. Every issue, revoke and restore is kept in certificate_log.
 
 ## Day grades (Days 1 to 4)
 
@@ -35,11 +35,13 @@ Worked out on the page from rows already saved, the same way for everyone. Nothi
 
 The certificate rule does not change: it still uses the totals above.
 
+What trainers see for each knowledge check (saved as lesson_events rows with part "open", so no database change): every Hint click (hints 1); every try left unfinished (Start over, another tab or lesson, or closing or reloading the page; a row from a closed page is sent on the next visit) (score = steps done, total = steps, hints = hints used); every finish after the first (another "practice" row). Team progress shows them per lesson, in recent activity and as two CSV columns. Practice tasks: a hint is saved when clicked, and every Start Day over is saved with what it cleared.
+
 Trainees see only their own rows. Admins see everyone. The verify page shows only the name, training, date and status of one certificate ID.
 
 ## Setup
 
-1. Supabase, one time: SQL Editor > New query > paste all of supabase/schema.sql > Run. Then do the same with supabase/academy_2026_11_09.sql. Both are safe to run again.
+1. Supabase, one time: SQL Editor > New query > paste all of supabase/schema.sql > Run. Then do the same with supabase/academy_2026_11_09.sql. Both are safe to run again. A site already set up before the 4 new lessons only needs supabase/academy_2026_11_09_more_lessons.sql.
 2. Supabase > Authentication > Sign In / Providers: Email on, and "Allow new users to sign up" OFF. Only people an admin adds can sign in and save progress.
 3. js/config.js holds the Project URL and the public key. Never put the secret or service_role key in this repo.
 4. GitHub Pages: Settings > Pages > Deploy from a branch > main > / (root).

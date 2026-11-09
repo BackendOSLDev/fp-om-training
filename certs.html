@@ -68,6 +68,8 @@ body{margin:0;background:#0B0B0B}
 .fpt-toast:empty{display:none}
 .loading{padding:80px 24px;text-align:center;font:14px 'Archivo',system-ui,sans-serif;color:#9A9A9A}
 .btn[disabled],.btn.off{opacity:.45;cursor:not-allowed}
+.marker{overflow-wrap:anywhere}
+.px-arm{display:block;margin-top:4px;line-height:1.45}
 @media (max-width:720px){.hdr{padding:12px 16px}.h1{font-size:36px}}
 
 
@@ -99,7 +101,7 @@ table.pt td{padding:13px 12px;border-bottom:1px solid var(--line);vertical-align
   <main style="padding:36px 40px 64px;box-sizing:border-box;width:100%;max-width:1380px;margin:0 auto">
     <p class="lbl">Admins only</p>
     <h1 class="h1" style="margin-top:10px">Certifications</h1>
-    <p class="mut" style="margin:10px 0 0;font-size:14.5px;max-width:760px">A certificate is issued on its own when a trainee finishes the 50 lessons in Days 1 to 4, passes every check and gets a Ready practice result. Revoke it here if something is wrong.</p>
+    <p class="mut" style="margin:10px 0 0;font-size:14.5px;max-width:760px">A certificate is issued on its own when a trainee finishes the {{nl}} lessons in Days 1 to 4, passes every lesson check and gets a Ready practice result. Revoke it here if something is wrong.</p>
 
     <div class="panel" style="margin-top:22px;display:grid;grid-template-columns:repeat(3,1fr)">
       <sc-for list="{{stats}}" as="s" hint-placeholder-count="3"><div class="stat"><p class="lbl">{{s.l}}</p><p class="num" style="margin:8px 0 0"><span class="big">{{s.n}}</span></p></div></sc-for>
@@ -116,8 +118,8 @@ table.pt td{padding:13px 12px;border-bottom:1px solid var(--line);vertical-align
           <sc-for list="{{rows}}" as="r" hint-placeholder-count="5">
             <tr>
               <td><span style="display:block;font-weight:600">{{r.name}}</span><span class="faint" style="display:block;font-size:13px">{{r.email}}</span></td>
-              <td class="num">{{r.les}} of 50</td>
-              <td class="num">{{r.chk}} of 50</td>
+              <td class="num">{{r.les}} of {{nl}}</td>
+              <td class="num">{{r.chk}} of {{nl}}</td>
               <td>{{r.prac}}</td>
               <td><span class="{{r.scls}}">{{r.st}}</span></td>
               <td class="num">{{r.iss}}</td>
@@ -176,7 +178,7 @@ class Component extends DCLogic {
     const CT = {}; this.state.certs.forEach((c) => { CT[c.user_id] = c; });
     const P = D.profiles.filter((u) => u.role !== 'admin' || CT[u.id]).map((u) => {
       const S = ACAD.summary(ACAD.progress(byU[u.id] || [])), c = CT[u.id], pr = PR[u.id];
-      return { name: u.full_name || u.email, email: u.email, les: S.done, chk: S.chk, prac: pr ? pr.result : (byU[u.id] ? 'Not started' : 'Not started'),
+      return { name: u.full_name || u.email, email: u.email, les: S.done, chk: S.chk, prac: pr ? ACAD.pracResult(pr) : (byU[u.id] ? 'Not started' : 'Not started'),
         st: c ? (c.status === 'active' ? 'cert' : 'rev') : 'train', iss: c ? ACAD.fmtDay(c.issued_at) : '-', id: c ? c.cert_id : '-', c };
     });
     const cnt = (k) => P.filter((r) => r.st === k).length;
@@ -187,7 +189,7 @@ class Component extends DCLogic {
       revoke: () => this.setState({ dlg: r, reason: '', err: '', msg: '' }),
       restore: () => this.setCert(r.id, 'active', null) }));
     const d = this.state.dlg;
-    return { hd: ACAD.hdr(this.props.me),
+    return { hd: ACAD.hdr(this.props.me), nl: ACAD.NL,
       stats: [{ l: 'Certified now', n: cnt('cert') }, { l: 'In training', n: cnt('train') }, { l: 'Revoked', n: cnt('rev') }],
       filters, rows, noRows: !rows.length, busy: this.state.busy, msg: this.state.msg, msgC: this.state.msgOk ? 'var(--ok)' : '#B3261E',
       dlgOpen: d !== null, dlgName: d ? d.name : '',

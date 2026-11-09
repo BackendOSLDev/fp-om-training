@@ -68,6 +68,8 @@ body{margin:0;background:#0B0B0B}
 .fpt-toast:empty{display:none}
 .loading{padding:80px 24px;text-align:center;font:14px 'Archivo',system-ui,sans-serif;color:#9A9A9A}
 .btn[disabled],.btn.off{opacity:.45;cursor:not-allowed}
+.marker{overflow-wrap:anywhere}
+.px-arm{display:block;margin-top:4px;line-height:1.45}
 @media (max-width:720px){.hdr{padding:12px 16px}.h1{font-size:36px}}
 
 
@@ -102,7 +104,7 @@ table.gt td.num{white-space:nowrap}
     <p class="mut" style="margin:10px 0 0;font-size:15px;max-width:620px">A lesson counts as done when you finish the walk-through, the check questions and the knowledge check.</p>
 
     <div class="panel" style="margin-top:26px;display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr))">
-      <div class="stat"><p class="lbl">Lessons done</p><p class="num" style="margin:8px 0 0"><span class="big">{{st.done}}</span> <span class="mut">of 50</span></p></div>
+      <div class="stat"><p class="lbl">Lessons done</p><p class="num" style="margin:8px 0 0"><span class="big">{{st.done}}</span> <span class="mut">of {{st.nl}}</span></p></div>
       <div class="stat"><p class="lbl">Practice result</p><p style="margin:12px 0 0;font-size:16px;font-weight:600">{{st.prac}}</p></div>
       <div class="stat"><p class="lbl">SOPs read</p><p class="num" style="margin:8px 0 0"><span class="big">{{st.sops}}</span> <span class="mut">of 45</span></p></div>
       <div class="stat"><p class="lbl">Time spent</p><p class="num" style="margin:8px 0 0"><span class="big">{{st.min}}</span> <span class="mut">min</span></p></div>
@@ -186,7 +188,8 @@ class Component extends DCLogic {
     const mods = days.map(([id, name]) => {
       const ls = ACAD.L.filter((x) => x.day === id), open = !!this.state.open[id];
       const lessons = ls.map((x, i) => { const p = P[x.id] || {};
-        return { href: ACAD.href(x), n: i + 1, t: x.title, mod: ACAD.modShort(x.mod) + ', lesson ' + x.n,
+        const kc = ACAD.kcText(p);
+        return { href: ACAD.href(x), n: i + 1, t: x.title, mod: ACAD.modShort(x.mod) + ', lesson ' + x.n + (kc ? ' · Knowledge check: ' + kc : ''),
           w: p.walk ? 'Walk-through ✓' : 'Walk-through', wc: p.walk ? ok : p.open ? mid : no,
           c: p.check ? 'Check questions ✓' : 'Check questions', cc: p.check ? ok : p.walk ? mid : no,
           p: p.practice ? 'Knowledge check ✓' : 'Knowledge check', pc: p.practice ? ok : no }; });
@@ -194,18 +197,19 @@ class Component extends DCLogic {
       return { name, count: done + ' of ' + total, pct: Math.round(done / total * 100) + '%', open, rot: open ? 'transform:rotate(90deg)' : '', lessons,
         toggle: () => this.setState({ open: Object.assign({}, this.state.open, { [id]: !open }) }) };
     });
-    const NAME = { hint: 'Used a hint in the knowledge check of', open: 'Started', walk: 'Finished the walk-through of', check: 'Passed the check questions of', practice: 'Passed the knowledge check of' };
+    const NAME = { hint: 'Used a hint in the knowledge check of', left: 'Started over the knowledge check of', again: 'Finished the knowledge check again of', open: 'Started', walk: 'Finished the walk-through of', check: 'Passed the check questions of', practice: 'Passed the knowledge check of' };
     const log = rows.slice().reverse().filter((r) => r.part !== 'open' || !r.lesson_id.startsWith('sop-')).slice(0, 12).map((r) => {
       if (r.lesson_id.startsWith('sop-')) { const d = FP_LIB_TITLES[r.lesson_id.slice(4)] || r.lesson_id; return { t: 'Read SOP: ' + d, when: ACAD.fmtTime(r.created_at), c: 'var(--paper)' }; }
       const x = ACAD.BY[r.lesson_id]; const nm = x ? ACAD.modShort(x.mod) + ', lesson ' + x.n + ': ' + x.title : r.lesson_id;
-      const k = r.part === 'open' && +r.hints > 0 ? 'hint' : r.part;
-      return { t: (NAME[k] || r.part) + ' ' + nm, when: ACAD.fmtTime(r.created_at), c: r.part === 'open' ? mid : ok };
+      const k = r.part === 'open' && r.total != null ? 'left' : r.part === 'open' && +r.hints > 0 ? 'hint' : r.part === 'practice' && rows.some((q) => q !== r && q.lesson_id === r.lesson_id && q.part === 'practice' && (q.created_at || '') < (r.created_at || '')) ? 'again' : r.part;
+      const more = k === 'left' ? ' (' + r.score + ' of ' + r.total + ' steps done, ' + (+r.hints || 0) + (+r.hints === 1 ? ' hint)' : ' hints)') : '';
+      return { t: (NAME[k] || r.part) + ' ' + nm + more, when: ACAD.fmtTime(r.created_at), c: r.part === 'open' ? mid : ok };
     });
     const nx = S.next;
     const up = nx ? { kicker: 'Up next · ' + ACAD.where(nx), title: nx.title, href: ACAD.href(nx), go: P[nx.id] ? 'Continue lesson' : 'Start lesson' }
                   : { kicker: 'All lessons done', title: 'Every lesson is finished', href: 'certificate.html', go: 'Open Certificate' };
     return { hd: ACAD.hdr(this.props.me), mods, log, noLog: !log.length, up, grades: ACAD.grades(P, this.props.data.pr), gradeText: ACAD.GRADE_TEXT,
-      st: { done: S.done, sops: S.sops, min: Math.round(S.min), prac: ACAD.pracText(this.props.data.pr) } };
+      st: { nl: ACAD.NL, done: S.done, sops: S.sops, min: Math.round(S.min), prac: ACAD.pracText(this.props.data.pr) } };
   }
 }
 ACAD.start(Component, { auth: 'user' }, async () => { const [rows, pr] = await Promise.all([FPTrack.myEvents(), FPTrack.practiceGet()]); const P = ACAD.progress(rows); return { rows, P, S: ACAD.summary(P), pr }; });
