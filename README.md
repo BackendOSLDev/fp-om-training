@@ -37,11 +37,11 @@ The certificate rule does not change: it still uses the totals above.
 
 What trainers see for each knowledge check (saved as lesson_events rows with part "open", so no database change): every Hint click (hints 1); every try left unfinished (Start over, another tab or lesson, or closing or reloading the page; a row from a closed page is sent on the next visit) (score = steps done, total = steps, hints = hints used); every finish after the first (another "practice" row). Team progress shows them per lesson, in recent activity and as two CSV columns. Practice tasks: a hint is saved when clicked, and every Start Day over is saved with what it cleared.
 
-Trainees see only their own rows. Admins see everyone. The verify page shows only the name, training, date and status of one certificate ID.
+Trainees see only their own rows. Admins see everyone. The verify page shows only the name, training, date and status of one certificate ID. Certificate PDFs print names in any language: a name the PDF fonts can't show is drawn by the browser as a picture.
 
 ## Setup
 
-1. Supabase, one time: SQL Editor > New query > paste all of supabase/schema.sql > Run. Then do the same with supabase/academy_2026_11_09.sql. Both are safe to run again. A site already set up before the 4 new lessons only needs supabase/academy_2026_11_09_more_lessons.sql.
+1. Supabase, one time: SQL Editor > New query > paste all of supabase/schema.sql > Run. Then do the same with supabase/academy_2026_11_09.sql. Both are safe to run again. A site already set up before the 4 new lessons needs supabase/academy_2026_11_09_more_lessons.sql, then supabase/academy_2026_11_09_cert_id.sql (certificate IDs end with 8 random characters; certificates already issued keep their ID).
 2. Supabase > Authentication > Sign In / Providers: Email on, and "Allow new users to sign up" OFF. Only people an admin adds can sign in and save progress.
 3. js/config.js holds the Project URL and the public key. Never put the secret or service_role key in this repo.
 4. GitHub Pages: Settings > Pages > Deploy from a branch > main > / (root).

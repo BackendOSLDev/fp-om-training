@@ -196,7 +196,7 @@ class Component extends DCLogic {
         : 'This is Day 5 of the 5-day program. Finish the three items below and your certificate unlocks on its own. Nothing to send in.',
       certHead: done ? 'Your certificate' : revoked ? 'Your certificate (revoked)' : 'Your certificate (locked)',
       certCls: 'cert' + (done ? '' : ' locked'),
-      name, issued: done || revoked ? issued : '-', certId: done || revoked ? certId : 'BCB-FP-____-____',
+      name, issued: done || revoked ? issued : '-', certId: done || revoked ? certId : 'BCB-FP-____-____-________',
       verifyHref: vurl || 'verify.html', verifyShow: vurl ? vurl.replace(/^https?:\/\//, '') : location.host + location.pathname.replace(/[^/]*$/, '') + 'verify.html',
       saved: done && this.state.saved, savedMsg: this.state.msg || '',
       pdf: () => {
