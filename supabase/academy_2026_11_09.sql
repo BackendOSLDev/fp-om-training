@@ -119,8 +119,8 @@ grant insert (r1, r2, r3) on public.reflections to authenticated;
 grant update (r1, r2, r3) on public.reflections to authenticated;
 
 -- 6. Issue a certificate. The database checks the trainee's saved rows before it issues one:
---    a walk-through, check and practice row for all 50 lessons of Days 1 to 4, and a practice result of Ready
---    (54 tasks done, at least 46 on your own, no serious slips). Owner reporting (Module 6) is extra and not needed.
+--    a walk-through, check and practice row for all 54 lessons of Days 1 to 4, and a practice result of Ready
+--    (58 tasks done, at least 50 on your own, no serious slips). Nov 9: 4 lessons added (m4-6, m4-7, m4-8, m5-8). Owner reporting (Module 6) is extra and not needed.
 --    The site saves a check row only when every answer is right. Keep sign-ups off so only people you add can save rows.
 create or replace function public.issue_my_certificate() returns public.certificates
 language plpgsql security definer set search_path = public as $$
@@ -136,13 +136,13 @@ begin
         'm1-1','m1-2','m1-3','m1-4','m1-5','m1-6','m1-7','m1-8','m1-9',
         'm2-1','m2-2','m2-3','m2-4','m2-5','m2-6',
         'm3-1','m3-2','m3-3','m3-4','m3-5','m3-6','m3-7','m3-8','m3-9','m3-10',
-        'm4-1','m4-2','m4-3','m4-4','m4-5',
-        'm5-1','m5-2','m5-3','m5-4','m5-5','m5-6','m5-7',
+        'm4-1','m4-2','m4-3','m4-4','m4-5','m4-6','m4-7','m4-8',
+        'm5-1','m5-2','m5-3','m5-4','m5-5','m5-6','m5-7','m5-8',
         'm7-1','m7-2','m7-3','m7-4','m7-5','m7-6')
     group by lesson_id having count(distinct part) = 3) x;
-  if nles < 50 then raise exception 'Not ready: % of 50 lessons done', nles; end if;
+  if nles < 54 then raise exception 'Not ready: % of 54 lessons done', nles; end if;
   select * into pr from public.practice_results where user_id = me;
-  if not found or pr.result <> 'Ready' or pr.done < 54 or pr.own < 46 or pr.serious > 0 then
+  if not found or pr.result <> 'Ready' or pr.done < 58 or pr.own < 50 or pr.serious > 0 then
     raise exception 'Not ready: practice result is not Ready yet'; end if;
   select coalesce(nullif(full_name,''), email) into nm from public.profiles where id = me;
   begin
