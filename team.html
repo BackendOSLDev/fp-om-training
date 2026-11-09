@@ -199,6 +199,7 @@ table.lt td{padding:10px 16px;border-bottom:1px solid var(--line)}
             <p style="margin:0 0 8px;font-size:14px"><b>Final check:</b> {{sel.fin}}</p>
             <p style="margin:0 0 8px;font-size:14px"><b>Practice:</b> {{sel.prac}}</p>
             <p style="margin:0 0 12px;font-size:14px"><b>Certificate:</b> {{sel.cert}}</p>
+            <sc-if value="{{sel.hasRestarts}}"><p style="margin:0 0 4px;font-size:14px"><b>Days started over in practice:</b></p><sc-for list="{{sel.restarts}}" as="x"><p style="margin:0 0 6px;font-size:13.5px;line-height:1.45">{{x.t}} <span class="faint" style="display:block;font-size:12.5px">{{x.when}}</span></p></sc-for></sc-if>
             <sc-for list="{{sel.refl}}" as="x" hint-placeholder-count="3"><p style="margin:0 0 8px;font-size:14px;line-height:1.45"><span class="faint" style="display:block;font-size:12.5px">{{x.q}}</span>{{x.a}}</p></sc-for>
           </sc-if>
           <h3 class="h3" style="margin:6px 0 14px">Recent activity</h3>
@@ -269,7 +270,9 @@ class Component extends DCLogic {
         return { t: (NAME[r.part] || r.part) + ' ' + nm + extra, when: ACAD.fmtTime(r.created_at), c: r.part === 'open' ? MID : OK };
       });
       const cert = t.cert ? (t.cert.status === 'active' ? t.cert.cert_id + ', issued ' + ACAD.fmtDay(t.cert.issued_at) : 'Revoked (' + (t.cert.revoke_reason || 'no reason') + ')') : 'Not yet';
-      sel = { hasDay5: !!(t.fin.length || t.refl || t.pr || t.cert), fin: finTxt(t), prac: t.pr ? t.pr.result + ', ' + t.pr.done + ' of 54 done, ' + t.pr.own + ' on own, ' + t.pr.serious + ' serious slips' : 'Not started', cert,
+      const RL = t.pr && t.pr.data && Array.isArray(t.pr.data.restarts) ? t.pr.data.restarts : [], RN = (t.pr && t.pr.data && +t.pr.data.restartCount) || RL.length;
+      const RS = (RN > RL.length ? [{ t: RN + ' restarts in all, the last ' + RL.length + ' shown', when: '' }] : []).concat(RL.map((r) => ({ t: (+r.d === 5 ? 'Extra' : 'Day ' + r.d) + ': ' + r.done + ' tasks and ' + r.slips + ' slips cleared' + (r.serious ? ' (' + r.serious + ' serious)' : ''), when: ACAD.fmtTime(r.at) })));
+      sel = { hasRestarts: RS.length > 0, restarts: RS, hasDay5: !!(t.fin.length || t.refl || t.pr || t.cert), fin: finTxt(t), prac: t.pr ? t.pr.result + ', ' + t.pr.done + ' of 54 done, ' + t.pr.own + ' on own, ' + t.pr.serious + ' serious slips' : 'Not started', cert,
         refl: t.refl ? [t.refl.r1, t.refl.r2, t.refl.r3].map((a, i) => ({ q: RQ[i], a: a || '-' })) : [],
         name: t.u.full_name || t.u.email, summary: t.S.done + ' of 50 lessons' + (t.S.extra ? ' + ' + t.S.extra + ' extra' : '') + ' · ' + t.S.sops + ' of 45 SOPs read · ' + ACAD.fmtMin(t.S.min),
         log: log.length ? log : [{ t: 'No activity yet.', when: '', c: NO }],
@@ -288,13 +291,13 @@ class Component extends DCLogic {
     const nt = T.filter((x) => x.u.role !== 'admin').length;
     return { hd: ACAD.hdr(this.props.me), filters, rows, noRows: !rows.length, hasSel: !!sel,
       sub: nt + (nt === 1 ? ' trainee' : ' trainees') + '. Updated ' + ACAD.fmtTime(this.props.data.at) + '.',
-      sel: sel || { name: '', summary: '', mods: [], log: [], hasDay5: false, fin: '', refl: [], prac: '', cert: '' },
+      sel: sel || { name: '', summary: '', mods: [], log: [], hasDay5: false, fin: '', refl: [], prac: '', cert: '', hasRestarts: false, restarts: [] },
       csv: () => {
         const q = (v) => { let x = String(v == null ? '' : v); if (x === '-') x = ''; if (/^[=+\-@\t\r]/.test(x)) x = "'" + x; return '"' + x.replace(/"/g, '""') + '"'; };
-        const head = ['Name', 'Email', 'Lessons done (of 50)', 'Day 1', 'Day 2', 'Day 3', 'Day 4', 'Extra', 'Practice result', 'Practice done', 'Practice on own', 'Final check', 'SOPs read', 'Minutes', 'Last active', 'Certificate'];
+        const head = ['Name', 'Email', 'Lessons done (of 50)', 'Day 1', 'Day 2', 'Day 3', 'Day 4', 'Extra', 'Practice result', 'Practice done', 'Practice on own', 'Final check', 'SOPs read', 'Minutes', 'Last active', 'Certificate', 'Practice days started over'];
         const lines = [head.map(q).join(',')].concat(T.map((t) => { const r = rows.find((x) => x.email === t.u.email) || {};
           const md = ['d1', 'd2', 'd3', 'd4', 'x'].map((d) => ACAD.L.filter((x) => x.day === d && ACAD.isDone(t.P, x.id)).length);
-          return [t.u.full_name, t.u.email, t.S.done].concat(md).concat([t.pr ? t.pr.result : 'Not started', t.pr ? t.pr.done : 0, t.pr ? t.pr.own : 0, finTxt(t), t.S.sops, Math.round(t.S.min), t.S.last ? ACAD.fmtTime(t.S.last) : '', t.cert ? t.cert.cert_id + ' ' + t.cert.status : '']).map(q).join(','); }));
+          return [t.u.full_name, t.u.email, t.S.done].concat(md).concat([t.pr ? t.pr.result : 'Not started', t.pr ? t.pr.done : 0, t.pr ? t.pr.own : 0, finTxt(t), t.S.sops, Math.round(t.S.min), t.S.last ? ACAD.fmtTime(t.S.last) : '', t.cert ? t.cert.cert_id + ' ' + t.cert.status : '', (t.pr && t.pr.data && (+t.pr.data.restartCount || (Array.isArray(t.pr.data.restarts) ? t.pr.data.restarts.length : 0))) || 0]).map(q).join(','); }));
         const a = document.createElement('a'); a.href = URL.createObjectURL(new Blob([lines.join('\n')], { type: 'text/csv' })); a.download = 'bcb-academy-team-progress.csv'; document.body.appendChild(a); a.click(); a.remove();
       } };
   }
