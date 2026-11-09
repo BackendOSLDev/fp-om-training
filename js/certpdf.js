@@ -17,7 +17,7 @@ function bcbCertPdf(o) {
       (cx - r) + ' ' + (cy - k) + ' ' + (cx - k) + ' ' + (cy - r) + ' ' + cx + ' ' + (cy - r) + ' c ' +
       (cx + k) + ' ' + (cy - r) + ' ' + (cx + r) + ' ' + (cy - k) + ' ' + (cx + r) + ' ' + cy + ' c S\n'; };
   const wrap = (s, n) => { const out = []; let line = ''; s.split(' ').forEach(w => { if ((line + ' ' + w).trim().length > n) { out.push(line.trim()); line = w; } else line += ' ' + w; }); if (line.trim()) out.push(line.trim()); return out; };
-  const name = String(o.name || '').toUpperCase(), ns = name.length > 24 ? 30 : 40;
+  const name = String(o.name || '').toUpperCase(), ns = Math.max(16, Math.min(40, Math.floor(640 / (Math.max(name.length, 1) * 0.72))));
   let c = '';
   c += '0.6 0.6 0.6 RG 0.8 w 18 18 756 576 re S\n0.8 0.8 0.8 RG 0.6 w 30 30 732 552 re S\n';
   c += red + ' rg 0 0 14 612 re f\n';

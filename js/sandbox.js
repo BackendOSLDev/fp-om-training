@@ -1612,7 +1612,17 @@ function startDay(d, fresh){
   DAY = d; W = pfresh(); EV = []; resetUI(); HIST.length = 0; ANS = {}; HINTED = {}; CUR = 0; PVIEW = "day";
   /* saved slips stay with the day: only "Start Day over" clears them (a reload or day switch must not wipe a serious slip) */
   if(fresh) SLIPS = SLIPS.filter(s=>s.day!==d);
-  if(fresh){ dayTasks(d).forEach(t => delete PROG.tasks[t.id]); PROG.slips[d] = []; if(window.FPCourse) window.FPCourse.savePractice(PROG); }
+  if(fresh){
+    /* starting a day over is allowed, but it is recorded with what it cleared, so the trainer sees it */
+    const was = dayTasks(d).filter(t => PROG.tasks[t.id]).length, sl = PROG.slips[d] || [];
+    if(was || sl.length){
+      if(!Array.isArray(PROG.restarts)) PROG.restarts = [];
+      PROG.restarts.push({d, at:new Date().toISOString(), done:was, slips:sl.length, serious:sl.filter(x=>x.s).length, list:sl.slice(0,10).map(x=>({t:String(x.t).slice(0,160), s:!!x.s}))});
+      PROG.restartCount = (PROG.restartCount || 0) + 1;
+      /* keep the saved copy small: the last 25 restarts in full, plus the running total */
+      if(PROG.restarts.length > 25) PROG.restarts = PROG.restarts.slice(-25);
+    }
+    dayTasks(d).forEach(t => delete PROG.tasks[t.id]); PROG.slips[d] = []; if(window.FPCourse) window.FPCourse.savePractice(PROG); }
   const firstOpen = dayTasks(d).findIndex(t=>!PROG.tasks[t.id]); CUR = firstOpen<0 ? 0 : firstOpen;
 }
 
@@ -1668,16 +1678,20 @@ function renderResults(){
   if(hinted.length) h += `<h3>Coach on these (used a hint)</h3><ul>${hinted.map(t=>`<li>Day ${t.day}: ${E(t.t)}</li>`).join("")}</ul>`;
   const sl = Object.entries(PROG.slips||{}).flatMap(([d,L])=>L.map(s=>`Day ${d}: ${s.s?"Serious: ":""}${s.t}`));
   if(sl.length) h += `<h3>Slips</h3><ul>${sl.map(s=>`<li>${E(s)}</li>`).join("")}</ul>`;
+  const rs = restartLines(); if(rs.length) h += `<h3>Days started over</h3><ul>${rs.map(s=>`<li>${E(s)}</li>`).join("")}</ul>`;
   h += `<p class="px-rule">How the result works: Ready = all ${TOTAL_TASKS} tasks done, at least ${Math.ceil(TOTAL_TASKS*0.85)} on their own, and no serious slips. Ready with coaching = at least ${Math.ceil(TOTAL_TASKS*0.9)} done and at most 1 serious slip. Anything less = Not ready yet. Serious slips: a duplicate customer, merging two different people, voiding an invoice with payments, moving a paid invoice back, deleting a time entry, saving a huge shift, deactivating the wrong person.</p>
    <p class="px-sign">Admin check: ____________________ Date: __________</p>
    <div class="fp-row">${btn("px-copy","Copy results","green")}${btn("px-download","Download results","ghost")}${btn("px-back","Back to practice","ghost")}</div></div>`;
   return h;
 }
+function dayLabel(d){ return window.FP_DAYLABEL ? window.FP_DAYLABEL(d) : "Day "+d; }
+function restartLines(){ const L = Array.isArray(PROG.restarts) ? PROG.restarts : [], n = PROG.restartCount || L.length; return (n > L.length ? [`${n} restarts in all, the last ${L.length} shown`] : []).concat(L.map(r => `${dayLabel(r.d)} started over: ${r.done} tasks and ${r.slips} slips cleared${r.serious?` (${r.serious} serious)`:""}`)); }
 function resultsText(){
   const R = rating();
   let s = `FieldPulse OM practice results\nResult: ${R.r}\nDone ${R.done}/${TOTAL_TASKS}, on own ${R.own}, with hint ${R.hint}, slips ${R.slips} (serious ${R.serious})\n`;
   PROGRAM.forEach(d => { const v=d.tasks.map(t=>PROG.tasks[t.id]); s += `Day ${d.d} ${d.title}: ${v.filter(Boolean).length}/${d.tasks.length} done, ${v.filter(x=>x==="s").length} on own, ${(PROG.slips[d.d]||[]).length} slips\n`; });
   const sl = Object.entries(PROG.slips||{}).flatMap(([d,L])=>L.map(x=>`Day ${d}: ${x.s?"Serious: ":""}${x.t}`)); if(sl.length) s += "Slips:\n" + sl.map(x=>"- "+x).join("\n") + "\n";
+  const rs = restartLines(); if(rs.length) s += "Days started over:\n" + rs.map(x=>"- "+x).join("\n") + "\n";
   return s;
 }
 
@@ -1801,7 +1815,7 @@ window.FPPractice = {
     else if(dayArg && +dayArg!==DAY) startDay(+dayArg,false);
     pxRender();
   },
-  load(p){ PROG = {tasks:Object.assign({}, (p&&p.tasks)||{}), slips:Object.assign({}, (p&&p.slips)||{})}; SLIPS = []; Object.keys(PROG.slips).forEach(d => (PROG.slips[d]||[]).forEach(x => SLIPS.push({text:x.t, serious:!!x.s, day:+d}))); const f = dayTasks(DAY).findIndex(t=>!PROG.tasks[t.id]); CUR = f<0?0:f; if(ROOT) pxRender(); },
+  load(p){ PROG = {tasks:Object.assign({}, (p&&p.tasks)||{}), slips:Object.assign({}, (p&&p.slips)||{}), restarts:(p && Array.isArray(p.restarts)) ? p.restarts.slice() : [], restartCount:(p && +p.restartCount) || 0}; SLIPS = []; Object.keys(PROG.slips).forEach(d => (PROG.slips[d]||[]).forEach(x => SLIPS.push({text:x.t, serious:!!x.s, day:+d}))); const f = dayTasks(DAY).findIndex(t=>!PROG.tasks[t.id]); CUR = f<0?0:f; if(ROOT) pxRender(); },
   taskFor(lessonId){ const t = LESSON_TASK[lessonId]; return t ? {id:t.id, day:t.day, title:t.t} : null; },
   summary(p){ const tasks = (p&&p.tasks)||{}; const n = ALLTASKS.filter(t=>tasks[t.id]).length; return `${n}/${TOTAL_TASKS}`; },
   total: TOTAL_TASKS

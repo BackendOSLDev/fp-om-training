@@ -25,7 +25,7 @@ function supa(){
     /* 5-day program: practice result, final check, reflection, certificate */
     async practiceGet(uid){ return chk(await sb.from("practice_results").select("data,done,own,serious,slips,result,updated_at").eq("user_id", uid).maybeSingle()); },
     async practiceSave(row){ chk(await sb.from("practice_results").upsert(row, {onConflict:"user_id"})); },
-    async practiceAll(){ return all(function(){ return sb.from("practice_results").select("user_id,done,own,serious,slips,result,updated_at").order("user_id"); }); },
+    async practiceAll(){ return all(function(){ return sb.from("practice_results").select("user_id,data,done,own,serious,slips,result,updated_at").order("user_id"); }); },
     async finalAdd(row){ chk(await sb.from("final_checks").insert(row)); },
     async finalMine(uid){ return chk(await sb.from("final_checks").select("score,by_day,created_at").eq("user_id", uid).order("id")); },
     async finalAll(){ return all(function(){ return sb.from("final_checks").select("user_id,score,by_day,created_at").order("id"); }); },
@@ -78,7 +78,8 @@ function demo(){
       if(n < 50) throw new Error("Not ready: "+n+" of 50 lessons done");
       var pr = (d.practice||{})[me]; if(!pr || pr.result!=="Ready" || pr.done<54 || pr.own<46 || pr.serious>0) throw new Error("Not ready: practice result is not Ready yet");
       d.certs = d.certs||[]; d.certNo = (d.certNo||0)+1;
-      var c = {cert_id:"BCB-FP-"+new Date().getFullYear()+"-"+String(d.certNo).padStart(4,"0"), user_id:me, full_name:d.users[me].full_name||d.users[me].email, training:"FieldPulse office operations, 5-day program", issued_at:new Date().toISOString(), status:"active", revoked_at:null, revoke_reason:null};
+      var yr = new Intl.DateTimeFormat("en-US", {timeZone:"Etc/GMT+4", year:"numeric"}).format(new Date()), rnd = ""; for(var ri = 0; ri < 4; ri++) rnd += "XY23456789ABCDEF"[Math.floor(Math.random()*16)];
+      var c = {cert_id:"BCB-FP-"+yr+"-"+String(d.certNo).padStart(4,"0")+"-"+rnd, user_id:me, full_name:d.users[me].full_name||d.users[me].email, training:"FieldPulse office operations, 5-day program", issued_at:new Date().toISOString(), status:"active", revoked_at:null, revoke_reason:null};
       d.certs.push(c); put(d); return c; },
     async certVerify(id){ id = String(id||"").trim().toUpperCase(); var c = (db().certs||[]).filter(function(x){ return x.cert_id===id; })[0]; return c ? {cert_id:c.cert_id, full_name:c.full_name, training:c.training, issued_at:c.issued_at, status:c.status, revoked_at:c.revoked_at} : null; },
     async certsAll(){ var d = db(), me = ls("fpdemo:me"); return d.users[me] && d.users[me].role==="admin" ? (d.certs||[]) : (d.certs||[]).filter(function(c){ return c.user_id===me; }); },
