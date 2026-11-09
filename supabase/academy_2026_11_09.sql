@@ -149,7 +149,7 @@ begin
     insert into public.certificates (cert_id, user_id, full_name)
     -- the random end means nobody can list certified names by counting through the numbers
     values ('BCB-FP-' || to_char(now() at time zone 'Etc/GMT+4', 'YYYY') || '-' || lpad(nextval('public.certificate_no')::text, 4, '0') || '-'
-            || translate(upper(substr(md5(random()::text || clock_timestamp()::text), 1, 4)), '01', 'XY'), me, coalesce(nm, 'Trainee'))
+            || translate(upper(substr(md5(random()::text || clock_timestamp()::text), 1, 8)), '01', 'XY'), me, coalesce(nm, 'Trainee'))
     returning * into c;
   exception when unique_violation then
     select * into c from public.certificates where user_id = me;   -- issued a moment ago in another tab
