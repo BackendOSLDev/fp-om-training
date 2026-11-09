@@ -15,8 +15,8 @@ create table if not exists public.profiles (
 create table if not exists public.lesson_events (
   id         bigint generated always as identity primary key,
   user_id    uuid not null default auth.uid() references auth.users(id) on delete cascade,
-  lesson_id  text not null check (lesson_id ~ '^m[0-9]+-[0-9]+$'),
-  part       text not null check (part in ('open','walk','check','practice')),
+  lesson_id  text not null check (lesson_id ~ '^(f|m[0-9]+)-[0-9]+$' or lesson_id ~ '^sop-[a-z]{3}-[0-9]{2}$'),
+  part       text not null check (part in ('open','walk','check','practice','read')),
   score      int  check (score is null or score >= 0),
   total      int  check (total is null or total >= 0),
   hints      int  check (hints is null or hints >= 0),
