@@ -27,7 +27,7 @@ const CUST_TAGS = ["VIP","Property Manager","Do Not Service","Warranty Customer"
 const CUST_STATUSES = ["Lead","Opportunity","Current Customer","Lost","Other","Inactive"];
 const TEAMS = ["Service","Install","Drain"];
 const CUST_TEAMS = ["Service","Install","Drain","Install/Drain","Service/Drain","Service/Install/Drain"];
-const JOB_TAGS = ["Flag: Commercial","Flag: Do Not Service","Flag: Emergency / After Hours","Flag: Follow-Up Needed","Flag: Google Review Left","Flag: Office Review Needed","Flag: Owner-Supplied Parts","Flag: Real Estate Transaction","Flag: Same Day","Flag: Senior Discount","Type: Callback / Warranty","Type: Inspection","Type: Installation","Type: Membership Visit","Type: New Construction","Type: Remodel","Type: Drain Cleaning","Type: Service Call"];
+const JOB_TAGS = ["Flag: Commercial","Flag: Do Not Service","Flag: Emergency / After Hours","Flag: Follow-Up Needed","Flag: Google Review Left","Flag: Office Review Needed","Flag: Owner-Supplied Parts","Flag: Real Estate Transaction","Flag: Same Day","Flag: Senior Discount","Type: Callback / Warranty","Type: Estimate Visit","Type: Inspection","Type: Installation","Type: Membership Visit","Type: New Construction","Type: Remodel","Type: Drain Cleaning","Type: Service Call"];
 const JOB_STATUSES = ["New","On The Way","In Progress","Completed","Canceled","Ready to Invoice","Closed"];
 const CLOSED_ST = ["Completed","Canceled","Ready to Invoice","Closed"];
 const JOB_WORKFLOWS = {"Default Workflow":JOB_STATUSES, "Service":["New","Completed"], "Install":["New","Pending","Completed","Closed"]};
@@ -44,6 +44,9 @@ const ITEMS = [
   ["Shut-off valve replace",260],["Water softener install",2200],["Water softener repair",340],["Shower valve replace",640],["Outdoor spigot replace",210]
 ];
 const ITEM_PRICE = Object.fromEntries(ITEMS);
+/* unit cost per item, for Job Costing. Items not listed have no cost entered (like a real Item List that was never finished). */
+const ITEM_COST = {"50 gal gas water heater install":1450,"Tankless water heater install":2900,"Toilet replace":420,"Faucet replace":120,"Shower valve replace":260,"Garbage disposal install":190,"Water softener install":1100,"Faucet cartridge replace":45,"Shut-off valve replace":70,"Outdoor spigot replace":65,"Thermocouple replace":40};
+const LABOR_ITEMS = ["Diagnostic / service call","Drain cleaning - sink","Drain cleaning - main line","Main line camera inspection","Water heater flush","Water softener repair"];
 const JOB_TEMPLATES = {
   "Service Call - Diagnostic": {title:"Service Call - Diagnostic", desc:"$89 service call. Tech gives the price on site before any work starts.", tags:["Type: Service Call"], len:2, notes:"Ask: What is the problem? Where is it? How long has it been going on? Gate code or pets?"},
   "After-Hours Service Call": {title:"After-Hours Service Call", desc:"$189 after-hours service call. Nights, weekends and holidays.", tags:["Flag: Emergency / After Hours"], len:2},
@@ -151,6 +154,7 @@ function pfresh(){
   J("1053","c11","Unit 12 shut-off valve","New","11-09",9,11,["u4"]);
   J("1054","c11","Unit 5 toilet","Completed","11-03",15,17,["u6"],{tags:["Type: Service Call"]});
   J("1055","c6","Shut-off valve replace","New","11-06",10,12,["u7"]);
+  J("1057","c6","Shut-off valve replace","Completed","11-03",10,12,["u6"]);
   J("1058","c17","Leaky shower","New","11-06",15,17,["u5"],{created:"11-03",fnotes:"Made by Ben in the app. Grace Kim referred her."});
   J("1056","c12","Bathroom remodel","In Progress","11-02",8,16,["u4","u5"],{tags:["Type: Installation"]});
   J("1029","c7","Toilet rebuild","Completed","10-28",9,10,["u5"]);
@@ -179,6 +183,8 @@ function pfresh(){
   E("3020","c2","Toilet replace","Lost","u6","10-15","10-15",[O("Option 1",["Toilet replace"])]);
   E("3021","c10","Shower remodel","Draft","u4","11-03","",[O("Option 1",["Shower valve replace"],["Faucet replace"])]);
   E("3022","c11","Unit 5 boiler check","Follow Up Sent","u5","10-19","10-19",[O("Option 1",["Diagnostic / service call"])]);
+  E("3024","c6","Shut-off valve replace","Accepted","u5","10-29","10-29",[O("Option 1",["Shut-off valve replace"],["Diagnostic / service call"])],{job:"1057"});
+  E("3025","c10","Shower remodel","Draft","u6","11-03","",[O("Option 1",["Shower valve replace"],["Faucet replace"])],{notes:"Made by mistake: a copy of #3021."});
 
   const I = (id,c,job,st,date,due,items,pays,extra) => { W.inv[id] = Object.assign({id,c,job,st,date,due,items:items.map(([n,q,p]) => ({n,q:q||1,p:p!=null?p:(ITEM_PRICE[n]||0)})),pays:pays||[],notes:"",inotes:"",progress:[],qb:"ok"}, extra||{}); };
   const P = (id,method,amt,date,by,fp,note) => ({id,method,amt,date,by,fp:!!fp,note:note||"",refunds:[]});
@@ -491,11 +497,12 @@ function scrJob(){
   const j = W.jobs[U.r.id]; if(!j) return `<p>Job not found.</p>`;
   const c = W.cust[j.c] || {};
   const invs = jobInvoices(W,j.id), ests = Object.values(W.est).filter(e=>e.job===j.id);
-  let h = topTabs([{l:"Info",on:U.jobTab==="Info",a:"job-tab",v:"Info",hk:"tab-Info"},"Comments","Job Costing",{l:"Subtasks",on:U.jobTab==="Subtasks",a:"job-tab",v:"Subtasks",hk:"tab-Subtasks"},"Material Lists","Estimates","Invoices","Files","Timesheets","Forms","Purchase Orders","Assets"]) + `<div class="fp-rec">
+  let h = topTabs([{l:"Info",on:U.jobTab==="Info",a:"job-tab",v:"Info",hk:"tab-Info"},"Comments",{l:"Job Costing",on:U.jobTab==="Job Costing",a:"job-tab",v:"Job Costing",hk:"tab-Job Costing"},{l:"Subtasks",on:U.jobTab==="Subtasks",a:"job-tab",v:"Subtasks",hk:"tab-Subtasks"},"Material Lists","Estimates","Invoices","Files","Timesheets","Forms","Purchase Orders","Assets"]) + `<div class="fp-rec">
    <div class="fp-rcard"><div class="fp-rtop"><div class="fp-rtl"><div><h1>${E(j.title)} <span class="muted fp-small">#${j.id}</span></h1>${j.archived?'<span class="fp-sp out c-red">Archived</span>':""}</div></div>
    <div class="r"><div class="fp-rbtns">${btn("comm-open",`${ic("send",15)} Customer Communication`,"wt",`data-v="${U.r.id}" data-k="job"`,"btn-custcomm")}${menuBtn("jobact",`${ic("wrench",15)} Actions`,"green","btn-job-actions")}${btn("job-edit",`${ic("edit",15)} Edit`,"blue",`data-v="${j.id}"`,"btn-job-edit")}</div></div></div>
    <div class="fp-cbar"><button class="lnk b" data-a="open-cust" data-v="${j.c}" data-hk="job-custlink">${E(cname(W,j.c))}</button><span>${E(c.phone||"")}</span><span>${E(c.email||"")}</span></div>
    ${chips(JOB_STATUSES, j.st, "job-st", `data-id="${j.id}"`)}`;
+  if(U.jobTab==="Job Costing") return h + `</div>` + jobCosting(j, invs, ests) + `</div>`;
   if(U.jobTab==="Subtasks"){
     h += `</div><div class="fp-rcard"><div class="fp-row">${btn("na-tab",`${ic("plus",14)} Create New`,"green")}${btn("sub-new",`${ic("plus",14)} Create New Series`,"blue",`data-v="${j.id}"`,"btn-newseries")}${btn("na-tab","Print List","blue")}</div>`;
     if(!j.subtasks.length) h += `<p class="fp-none">There are no subtasks for this job!</p>`;
@@ -534,9 +541,37 @@ function scrSchedule(){
   return h + `</div></div><p class="muted fp-small fp-tip">Tip: drag a job onto a tech and time, or click the job and then click the spot. FieldPulse asks you to confirm.</p>`;
 }
 
+/* ---------- job costing (Admin and Team Manager only in FieldPulse) ---------- */
+function jcSplit(items){
+  const r = {pm:{s:0,c:0}, sl:{s:0,c:0}};
+  (items||[]).forEach(x => { const k = LABOR_ITEMS.includes(x.n) ? "sl" : "pm"; r[k].s += x.q*x.p; r[k].c += x.q*(ITEM_COST[x.n]||0); });
+  return r;
+}
+function jobCosting(j, invs, ests){
+  const proj = U.jcView==="Projected";
+  const src = proj ? ests.filter(e=>!e.archived && !["Lost","Rejected","Canceled","Cancelled"].includes(e.st)).flatMap(e=>(e.opts[0]||{items:[]}).items) : invs.filter(i=>i.st!=="Invoice Draft").flatMap(i=>i.items);
+  const r = jcSplit(src), S = r.pm.s+r.sl.s, C = r.pm.c+r.sl.c, P = S-C, M = S ? P/S*100 : 0;
+  const pct = n => (Math.round(n*100)/100).toFixed(2)+"%";
+  const lbl = proj ? "Projected" : "Actual";
+  let h = `<div class="fp-rcard fp-jc"><h3 class="fp-sh">Job Cost Analysis</h3>
+   <div class="fp-ltabs sub" role="tablist">${["Actuals","Projected"].map(v=>`<button class="${(proj?"Projected":"Actuals")===v?"on":""}" data-a="jc-view" data-v="${v}" data-hk="jc-${v}">${v}</button>`).join("")}</div>`;
+  if(!src.length){ return h + `<p class="fp-none">${proj?"No estimate on this job yet, so there is nothing projected.":"No invoice on this job yet, so there are no actuals."}</p></div>`; }
+  h += `<div class="fp-two plain"><div><h4>${lbl} Profitability</h4><p class="fp-jcbig" data-hk="jc-margin"><b>${pct(M)}</b> Profit Margin</p>
+     <p class="muted fp-small">Cost ${money(C)} · Profit ${money(P)}</p></div>
+   <div><div class="fp-tw"><table class="fp-t sm"><thead><tr><th></th><th>Products &amp; Materials</th><th>Service &amp; Labor</th><th>Totals</th></tr></thead><tbody>
+     <tr><td>Sales</td><td>${money(r.pm.s)}</td><td>${money(r.sl.s)}</td><td>${money(S)}</td></tr>
+     <tr><td>Cost</td><td>${money(r.pm.c)}</td><td>${money(r.sl.c)}</td><td>${money(C)}</td></tr></tbody></table></div>
+     <p>${lbl} Profit: <b>${money(P)}</b></p><p>${lbl} Profit Margin: <b>${pct(M)}</b></p></div></div>
+   <h4>Items</h4><div class="fp-tw"><table class="fp-t sm"><thead><tr><th>Item</th><th>Unit Cost</th><th>Quantity</th><th>Total Cost</th><th>Unit Price</th><th>Total Price</th><th>Total Profit</th></tr></thead><tbody>
+   ${src.map(x=>{ const uc = ITEM_COST[x.n]; return `<tr><td>${E(x.n)}</td><td>${uc!=null?money(uc):'<span class="muted">-</span>'}</td><td>${x.q}</td><td>${money(x.q*(uc||0))}</td><td>${money(x.p)}</td><td>${money(x.q*x.p)}</td><td>${money(x.q*(x.p-(uc||0)))}</td></tr>`; }).join("")}
+   </tbody></table></div>
+   <p class="muted fp-small">Sales tax is left out. Actuals use finalized invoices only. In this practice company labor costs are not set up, and an item with no unit cost counts as $0 cost.</p></div>`;
+  return h;
+}
+
 /* ---------- estimates ---------- */
 function estList(){
-  let L = Object.values(W.est);
+  let L = Object.values(W.est).filter(e => !e.archived);
   const f = U.estFilter;
   if(U.showEstFilters || U.estTab==="By Status"){ if(f.st.length) L = L.filter(e => f.st.includes(e.st)); if(f.by) L = L.filter(e => e.by===f.by); }
   const q=(pv("p.estq","")||"").trim().toLowerCase(); if(q) L = L.filter(e => (`${e.id} ${e.title} ${cname(W,e.c)}`).toLowerCase().includes(q));
@@ -856,7 +891,7 @@ function renderMenu(id){
   const r = U.r;
   if(id==="custact") return M([["Related",[["na-menu","Create Project"],["job-new","Create Job",`data-c="${r.id}"`],["na-menu","Create Material List"],["est-new-cust","Create Estimate",`data-c="${r.id}"`],["cust-createinv","Create Invoice"],["na-menu","Create Purchase Order"],["na-menu","Create Form"],["na-menu","Create Maintenance Agreement"],["na-menu","Create Asset"]]],["Update",[["na-menu","Add Comment"],["na-menu","Attach File/Photo"],["comm-open","Send Customer Communication",`data-v="${r.id}" data-k="${id==="custact"?"cust":"job"}"`,"m-sendcomm"],["merge-open","Merge Customers",`data-v="${r.id}"`,"m-merge"],["na-menu","Update Subscriber Notifications"]]],["Basic",[["na-menu","Create Related Customer"],["na-menu","Copy Customer Portal Link"],["na-menu","Generate a PDF of all outstanding invoices"],["archive","Archive Customer"],["na-menu","Set a Reminder"]]]]);
   if(id==="jobact") return M([["Related",[["sub-new","Create Subtask",`data-v="${r.id}"`],["na-menu","Create Material list"],["est-new","Create Estimate",`data-j="${r.id}"`,"m-createest"],["inv-new","Create Invoice",`data-v="${r.id}"`,"m-createinv"],["po-new","Create Purchase Order",`data-j="${r.id}"`],["na-menu","Create Form"],["na-menu","Create Maintenance Agreement"],["na-menu","Connect to Maintenance Agreement"],["na-menu","Create Asset"],["na-menu","Create Project"]]],["Update",[["na-menu","Add Comment"],["na-menu","Attach File/Photo"],["comm-open","Send Customer Communication",`data-v="${r.id}" data-k="${id==="custact"?"cust":"job"}"`,"m-sendcomm"],["visit-new","Add Site Visit",`data-v="${r.id}"`],["na-menu","Hide Job"],["na-menu","Generate Job Report"],["na-menu","Generate Asset Report"],["na-menu","Clock In"]]],["Basic",[["job-dup","Duplicate",`data-v="${r.id}"`],["na-menu","Create Next Occurrence"],["na-menu","Print"],["na-menu","Export as PDF with files"],["job-archive","Archive Job",`data-v="${r.id}"`,"m-archivejob"],["na-menu","Set a Reminder"]]]]);
-  if(id==="estact") return M([["Related",[["est-createjob","Create Job",`data-v="${r.id}"`,"m-est-createjob"],["na-menu","Create Material List"],["na-menu","Create Project"],["na-menu","Create Maintenance Agreement"],["na-menu","Create Form"],["na-menu","Purchase Order"],["na-menu","Create Dynamic Proposal"]]],["PDFs",[["preview","View Estimate",`data-k="est" data-v="${r.id}"`],["preview","Send to Customer",`data-k="est" data-v="${r.id}"`,"m-sendest"],["na-menu","Generate Work Order PDF"],["preview","Send Signature Request",`data-k="est" data-v="${r.id}" data-sig="1"`]]],["Update",[["na-menu","Add Comment"],["na-menu","Attach File/Photo"]]],["Basic",[["est-dup","Duplicate",`data-v="${r.id}"`],["rem-open","Set a Reminder",`data-v="${r.id}"`,"m-reminder"],["est-lost","Lost Estimate",`data-v="${r.id}"`,"m-lost"],["est-convert","Convert to Invoice",`data-v="${r.id}"`],["archive","Archive Estimate"]]]]);
+  if(id==="estact") return M([["Related",[["est-createjob","Create Job",`data-v="${r.id}"`,"m-est-createjob"],["na-menu","Create Material List"],["na-menu","Create Project"],["na-menu","Create Maintenance Agreement"],["na-menu","Create Form"],["na-menu","Purchase Order"],["na-menu","Create Dynamic Proposal"]]],["PDFs",[["preview","View Estimate",`data-k="est" data-v="${r.id}"`],["preview","Send to Customer",`data-k="est" data-v="${r.id}"`,"m-sendest"],["na-menu","Generate Work Order PDF"],["preview","Send Signature Request",`data-k="est" data-v="${r.id}" data-sig="1"`]]],["Update",[["na-menu","Add Comment"],["na-menu","Attach File/Photo"]]],["Basic",[["est-dup","Duplicate",`data-v="${r.id}"`],["rem-open","Set a Reminder",`data-v="${r.id}"`,"m-reminder"],["est-lost","Lost Estimate",`data-v="${r.id}"`,"m-lost"],["est-convert","Convert to Invoice",`data-v="${r.id}"`],["est-archive","Archive Estimate",`data-v="${r.id}"`,"m-archive"]]]]);
   if(id==="invact") return M([["Related",[["open-job","Create Job",`data-v="${(W.inv[r.id]||{}).job}"`],["na-menu","Create Material List"],["na-menu","Create Project"],["na-menu","Create Maintenance Agreement"],["na-menu","Connect Maintenance Agreement"],["na-menu","Create Form"],["na-menu","Purchase Order"],["na-menu","Create Dynamic Proposal"]]],["PDFs",[["preview","View Invoice",`data-k="inv" data-v="${r.id}"`],["preview","Send to Customer",`data-k="inv" data-v="${r.id}"`],["prog-open","Generate Progress Invoice",`data-v="${r.id}"`,"m-progress"],["na-menu","Generate Work Order PDF"],["na-menu","Generate Invoice Receipt"],["preview","PDF",`data-k="inv" data-v="${r.id}"`]]],["Update",[["na-menu","Add Comment"],["na-menu","Attach File/Photo"],["pay-take","Payment",`data-v="${r.id}"`]]],["Basic",[["inv-dup","Duplicate",`data-v="${r.id}"`],["na-menu","Set a Reminder"],["inv-void","Void Invoice",`data-v="${r.id}"`,"m-void"],["archive","Archive Invoice"]]]]);
   return "";
 }
@@ -1035,7 +1070,8 @@ function renderModal(){
   if(k==="progress"){ const pm=fv("m.pmode","Set Amount"); return wrap("Send Progress Invoice", `<p>Invoice #${m.id} total ${money(invTotal(W.inv[m.id]))}</p>`+fld("Amount Due Displayed", sel("m.pmode",["Remaining Balance","Set Amount","Percentage Of Total"],pm,'data-hk="f-pmode"'))+(pm==="Remaining Balance"?"":fld(pm==="Set Amount"?"Amount Due":"Percentage of Total Amount", inp("m.pval",fv("m.pval",""),'inputmode="decimal" data-hk="f-pval"'))), btn("modal-close","Cancel","ghost")+btn("prog-save","Save","green",'data-v="next"',"btn-prog-save")); }
   if(k==="progpdf") return wrap("Progress Invoice PDF", `<div class="fp-card pad"><p><b>Invoice #${m.id}</b> &middot; ${E(m.label)}</p><p>Amount due now: <b>${money(m.amt)}</b>${m.pct!=null?` (${m.pct}% of ${money(invTotal(W.inv[m.id]))})`:""}</p><p class="muted">PDF Display Options</p></div>`, btn("modal-close","Discard","ghost")+btn("prog-send","Save","ghost",'data-v="save"',"btn-prog-pdfsave")+btn("prog-send","Email To Customer","green",'data-v="email"',"btn-prog-email"));
   if(k==="reminder") return wrap("Set a Reminder", fld("Remind me on", sel("m.rdate",PDAYS.slice(3).map(d=>[d.k,d.lab]),fv("m.rdate","11-05"),'data-hk="f-rdate"'))+fld("Reminder Title", inp("m.rnote",fv("m.rnote",""))), btn("modal-close","Cancel","ghost")+btn("rem-save","Submit","green","","btn-saverem"));
-  if(k==="convert") return wrap("Convert to Invoice", `<p>Convert estimate #${m.id} to an invoice?</p>`, btn("modal-close","Cancel","ghost")+btn("convert-yes","Convert","green"));
+  if(k==="estarchive") return wrap("Archive Estimate", `<p>Archive estimate #${m.id}?</p><p class="muted">It leaves the Estimates list. If your company syncs to QuickBooks Online, archiving it in FieldPulse also deletes it in QuickBooks.</p>`, btn("modal-close","Cancel","ghost")+btn("est-archive-yes","Archive","danger","","btn-archive-yes"));
+  if(k==="convert") return wrap("Convert to Invoice", `<p>Convert estimate #${m.id} to an invoice?</p>`, btn("modal-close","Cancel","ghost")+btn("convert-yes","Convert","green","","btn-convert-yes"));
   if(k==="po") return wrap("Create Purchase Order", fld("Vendor", sel("m.vendor",VENDORS,fv("m.vendor",VENDORS[0])))+fld("Job", inp("m.pjob",fv("m.pjob",m.job||"")))+fld("Note", inp("m.pnote",fv("m.pnote",""),'data-hk="f-ponote"'))+fld("Total", inp("m.ptotal",fv("m.ptotal",""),'inputmode="decimal"')), btn("modal-close","Cancel","ghost")+btn("po-save","Create","green"));
   if(k==="user"){ const x = W.users[m.id];
     return wrap("Edit Team Member", `<h4>Basic Information</h4><p><b>${E(x.name)}</b></p><h4>Roles and Team Assignment</h4><p>Role: ${E(x.role)}${x.admin?" · Assign as Company Admin: On":""}</p><details><summary>User Feature Permissions</summary><p class="muted fp-small">Ability to Make FieldPulse Payments · Ability to Make FieldPulse Refunds · Hide Unit Cost · Job visibility · Reporting access (read only in practice)</p></details>
@@ -1216,6 +1252,9 @@ function act(a, ds){
   case "rem-open": openModal("reminder",{id:v},{"m.rdate":"11-05"}); return;
   case "rem-save": W.est[U.modal.id].reminder={date:U.form["m.rdate"],note:U.form["m.rnote"]||""}; log("reminder",{id:U.modal.id,date:U.form["m.rdate"]}); closeModal(); toast("Reminder set."); return;
   case "est-convert": openModal("convert",{id:v}); log("convert-open",{id:v}); return;
+  case "est-archive": openModal("estarchive",{id:v}); U.menu=null; return;
+  case "est-archive-yes": { const e=W.est[U.modal.id]; e.archived=true; log("est-archive",{id:e.id}); closeModal(); nav("estimates"); toast(`Estimate #${e.id} archived.`); return; }
+  case "jc-view": U.jcView=v; log("jc-view",{id:U.r.id,v}); return;
   case "convert-yes": { const e=W.est[U.modal.id]; const id=String(W.nextInv++); W.inv[id]={id,c:e.c,job:e.job||"",st:"Invoice Draft",date:TODAY,due:"",items:JSON.parse(JSON.stringify(e.opts[0].items)),pays:[],notes:"",inotes:"",progress:[],qb:"ok",fromEst:e.id}; e.inv=id; log("est-convert",{id:e.id,inv:id}); closeModal(); nav("invoice",{id}); toast("Converted. The estimate record was kept."); return; }
   case "est-createjob": { const e=W.est[v]; openModal("job",{fromEst:v},{"m.cust":e.c,"m.title":e.title,"m.tags":[],"m.cmode":"existing"}); U.menu=null; return; }
   case "est-dup": toast("Duplicating is not part of this practice.","rk"); U.menu=null; return;
@@ -1478,7 +1517,7 @@ const PROGRAM = [
    hint:"Work > Jobs > #1036 > Edit > Additional Fields > Permit Number > Save Job", hk:["nav-jobs","job-1036","btn-job-edit","btn-savejob"],
    check:() => /BP-2291/i.test((W.jobs["1036"].cf||{}).permit||"")}
  ]},
- {d:4, title:"Getting paid and estimates", read:["m3-5","m3-6","m3-7","m3-8","m3-9","m4-1","m4-2","m4-3","m4-4","m4-5","m7-1","m7-6"], tasks:[
+ {d:4, title:"Getting paid and estimates", read:["m3-5","m3-6","m3-7","m3-8","m3-9","m4-1","m4-2","m4-3","m4-4","m4-5","m4-6","m4-7","m4-8","m7-1","m7-6"], tasks:[
   {id:"d4-chase", les:"m3-5", t:"Build the unpaid invoices list", b:"Reporting > Invoices > Raw Data. Date Type: Due Date. Date Range: start before the oldest unpaid invoice, end today. Load Data. In Filters, set Status to only Invoiced, Sent and Partially Paid, and Amount Due Greater Than 0. Save it as a new report.",
    hint:"Reporting > Invoices > Raw Data > Filters > Status and Amount Due > Save > Save Report as New", hk:["nav-rep","rt-invoices","rd-dt","rd-range","btn-loaddata","btn-rep-filters","f-status","f-amountDue","btn-saverep","btn-saverep-new"],
    q:[{q:"Who owes the most on an invoice that is more than 60 days past due?", o:["Sunset Apartments LLC","Robert Hayes","Ruth Daniels"], a:0}],
@@ -1514,14 +1553,26 @@ const PROGRAM = [
    check:() => W.est["3012"].st==="Accepted" && W.est["3017"].st==="Lost"},
   {id:"d4-sold", les:"m4-5", t:"Book the sold work", b:"Filter Estimates to Accepted. Find the one with no job (a '-' in Project/Job). Create a job for it from the estimate.",
    hint:"Sales > Estimates > Show Filters > Accepted. Open the one with '-' > Actions > Create Job", hk:["nav-estimates","btn-est-filters","est-3018","btn-est-actions","m-est-createjob","btn-savejob"],
-   q:[{q:"Before you click Convert to Invoice, which setting should your manager confirm is on?", o:["Keep an Estimate Record when Converting to an Invoice","Lock invoices once finalized","Tax Exempt"], a:0}],
+   q:[{q:"Why create the job from the estimate, not as a new job?", o:["It sends the invoice","It keeps the estimate and the job linked","QuickBooks needs it"], a:1}],
    check:() => !!W.est["3018"].job && !!W.jobs[W.est["3018"].job]},
+  {id:"d4-visit", les:"m4-6", t:"Book an estimate visit", b:"Owen Price wants a price on a tankless water heater. Book an estimate visit job for him with Ben Foster on Mon, Nov 9, 3 to 4 PM. This company marks estimate visits with the Type: Estimate Visit tag. Send the confirmation.",
+   hint:"Work > Jobs > Create Job > Customer Name: Owen Price > Job Title > Job Tags: Type: Estimate Visit > tick Ben Foster > Mon, Nov 9, 3 PM to 4 PM > Save Job > Send", hk:["nav-jobs","btn-createjob","f-cust","f-title","tag-Type: Estimate Visit","u-u5","f-date","f-start","f-end","btn-savejob","btn-conf-yes"],
+   q:[{q:"Where should the estimate be made after the visit?", o:["Sales > Estimates, with no job","From this job: Actions > Create Estimate","On paper"], a:1}],
+   check:() => Object.values(W.jobs).some(j => j.c==="c14" && (j.tags||[]).includes("Type: Estimate Visit") && j.users.length===1 && j.users[0]==="u5" && j.date==="11-09" && +j.s===15 && +j.e===16) && (did("confirm-sent") || did("confirm-skipped"))},
+  {id:"d4-convert", les:"m4-7", t:"Turn an accepted estimate into the invoice", b:"Mike finished job #1057 for Robert Hayes (River Rd) yesterday. Robert had already accepted estimate #3024. Convert the estimate to an invoice and finalize it.",
+   hint:"Sales > Estimates > #3024 > Convert to Invoice > Convert > Finalize Invoice", hk:["nav-estimates","est-3024","btn-convert","btn-convert-yes","btn-finalize"],
+   q:[{q:"Before converting, which setting should your manager confirm is on?", o:["Lock invoices once finalized","Keep an Estimate Record when Converting to an Invoice","Tax Exempt"], a:1},{q:"What do you check before converting?", o:["The tech's timesheet","Nothing","That the job has no invoice yet"], a:2}],
+   check:() => { const i = W.inv[W.est["3024"].inv||""]; return !!i && i.st!=="Invoice Draft" && i.job==="1057"; }},
+  {id:"d4-cancel", les:"m4-8", t:"Close estimates the right way", b:"Peter Shaw cancelled estimate #3019 (a neighbor fixed his drain). #3025 is a copy of #3021 made by mistake, and your manager said OK to archive it.",
+   hint:"Sales > Estimates > #3019 > Actions > Lost Estimate. Then #3025 > Actions > Archive Estimate > Archive", hk:["nav-estimates","est-3019","btn-est-actions","m-lost","est-3025","m-archive","btn-archive-yes"],
+   q:[{q:"Which one do you archive?", o:["Only the copy made by mistake","Both","Neither, delete them"], a:0}],
+   check:() => W.est["3019"].st==="Lost" && !!W.est["3025"].archived && W.est["3021"].st!=="Lost" && !W.est["3021"].archived},
   {id:"d4-tax", les:"m7-6", t:"Handle a tax-exempt request", b:"Sunset Apartments says they shouldn't pay sales tax. Open their customer record and look at the Tax Exempt setting. Don't change it. Then answer.",
    hint:"Customers > Sunset Apartments LLC", hk:["nav-customers","cust-c16"],
    q:[{q:"What do you do?", o:["Turn on Tax Exempt now","Take the tax off their next invoice by hand","Get their exemption certificate on file and check with the tax filer first"], a:2}],
    check:() => did("open-cust", e=>e.id==="c16") && !C_("c16").tax}
  ]},
- {d:5, title:"Books, payroll and reports", read:["m5-1","m5-2","m5-3","m5-4","m5-5","m5-6","m5-7","m6-1","m6-2","m6-3","m6-4","m6-5","m6-6","m7-2","m7-5"], tasks:[
+ {d:5, title:"Books, payroll and reports", read:["m5-1","m5-2","m5-3","m5-4","m5-5","m5-6","m5-7","m5-8","m6-1","m6-2","m6-3","m6-4","m6-5","m6-6","m7-2","m7-5"], tasks:[
   {id:"d5-qb", les:"m5-1", t:"Fix QuickBooks sync errors", b:"Open the QuickBooks Online Statistic page. Fix the first failure in the chain (the customer), then sync the invoice again. Set both fixed rows to Closed.",
    hint:"Company Settings > Estimates & Invoices > QuickBooks > QuickBooks Online Statistic. Open the customer > Sync with QuickBooks. Then invoice #2040 > Re-Sync. Then Review Status: Closed.", hk:["nav-settings","set-einv","settab-QuickBooks","btn-qbstat","qb-q1","btn-qb-sync-cust","qb-q2","btn-qb-sync-inv","qbrev-q1","qbrev-q2"],
    q:[{q:"Which error goes to the bookkeeper?", o:["The Water softener install item with no income account","Invoice #2040","The Lakeside customer"], a:0}],
@@ -1569,6 +1620,10 @@ const PROGRAM = [
    hint:"Lesson M5-7: Help run the hiring pipeline", hk:[],
    q:[{q:"When do references and checks happen?", o:["After the offer","Before any offer","Only if the owner asks"], a:1}],
    check:() => true},
+  {id:"d5-jobcost", les:"m5-8", t:"Read a job's profit", b:"The owner asks how job #1054 (Unit 5 toilet, Lakeside Property Mgmt) did. Open its Job Costing tab and answer.",
+   hint:"Work > Jobs > All > #1054 > Job Costing", hk:["nav-jobs","jv-All","job-1054","tab-Job Costing"],
+   q:[{q:"What is the actual profit margin on job #1054?", o:["100.00%","66.67%","33.33%"], a:1},{q:"Why could that margin still be too high?", o:["The job is too new","Sales tax is counted in","Two of its items have no unit cost entered"], a:2}],
+   check:() => did("job-tab", e=>e.id==="1054" && e.v==="Job Costing")},
   {id:"d5-license", les:"m7-2", t:"Know what to do when a license lapses", b:"Read Module 7, lesson 2, then answer.",
    hint:"Lesson M7-2: Track licenses and certifications", hk:[],
    q:[{q:"A tech's certification lapsed today. What do you do the same day?", o:["Nothing until it's renewed","Remove their skill tag and tell the dispatcher","Deactivate their login"], a:1}],
@@ -1592,7 +1647,8 @@ function taskQs(t){ return (t.q||[]).map(q => q.dyn ? dynQ(q.dyn) : q); }
 /* progress for this page load */
 let PROG = {tasks:{}, slips:{}};          // saved across reloads (via course storage)
 let ANS = {};                               // answers this session: {taskId:{qi:{i,ok}}}
-let HINTED = {};                            // taskId -> true when hint was opened
+let HINTED = {};                            // taskId -> true when hint was opened (kept in PROG.hinted too, so a reload can't hide it)
+let RESTART_ARM = 0;                        // day whose "Start over" is waiting for a second click
 let CUR = 0;                                // index of current task in the day
 let PVIEW = "day";                          // "day" | "results"
 function dayTasks(d){ return (PROGRAM.find(x=>x.d===d)||PROGRAM[0]).tasks; }
@@ -1602,14 +1658,14 @@ function evaluate(){
   dayTasks(DAY).forEach(t => {
     if(PROG.tasks[t.id]) return;
     let ok = false; try{ ok = t.check() && qsOk(t); }catch(e){ ok = false; }
-    if(ok){ PROG.tasks[t.id] = HINTED[t.id] ? "h" : "s"; changed = true; if(t===dayTasks(DAY)[CUR]) toast("Task done. Nice work.","ok"); }
+    if(ok){ PROG.tasks[t.id] = (HINTED[t.id] || (PROG.hinted||{})[t.id]) ? "h" : "s"; changed = true; if(t===dayTasks(DAY)[CUR]) toast("Task done. Nice work.","ok"); }
   });
   const sl = SLIPS.filter(s=>s.day===DAY).map(s=>({t:s.text,s:s.serious}));
   if(JSON.stringify(PROG.slips[DAY]||[]) !== JSON.stringify(sl)){ PROG.slips[DAY] = sl; changed = true; }
   if(changed && window.FPCourse) window.FPCourse.savePractice(PROG);
 }
 function startDay(d, fresh){
-  DAY = d; W = pfresh(); EV = []; resetUI(); HIST.length = 0; ANS = {}; HINTED = {}; CUR = 0; PVIEW = "day";
+  DAY = d; W = pfresh(); EV = []; resetUI(); HIST.length = 0; ANS = {}; HINTED = {}; CUR = 0; PVIEW = "day"; RESTART_ARM = 0;
   /* saved slips stay with the day: only "Start Day over" clears them (a reload or day switch must not wipe a serious slip) */
   if(fresh) SLIPS = SLIPS.filter(s=>s.day!==d);
   if(fresh){
@@ -1622,7 +1678,8 @@ function startDay(d, fresh){
       /* keep the saved copy small: the last 25 restarts in full, plus the running total */
       if(PROG.restarts.length > 25) PROG.restarts = PROG.restarts.slice(-25);
     }
-    dayTasks(d).forEach(t => delete PROG.tasks[t.id]); PROG.slips[d] = []; if(window.FPCourse) window.FPCourse.savePractice(PROG); }
+    dayTasks(d).forEach(t => { delete PROG.tasks[t.id]; if(PROG.hinted) delete PROG.hinted[t.id]; }); PROG.slips[d] = []; if(window.FPCourse) window.FPCourse.savePractice(PROG); }
+  HINTED = Object.assign({}, PROG.hinted || {});
   const firstOpen = dayTasks(d).findIndex(t=>!PROG.tasks[t.id]); CUR = firstOpen<0 ? 0 : firstOpen;
 }
 
@@ -1661,7 +1718,7 @@ function renderDrawer(){
     h += HINTED[t.id] ? `<div class="px-path"><b>Where:</b> ${E(t.hint)}</div>` : `<button class="px-hintb" data-a="px-hint">Show me where (counts as a hint)</button>`;
   }
   h += `</div><div class="px-df"><div class="fp-row">${CUR>0?btn("px-prev","Back","ghost"):""}<span style="flex:1"></span>${CUR<L.length-1?btn("px-next", st?"Next task":"Skip for now", st?"green":"ghost"):btn("px-summary","Day summary","green")}</div>
-   <small class="muted">Slips today: ${(PROG.slips[DAY]||[]).length}</small> <button class="lnk fp-small" data-a="px-restart">Start Day ${DAY} over</button></div>`;
+   <small class="muted">Slips today: ${(PROG.slips[DAY]||[]).length}</small> ${RESTART_ARM===DAY ? `<span class="fp-small px-arm" role="alert">This clears ${done} done task${done===1?"":"s"} and ${(PROG.slips[DAY]||[]).length} slip${(PROG.slips[DAY]||[]).length===1?"":"s"} for ${E(dayLabel(DAY))}. Your trainer sees the restart. <button class="lnk fp-small" data-a="px-restart">Yes, start over</button> <button class="lnk fp-small" data-a="px-restart-cancel">Cancel</button></span>` : `<button class="lnk fp-small" data-a="px-restart">Start Day ${DAY} over</button>`}</div>`;
   return h;
 }
 
@@ -1736,9 +1793,10 @@ function pxAct(a, ds){
     case "px-prev": CUR = Math.max(0, CUR-1); return true;
     case "px-next": CUR = Math.min(L.length-1, CUR+1); return true;
     case "px-summary": PVIEW = "results"; return true;
-    case "px-hint": HINTED[L[CUR].id] = true; return true;
+    case "px-hint": { const id = L[CUR].id; HINTED[id] = true; if(!PROG.tasks[id]){ PROG.hinted = (PROG.hinted && typeof PROG.hinted === "object") ? PROG.hinted : {}; PROG.hinted[id] = 1; if(window.FPCourse) window.FPCourse.savePractice(PROG); } return true; }
     case "px-ans": { const t = L[CUR], q = taskQs(t)[+ds.q]; ANS[t.id] = ANS[t.id]||{}; ANS[t.id][+ds.q] = {i:+ds.v, ok:+ds.v===q.a}; return true; }
-    case "px-restart": startDay(DAY, true); toast(`Day ${DAY} started over with fresh practice data.`,"ok"); return true;
+    case "px-restart-cancel": RESTART_ARM = 0; return true;
+    case "px-restart": if(RESTART_ARM !== DAY){ RESTART_ARM = DAY; return true; } RESTART_ARM = 0; startDay(DAY, true); toast(`Day ${DAY} started over with fresh practice data.`,"ok"); return true;
     case "px-lesson": if(window.FPCourse) window.FPCourse.openLesson(ds.v); return "leave";
     case "px-copy": { const txt = resultsText(); (navigator.clipboard ? navigator.clipboard.writeText(txt) : Promise.reject()).then(()=>{ toast("Results copied.","ok"); after(); }, ()=>{ toast("Couldn't copy. Use Download instead.","bad"); after(); }); return false; }
     case "px-download": { if(window.FPCourse) window.FPCourse.download("fieldpulse-practice-results.txt", resultsText()); return false; }
@@ -1815,7 +1873,7 @@ window.FPPractice = {
     else if(dayArg && +dayArg!==DAY) startDay(+dayArg,false);
     pxRender();
   },
-  load(p){ PROG = {tasks:Object.assign({}, (p&&p.tasks)||{}), slips:Object.assign({}, (p&&p.slips)||{}), restarts:(p && Array.isArray(p.restarts)) ? p.restarts.slice() : [], restartCount:(p && +p.restartCount) || 0}; SLIPS = []; Object.keys(PROG.slips).forEach(d => (PROG.slips[d]||[]).forEach(x => SLIPS.push({text:x.t, serious:!!x.s, day:+d}))); const f = dayTasks(DAY).findIndex(t=>!PROG.tasks[t.id]); CUR = f<0?0:f; if(ROOT) pxRender(); },
+  load(p){ PROG = {tasks:Object.assign({}, (p&&p.tasks)||{}), slips:Object.assign({}, (p&&p.slips)||{}), restarts:(p && Array.isArray(p.restarts)) ? p.restarts.slice() : [], restartCount:(p && +p.restartCount) || 0, hinted:Object.assign({}, (p && p.hinted && typeof p.hinted === "object" && !Array.isArray(p.hinted)) ? p.hinted : {})}; HINTED = Object.assign({}, PROG.hinted); SLIPS = []; Object.keys(PROG.slips).forEach(d => (PROG.slips[d]||[]).forEach(x => SLIPS.push({text:x.t, serious:!!x.s, day:+d}))); const f = dayTasks(DAY).findIndex(t=>!PROG.tasks[t.id]); CUR = f<0?0:f; if(ROOT) pxRender(); },
   taskFor(lessonId){ const t = LESSON_TASK[lessonId]; return t ? {id:t.id, day:t.day, title:t.t} : null; },
   summary(p){ const tasks = (p&&p.tasks)||{}; const n = ALLTASKS.filter(t=>tasks[t.id]).length; return `${n}/${TOTAL_TASKS}`; },
   total: TOTAL_TASKS
@@ -3326,7 +3384,7 @@ act = function(a, ds){
 
 /* ===== free practice sandbox: no days, no tasks, no hints ===== */
 (function(HOST){
-  const KEY = "bcb-fp-sandbox-v1";
+  const KEY = "bcb-fp-sandbox-v1" + (function(){ try{ const m = window.FPTrack && window.FPTrack.me && window.FPTrack.me(); return m && m.id ? ":" + m.id : ""; }catch(e){ return ""; } })();
   const store = {
     get(){ try{ return JSON.parse(localStorage.getItem(KEY) || "null"); }catch(e){ return null; } },
     set(v){ try{ localStorage.setItem(KEY, JSON.stringify(v)); return true; }catch(e){ return false; } },

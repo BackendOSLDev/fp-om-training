@@ -26,7 +26,7 @@ function bcbCertPdf(o) {
   c += txt(680, 530, 'F2', 7.5, red, 'BCB', 1.2) + txt(664.5, 513, 'F2', 7.5, red, 'PARTNERS', 1.2) + txt(665, 496, 'F2', 7.5, red, 'CERTIFIED', 1.2);
   c += txt(60, 448, 'F1', 9, gray, 'THIS CERTIFIES THAT', 1.6);
   c += txt(60, 400, 'F2', ns, ink, name, 0.5);
-  c += txt(60, 370, 'F1', 9, gray, 'COMPLETED THE TRAINING AND PASSED EVERY CHECK FOR', 1.6);
+  c += txt(60, 370, 'F1', 9, gray, 'COMPLETED THE TRAINING AND PASSED EVERY LESSON CHECK FOR', 1.6);
   c += txt(60, 338, 'F2', 20, red, 'FIELDPULSE OFFICE OPERATIONS', 0.6);
   wrap(o.what, 104).forEach((l, i) => { c += txt(60, 308 - i * 15, 'F1', 10.5, '0.3 0.3 0.3', l, 0); });
   c += '0.8 0.8 0.8 RG 0.6 w 60 176 m 732 176 l S\n';

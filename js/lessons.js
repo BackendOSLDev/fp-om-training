@@ -84,7 +84,7 @@ window.FP_LESSONS = {
    "id": "m2",
    "title": "Module 2: Scheduling and dispatch",
    "page": "m2.html",
-   "summary": "Putting jobs on the calendar, keeping the board true all day, and closing each job out.",
+   "summary": "Putting jobs on the calendar, keeping the board right all day, and closing each job out.",
    "lessons": [
     {
      "id": "m2-1",
@@ -185,6 +185,18 @@ window.FP_LESSONS = {
     {
      "id": "m4-5",
      "title": "Book the sold work"
+    },
+    {
+     "id": "m4-6",
+     "title": "Book an estimate visit"
+    },
+    {
+     "id": "m4-7",
+     "title": "Turn an accepted estimate into the invoice"
+    },
+    {
+     "id": "m4-8",
+     "title": "Close an estimate the right way"
     }
    ]
   },
@@ -221,6 +233,10 @@ window.FP_LESSONS = {
     {
      "id": "m5-7",
      "title": "Help run the hiring pipeline"
+    },
+    {
+     "id": "m5-8",
+     "title": "Check a job's profit with Job Costing"
     }
    ]
   },
@@ -240,7 +256,7 @@ window.FP_LESSONS = {
     },
     {
      "id": "m6-3",
-     "title": "Pull payments collected by tech and day"
+     "title": "Pull payments by person and day"
     },
     {
      "id": "m6-4",

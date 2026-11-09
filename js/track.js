@@ -75,8 +75,9 @@ function demo(){
       var have = (d.certs||[]).filter(function(c){ return c.user_id===me; })[0]; if(have) return have;
       var p = {}; d.events.forEach(function(e){ if(e.user_id===me && /^(walk|check|practice)$/.test(e.part)) (p[e.lesson_id] = p[e.lesson_id]||{})[e.part] = 1; });
       var n = (window.FP_REQUIRED||[]).filter(function(id){ var x = p[id]||{}; return x.walk && x.check && x.practice; }).length;
-      if(n < 50) throw new Error("Not ready: "+n+" of 50 lessons done");
-      var pr = (d.practice||{})[me]; if(!pr || pr.result!=="Ready" || pr.done<54 || pr.own<46 || pr.serious>0) throw new Error("Not ready: practice result is not Ready yet");
+      var NL = (window.FP_REQUIRED||[]).length, PT = window.ACAD_PTASKS||{}, NT = ["d1","d2","d3","d4"].reduce(function(a,k){ return a + (PT[k]||[]).length; }, 0), OWN = Math.ceil(NT*0.85);
+      if(n < NL) throw new Error("Not ready: "+n+" of "+NL+" lessons done");
+      var pr = (d.practice||{})[me]; if(!pr || pr.result!=="Ready" || pr.done<NT || pr.own<OWN || pr.serious>0) throw new Error("Not ready: practice result is not Ready yet");
       d.certs = d.certs||[]; d.certNo = (d.certNo||0)+1;
       var yr = new Intl.DateTimeFormat("en-US", {timeZone:"Etc/GMT+4", year:"numeric"}).format(new Date()), rnd = ""; for(var ri = 0; ri < 4; ri++) rnd += "XY23456789ABCDEF"[Math.floor(Math.random()*16)];
       var c = {cert_id:"BCB-FP-"+yr+"-"+String(d.certNo).padStart(4,"0")+"-"+rnd, user_id:me, full_name:d.users[me].full_name||d.users[me].email, training:"FieldPulse office operations, 5-day program", issued_at:new Date().toISOString(), status:"active", revoked_at:null, revoke_reason:null};

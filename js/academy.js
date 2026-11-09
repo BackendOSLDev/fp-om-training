@@ -3,6 +3,11 @@
 "use strict";
 var L = window.ACAD_LESSONS || [], BY = {};
 L.forEach(function(x){ BY[x.id] = x; });
+var REQ = window.FP_REQUIRED || [];
+/* program numbers, worked out from the catalog (Nov 9: 54 lessons, 58 practice tasks) */
+var PT = window.ACAD_PTASKS || {};
+var NL = REQ.length, NT = ['d1', 'd2', 'd3', 'd4'].reduce(function(a, d){ return a + (PT[d] || []).length; }, 0);
+var OWN = Math.ceil(NT * 0.85), COACH = Math.ceil(NT * 0.9), MAXH = NT - OWN;
 var DAYS = [
   { id: 'd1', num: '1', name: 'Basics and intake', tasks: 13, checks: 35,
     summary: 'Clean customer records, then taking calls and web requests and booking them as clean jobs.',
@@ -11,18 +16,19 @@ var DAYS = [
     summary: 'Closing the gaps after booking, then putting jobs on the calendar, keeping the board right all day, and closing each job out.',
     start: ['Your Day 1 grade, and any hints or slips.', 'Recap: a clean customer record, and a call booked as a clean job.', 'Today: finishing intake, then scheduling, dispatch and closing jobs out.'] },
   { id: 'd3', num: '3', name: 'Invoicing, payments and estimates', tasks: 15, checks: 45,
-    summary: 'Billing every finished job, recording every payment, chasing what is owed, and following every estimate to won or lost.',
-    start: ['Your Day 2 grade, and any hints or slips.', 'Recap: keeping the dispatch board right and closing a job out.', 'Today: invoices, payments, unpaid balances and estimates.'] },
-  { id: 'd4', num: '4', name: 'Payroll prep and compliance', tasks: 13, checks: 39,
-    summary: 'Keeping FieldPulse and QuickBooks matched, getting hours ready for payroll, logins, and the compliance checks.',
-    start: ['Your Day 3 grade, and any hints or slips.', 'Recap: billing every finished job and following every estimate.', 'Today: QuickBooks matching, hours for payroll, logins and compliance.'] },
+    summary: 'Billing every finished job, recording every payment, chasing what is owed, and taking every estimate from the visit to won, lost or invoiced.',
+    start: ['Your Day 2 grade, and any hints or slips.', 'Recap: keeping the dispatch board right and closing a job out.', 'Today: invoices, payments, unpaid balances, and estimates from the visit to the invoice.'] },
+  { id: 'd4', num: '4', name: 'Accounts, payroll prep and compliance', tasks: 13, checks: 39,
+    summary: 'Billing property managers and commercial accounts, asking for reviews, keeping FieldPulse and QuickBooks matched, reading job profit, getting hours ready for payroll, logins, and the compliance checks.',
+    start: ['Your Day 3 grade, and any hints or slips.', 'Recap: billing every finished job and following every estimate.', 'Today: commercial billing, QuickBooks matching, job profit, hours for payroll, logins and compliance.'] },
   { id: 'd5', num: '5', name: 'Review and certification',
-    summary: 'Take the final review check, fix your weak spots, get your practice result to Ready, write your reflection, and your certificate unlocks.',
+    summary: 'Take the final review check, fix your weak spots, get your practice result to Ready and write your reflection. The certificate unlocks once all ' + NL + ' lessons are done and practice is Ready.',
     start: ['Your Day 4 grade, and all four day grades side by side.', 'What the final check covers, and what a Ready practice result needs.', 'Today: the final check, your weak spots, the reflection and the certificate.'] }
 ];
 var XTRA = { id: 'x', num: '+', name: 'Owner reporting', tasks: 6, checks: 18,
   summary: 'Giving the owner clear numbers without them having to ask. Extra lessons. They do not count toward the certificate.' };
-var REQ = window.FP_REQUIRED || [];
+DAYS.forEach(function(d){ if(d.id === 'd5') return; d.tasks = (PT[d.id] || []).length; d.checks = L.filter(function(x){ return x.day === d.id; }).reduce(function(a, x){ return a + (x.nq || 0); }, 0); });
+XTRA.tasks = (PT.x || []).length; XTRA.checks = L.filter(function(x){ return x.day === 'x'; }).reduce(function(a, x){ return a + (x.nq || 0); }, 0);
 
 function dayName(d){ return d === 'x' ? 'Extra' : 'Day ' + String(d).slice(1); }
 function modShort(m){ return m === 'f' ? 'Foundations' : 'Module ' + m.slice(1); }
@@ -39,14 +45,19 @@ function progress(rows){
     if(r.part === 'check'){ x.score = r.score; x.total = r.total; }
     if(r.part === 'practice' && r.hints != null) x.hints = r.hints;
     /* a Hint in the knowledge check is saved the moment it is clicked (an "open" row with hints) */
-    if(r.part === 'open' && +r.hints > 0 && (x.hAt == null || (r.created_at || '') < x.hAt)) x.hAt = r.created_at || '';
+    if(r.part === 'open' && +r.hints > 0 && r.total == null && (x.hAt == null || (r.created_at || '') < x.hAt)) x.hAt = r.created_at || '';
+    /* knowledge check record for the trainer: every Hint click, every try left unfinished, every finish */
+    if(r.part === 'open' && r.total == null && +r.hints > 0) x.kcHints = (x.kcHints || 0) + 1;
+    if(r.part === 'open' && r.total != null){ x.kcLeft = (x.kcLeft || 0) + 1; if(+r.hints > 0) x.hAtLeft = (x.hAtLeft == null || (r.created_at || '') < x.hAtLeft) ? (r.created_at || '') : x.hAtLeft; }
+    if(r.part === 'practice') x.kcTries = (x.kcTries || 0) + 1;
     /* first finished try of the knowledge check */
     if(r.part === 'practice' && (x.pAt == null || (r.created_at || '') < x.pAt)){ x.pAt = r.created_at || ''; x.hints1 = +r.hints || 0; }
     x.min = Math.max(x.min, +r.minutes || 0);
     if((r.created_at || '') > x.last) x.last = r.created_at || '';
   });
   /* the knowledge check needed a hint if the first finished try used one, or a hint was clicked before it was first finished */
-  Object.keys(P).forEach(function(k){ var x = P[k]; x.hinted = (x.hints1 || 0) > 0 || (x.hAt != null && x.pAt != null && x.hAt <= x.pAt); });
+  Object.keys(P).forEach(function(k){ var x = P[k];
+    x.hinted = (x.hints1 || 0) > 0 || (x.hAt != null && x.pAt != null && x.hAt <= x.pAt) || (x.hAtLeft != null && x.pAt != null && x.hAtLeft <= x.pAt); });
   return P;
 }
 function isDone(P, id){ var x = P[id] || {}; return !!(x.walk && x.check && x.practice); }
@@ -62,14 +73,30 @@ function summary(P){
   var curDay = nextReq ? nextReq.day : 'd5';
   return { done: done, chk: chk, extra: extra, sops: sops, min: min, last: last, next: next, nextReq: nextReq, curDay: curDay };
 }
+/* one line on what happened in a lesson's knowledge check, for My progress and Team progress */
+function kcText(x){
+  x = x || {}; var parts = [];
+  if(x.kcHints) parts.push(x.kcHints + (x.kcHints === 1 ? ' hint' : ' hints'));
+  if(x.kcLeft) parts.push('started over ' + x.kcLeft + (x.kcLeft === 1 ? ' time' : ' times'));
+  if(x.kcTries > 1) parts.push('finished ' + x.kcTries + ' times');
+  return parts.join(', ');
+}
 function fmtMin(m){ m = Math.round(m || 0); return m >= 60 ? Math.floor(m / 60) + ' h ' + (m % 60) + ' min' : m + ' min'; }
 function fmtDay(iso){ if(!iso) return '-'; try{ return new Intl.DateTimeFormat('en-US', { timeZone: (window.FP_CONFIG || {}).TIME_ZONE || 'Etc/GMT+4', month: 'short', day: 'numeric', year: 'numeric' }).format(new Date(iso)); }catch(e){ return String(iso).slice(0, 10); } }
 function fmtTime(iso){ return iso ? window.FPTrack.fmtTime(iso) : '-'; }
 
 /* practice result shown everywhere: from the saved practice row */
+/* the result is worked out again from the saved counts, so a result saved under an older task count is not shown as Ready */
+function pracResult(pr){
+  if(!pr) return 'Not started';
+  var done = +pr.done || 0, own = +pr.own || 0, serious = +pr.serious || 0;
+  if(done >= NT && own >= OWN && serious === 0) return 'Ready';
+  if(done >= COACH && serious <= 1) return 'Ready with coaching';
+  return 'Not ready yet';
+}
 function pracText(pr){
   if(!pr) return 'Not started';
-  return pr.result + ' · ' + pr.done + ' of 54';
+  return pracResult(pr) + ' · ' + pr.done + ' of ' + NT;
 }
 
 /* Day grade (Days 1 to 4), worked out the same way for everyone from what is already saved:
@@ -78,7 +105,7 @@ function pracText(pr){
 var GRADE_RULE = { hints: 2 };
 var GRADE_TEXT = 'Pass = every lesson and practice task of the day done, at most 2 knowledge checks needed a hint before they were first finished, at most 2 practice tasks needed a hint, and no serious slips. ' +
   'Pass with coaching = all done and no serious slips, but more hints than that. Redo = a serious slip in that day\'s practice: start that day over in Practice tasks. ' +
-  'The certificate still looks at the totals: all 50 lessons and a Ready practice result (at most 8 practice tasks with a hint across Days 1 to 4, no serious slips).';
+  'The certificate still looks at the totals: all ' + NL + ' lessons and a Ready practice result (at most ' + MAXH + ' practice tasks with a hint across Days 1 to 4, no serious slips).';
 var GRADE_COLOR = { 'Pass': 'var(--ok)', 'Pass with coaching': 'var(--warn)', 'Redo': 'var(--red)', 'In progress': 'var(--paper)', 'Not started': 'var(--faint)' };
 function dayGrade(P, pr, d){
   var les = L.filter(function(x){ return x.day === d; });
@@ -172,6 +199,6 @@ window.ACAD_NEXT = function(id){
 window.ACAD_GO = function(id){ var x = BY[id]; if(x) location.href = href(x); };
 
 window.ACAD = { L: L, BY: BY, DAYS: DAYS, XTRA: XTRA, REQ: REQ, dayName: dayName, modShort: modShort, where: where, href: href,
-  progress: progress, isDone: isDone, summary: summary, dayGrade: dayGrade, grades: grades, agenda: agenda, GRADE_TEXT: GRADE_TEXT, GRADE_COLOR: GRADE_COLOR, fmtMin: fmtMin, fmtDay: fmtDay, fmtTime: fmtTime, pracText: pracText,
+  progress: progress, isDone: isDone, summary: summary, NL: NL, NT: NT, OWN: OWN, COACH: COACH, MAXH: MAXH, dayGrade: dayGrade, grades: grades, kcText: kcText, agenda: agenda, GRADE_TEXT: GRADE_TEXT, GRADE_COLOR: GRADE_COLOR, fmtMin: fmtMin, fmtDay: fmtDay, fmtTime: fmtTime, pracText: pracText, pracResult: pracResult,
   hdr: hdr, search: search, start: start };
 })();
