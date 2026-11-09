@@ -2,232 +2,188 @@
 <html lang="en">
 <head>
 <meta charset="utf-8">
-<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
-<meta name="robots" content="noindex">
-<title>BCB Partners Academy</title>
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;600;700;800&display=swap">
-<link rel="stylesheet" href="css/site.css">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Sign in · BCB Partners Academy</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Anton&amp;family=Archivo:wght@400;500;600&amp;family=JetBrains+Mono:wght@400;700&amp;family=Permanent+Marker&amp;family=Source+Sans+3:wght@400;500;600;700;900&amp;display=swap">
 <style>
-[hidden]{display:none!important}
-:root{--navy:#0B1433;--navy2:#101A3A;--blue:#1D5FD6;--blue2:#1449A8;--ink:#172033;--mut:#5B6577;--ln:#E3E8F0;--bg:#F2F5FA;--amber:#F5A524;--ok:#1B7A45;--okbg:#E5F3EA}
-html,body{font-family:"Plus Jakarta Sans",system-ui,-apple-system,"Segoe UI",sans-serif;background:var(--bg);color:var(--ink)}
-.bb-hdr{background:var(--navy2);color:#fff}
-.bb-hdr .in{max-width:1180px;margin:0 auto;padding:12px max(16px,env(safe-area-inset-left));display:flex;flex-wrap:wrap;gap:10px 24px;align-items:center;justify-content:space-between}
-.bb-brand{display:flex;align-items:center;gap:12px;font-weight:800;font-size:17px;line-height:1.2}
-.bb-brand small{display:block;font-size:12.5px;font-weight:600;color:#9FB0D6}
-.bb-logo{width:36px;height:36px;border-radius:10px;background:var(--blue);display:grid;place-items:center;flex:none}
-.fpt-bar a{color:#fff}
-/* sign in */
-.bb-login{display:flex;flex-wrap:wrap;min-height:100vh;background:var(--navy)}
-.bb-pitch{flex:999 1 560px;min-width:0;padding:48px clamp(16px,5vw,56px);color:#fff;display:flex;flex-direction:column;justify-content:center;gap:28px}
-.bb-pitch h1{margin:0;font-size:clamp(30px,4vw,44px);line-height:1.1;font-weight:800;max-width:620px}
-.bb-side{flex:1 1 440px;min-width:0;background:#F5F7FB;display:flex;align-items:center;justify-content:center;padding:40px 24px}
-.bb-card{width:100%;max-width:380px;background:#fff;border:1px solid var(--ln);border-radius:22px;padding:32px;box-shadow:0 10px 30px rgba(16,26,58,.08)}
-.bb-card h2{margin:0;font-size:26px;font-weight:800}
-.bb-card p.lead{margin:6px 0 20px;font-size:15px;color:var(--mut)}
-.bb-card label{display:block;font-size:14px;font-weight:700;margin:14px 0 6px}
-.bb-card input{font:inherit;width:100%;min-height:48px;padding:0 14px;border:1px solid #CDD5E1;border-radius:12px;font-size:16px}
-.bb-card input:focus{outline:3px solid #C9DBFA;outline-offset:1px}
-.bb-card .btn{width:100%;min-height:50px;margin-top:20px;border-radius:14px;background:var(--blue);border-color:var(--blue);font-weight:800;font-size:16px}
-.bb-card .btn:hover{background:var(--blue2)}
-.bb-card .foot{margin:16px 0 0;font-size:14px;color:var(--mut);text-align:center}
-.bb-prev{position:relative;max-width:720px;border-radius:16px;overflow:hidden;background:#fff;box-shadow:0 30px 70px rgba(0,0,0,.45);border:1px solid rgba(255,255,255,.15);color:#172033}
-.bb-prev .chrome{height:32px;background:#E9EDF4;display:flex;align-items:center;gap:6px;padding:0 12px}
-.bb-prev .chrome i{width:10px;height:10px;border-radius:50%;display:block}
-.bb-prev .chrome span{margin-left:12px;flex:1;height:20px;border-radius:6px;background:#fff;font-size:11px;color:#5B6577;display:flex;align-items:center;padding:0 10px}
-.bb-prev .body{display:flex;height:300px}
-.bb-prev .nav{width:150px;white-space:nowrap;border-right:1px solid #E3E8F0;padding:12px 10px;display:flex;flex-direction:column;gap:4px;font-size:11px;color:#3F4A5E}
-.bb-prev .nav div{display:flex;gap:8px;align-items:center;padding:6px}
-.bb-prev .nav div.on{background:#EAF1FD;color:#1449A8;font-weight:700;border-radius:6px}
-.bb-prev .nav b{width:13px;height:13px;border-radius:4px;display:block}
-.bb-prev .nav .sub{padding:2px 6px 2px 27px}
-.bb-prev .main{flex:1;display:flex;flex-direction:column;min-width:0}
-.bb-prev .top{height:38px;background:#00034D;color:#fff;display:flex;align-items:center;padding:0 14px;gap:10px;font-size:12px;font-weight:700;letter-spacing:.04em}
-.bb-prev .top em{font-style:normal;font-size:9px;background:var(--amber);color:#101A3A;border-radius:4px;padding:2px 6px}
-.bb-prev .area{padding:14px;display:flex;flex-direction:column;gap:12px;position:relative;flex:1}
-.bb-prev .qa{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:8px;max-width:300px;border:1px solid #E3E8F0;border-radius:8px;padding:10px;font-size:11px}
-.bb-prev .qa div{display:flex;gap:6px;align-items:center;padding:2px 4px}
-.bb-prev .qa b{width:15px;height:15px;border-radius:4px;display:block}
-.bb-prev .qa .hit{border-radius:6px;outline:2px solid var(--amber);font-weight:700;animation:bbring 1.6s ease-out infinite}
-.bb-prev .stats{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:8px}
-.bb-prev .stats div{border:1px solid #E3E8F0;border-radius:8px;padding:10px;font-size:10px;color:#5B6577}
-.bb-prev .stats strong{display:block;font-size:19px;color:#172033}
-.bb-prev .coach{position:absolute;left:326px;top:14px;background:#101A3A;color:#fff;border-radius:10px;padding:8px 10px;font-size:11px;width:168px;box-shadow:0 8px 20px rgba(16,26,58,.3)}
-.bb-prev .coach b{color:var(--amber)}
-.bb-prev .cur{position:absolute;left:0;top:0;width:22px;height:22px;animation:bbcur 4.2s ease-in-out infinite}
-.bb-prev .cur i{position:absolute;left:-9px;top:-9px;width:22px;height:22px;border-radius:50%;background:rgba(29,95,214,.5);animation:bbtap 4.2s ease-out infinite}
-@keyframes bbcur{0%,10%{transform:translate(320px,240px)}45%,62%{transform:translate(206px,30px)}100%{transform:translate(320px,240px)}}
-@keyframes bbtap{0%,44%{transform:scale(0);opacity:0}48%{transform:scale(1);opacity:.9}62%,100%{transform:scale(2.2);opacity:0}}
-@keyframes bbring{0%{box-shadow:0 0 0 0 rgba(245,165,36,.7)}70%{box-shadow:0 0 0 12px rgba(245,165,36,0)}100%{box-shadow:0 0 0 0 rgba(245,165,36,0)}}
-@media (prefers-reduced-motion:reduce){.bb-prev .cur,.bb-prev .cur i,.bb-prev .qa .hit{animation:none}}
-@media (max-width:760px){.bb-prev{display:none}.bb-pitch{padding:32px 16px 8px;flex-basis:100%}.bb-login{min-height:0}.bb-side{padding:20px 16px 40px;background:var(--navy)}}
-/* home: progress only */
-.bb-main{max-width:1180px;margin:0 auto;padding:26px max(16px,env(safe-area-inset-left)) 48px}
-.bb-prog{display:flex;flex-direction:column;gap:10px}
-.bb-prog .hey{font-size:15px;font-weight:700;color:var(--mut)}
-.bb-next{display:flex;flex-wrap:wrap;gap:14px 20px;align-items:center;justify-content:space-between;background:#fff;border:1px solid var(--ln);border-left:5px solid var(--blue);border-radius:16px;padding:20px 22px}
-.bb-next .k{font-size:12px;font-weight:800;color:var(--blue);text-transform:uppercase;letter-spacing:.06em}.bb-next .t{font-weight:800;font-size:20px;margin-top:4px}
-.bb-next .btn{border-radius:12px;min-height:44px;padding:0 22px;display:inline-flex;align-items:center;font-weight:800;background:var(--blue);border-color:var(--blue)}
-.bb-tabs{display:inline-flex;gap:6px;background:#E6EBF3;border-radius:12px;padding:4px;margin-top:28px;flex-wrap:wrap}
-.bb-tabs button{font:inherit;font-weight:700;font-size:14px;min-height:40px;padding:0 16px;border-radius:9px;border:0;background:transparent;color:#3F4A5E;cursor:pointer}
-.bb-tabs button[aria-selected="true"]{background:#fff;color:var(--ink);font-weight:800;box-shadow:0 1px 2px rgba(16,26,58,.12)}
-.bb-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:16px;margin-top:16px}
-.lcard{display:block;text-decoration:none;color:var(--ink);background:#fff;border:1px solid var(--ln);border-radius:16px;overflow:hidden}
-.lcard:hover{border-color:#B9C6DA}.lcard:hover .lt{color:var(--blue2)}
-.lcard .th{height:132px;background:#F5F7FB;border-bottom:1px solid var(--ln);position:relative;overflow:hidden}
-.lcard .win{position:absolute;left:14px;right:14px;top:14px;bottom:-6px;background:#fff;border:1px solid #D5DCE7;border-radius:8px;overflow:hidden}
-.lcard .win>i{display:block;height:16px;background:#0E1B3D}
-.lcard .win>div{padding:8px;display:flex;flex-direction:column;gap:6px}
-.lcard .g{background:#EEF1F6;border-radius:5px}.lcard .o{border:1.5px solid var(--amber);border-radius:5px}
-.lcard .pill{position:absolute;right:10px;top:10px;font-size:11px;font-weight:800;border-radius:999px;padding:4px 10px}
-.pill.d{background:#1B7A45;color:#fff}.pill.u{background:var(--amber);color:#101A3A}.pill.s{background:#FEF3E2;color:#7A3E06}
-.lcard .tx{padding:14px 16px 16px}.lcard .ls{font-size:12px;font-weight:700;color:var(--mut)}.lcard .lt{font-size:16px;font-weight:800;line-height:1.3;margin-top:4px}
+/* BCB Partners look, taken from bluecollarballerpartners.com: near-black ground, off-white type, one red, square corners.
+   Anton for headings, Archivo for reading, JetBrains Mono for labels and buttons. */
+body{margin:0;background:#0B0B0B}
+.bcb{--ink:#0B0B0B;--ink2:#131313;--ink3:#1B1B1B;--paper:#F2F1EE;--mut:rgba(242,241,238,.72);--faint:rgba(242,241,238,.48);--line:rgba(242,241,238,.12);--line2:rgba(242,241,238,.24);--ok:#62C482;--warn:#E8A93C;--red:#C6301A;--red2:#DD3B22;
+  --display:'Anton',Impact,'Arial Narrow',sans-serif;--body:'Archivo',system-ui,-apple-system,'Segoe UI',sans-serif;--mono:'JetBrains Mono',ui-monospace,Menlo,monospace;
+  min-height:100vh;background:var(--ink);color:var(--paper);font-family:var(--body);font-size:15px;line-height:1.5;display:flex;flex-direction:column}
+/* Working pages use a white page; the header bar stays BCB black. Front-door pages (sign in, choose FSM) stay dark. */
+.bcb.light{--ink:#FFFFFF;--ink2:#F6F5F2;--ink3:#EEECE7;--paper:#0B0B0B;--mut:rgba(11,11,11,.7);--faint:rgba(11,11,11,.52);--line:rgba(11,11,11,.12);--line2:rgba(11,11,11,.26);--ok:#1E7A3C;--warn:#9A6200;}
+.bcb.light .hdr{--ink:#0B0B0B;--ink2:#131313;--ink3:#1B1B1B;--paper:#F2F1EE;--mut:rgba(242,241,238,.72);--faint:rgba(242,241,238,.48);--line:rgba(242,241,238,.12);--line2:rgba(242,241,238,.24);--ok:#62C482;--warn:#E8A93C;background:#0B0B0B;color:#F2F1EE}
+.bcb a{color:var(--paper);text-decoration:underline;text-decoration-color:var(--line2);text-underline-offset:3px}
+.bcb a:hover{text-decoration-color:var(--red)}
+.bcb :focus-visible{outline:2px solid var(--red);outline-offset:2px}
+.hdr{display:flex;flex-wrap:wrap;align-items:center;gap:12px 28px;padding:14px 32px;border-bottom:1px solid var(--line);background:var(--ink)}
+.brand{display:flex;align-items:center;gap:12px;text-decoration:none!important;color:var(--paper)!important}
+.brand .logo{height:24px;width:auto;display:block}
+.brand small{font-family:var(--mono);font-size:10px;letter-spacing:.22em;text-transform:uppercase;color:var(--faint);padding-left:12px;border-left:1px solid var(--line2)}
+.nav{display:flex;align-items:center;gap:4px;margin-left:auto;flex-wrap:wrap}
+.toplink{font-family:var(--mono);font-size:11px;letter-spacing:.18em;text-transform:uppercase;color:var(--mut)!important;text-decoration:none!important;padding:8px 10px;border-bottom:2px solid transparent}
+.toplink:hover{color:var(--paper)!important}
+.toplink.on{color:var(--paper)!important;border-bottom-color:var(--red)}
+.who{width:32px;height:32px;margin-left:10px;border:1px solid var(--line2);display:grid;place-items:center;font-family:var(--mono);font-size:11px;color:var(--paper)}
+.search{flex:1 1 260px;max-width:380px;display:flex;align-items:center;gap:8px;border:1px solid var(--line2);padding:0 12px;min-height:38px;background:var(--ink2)}
+.search input{border:0;background:transparent;font:inherit;font-size:14px;flex:1;min-width:0;outline:none;color:var(--paper)}
+.search input::placeholder{color:var(--faint)}
+.lbl{font-family:var(--mono);font-size:11px;letter-spacing:.2em;text-transform:uppercase;color:var(--faint);margin:0}
+.h1{font-family:var(--display);font-weight:400;text-transform:uppercase;font-size:46px;line-height:.98;letter-spacing:-.005em;margin:0;text-wrap:balance}
+.h2{font-family:var(--display);font-weight:400;text-transform:uppercase;font-size:26px;line-height:1.05;margin:0;text-wrap:balance}
+.h3{font-family:var(--display);font-weight:400;text-transform:uppercase;font-size:19px;line-height:1.1;margin:0}
+.mut{color:var(--mut)}.faint{color:var(--faint)}
+.marker{font-family:'Permanent Marker',cursive;text-transform:none;letter-spacing:.01em;border-bottom:2px solid var(--paper)}
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;min-height:42px;padding:0 20px;border:1px solid var(--red);background:var(--red);color:#F2F1EE!important;font-family:var(--mono);font-size:11px;letter-spacing:.18em;text-transform:uppercase;text-decoration:none!important;cursor:pointer;border-radius:0}
+.btn:hover{background:var(--red2);border-color:var(--red2)}
+.btn.ghost{background:transparent;border-color:var(--line2);color:var(--paper)!important}
+.btn.ghost:hover{border-color:var(--paper)}
+.btn.done{background:transparent;border-color:var(--ok);color:var(--ok)!important;cursor:default}
+.panel{border:1px solid var(--line);background:var(--ink2)}
+.paper{--ink:#FFFFFF;--ink2:#F6F5F2;--ink3:#EEECE7;--paper:#0B0B0B;--mut:rgba(11,11,11,.7);--faint:rgba(11,11,11,.52);--line:rgba(11,11,11,.12);--line2:rgba(11,11,11,.26);--ok:#1E7A3C;--warn:#9A6200;--ink2:#FFFFFF;background:#F2F1EE;color:#0B0B0B}
+.bcb.light .paper{--ink:#0B0B0B;--ink2:#131313;--ink3:#1B1B1B;--paper:#F2F1EE;--mut:rgba(242,241,238,.72);--faint:rgba(242,241,238,.48);--line:rgba(242,241,238,.12);--line2:rgba(242,241,238,.24);--ok:#62C482;--warn:#E8A93C;background:#0B0B0B;color:#F2F1EE}
+.tabs{display:flex;flex-wrap:wrap;gap:0;border:1px solid var(--line2);width:max-content;max-width:100%}
+.tabb{border:0;border-right:1px solid var(--line2);background:transparent;color:var(--paper);font-family:var(--mono);font-size:10.5px;letter-spacing:.18em;text-transform:uppercase;padding:10px 14px;cursor:pointer;min-height:38px}
+.tabb:last-child{border-right:0}
+.tabb:hover{background:var(--ink3)}
+.tabb.on{background:var(--red);color:#F2F1EE}
+.field{display:flex;flex-direction:column;gap:6px}
+.field input,.field select{font:inherit;font-size:15px;color:var(--paper);background:var(--ink2);border:1px solid var(--line2);border-radius:0;min-height:44px;padding:0 12px}
+.field input:focus,.field select:focus{outline:none;border-color:var(--paper)}
+.num{font-variant-numeric:tabular-nums}
+.fsmchip{display:inline-flex;align-items:center;gap:8px;border:1px solid var(--line2);padding:6px 10px;font-family:var(--mono);font-size:10.5px;letter-spacing:.16em;text-transform:uppercase;color:var(--paper)!important;text-decoration:none!important}
+.fsmchip:hover{border-color:var(--paper)}
+.fsmchip .dot{width:7px;height:7px;background:var(--ok)}
+.fsmchip .chg{color:var(--faint);padding-left:8px;border-left:1px solid var(--line2)}
+.bar{display:block;height:4px;background:var(--line);overflow:hidden}.bar>i{display:block;height:100%;background:var(--ok)}
+.sw{position:relative;flex:1 1 260px;max-width:440px}.sw .search{max-width:none}.sres{position:absolute;left:0;right:0;top:calc(100% + 6px);z-index:50;background:#131313;border:1px solid rgba(242,241,238,.24);box-shadow:0 18px 40px rgba(0,0,0,.45);max-height:560px;overflow:auto;padding:6px 0 10px}.sres-top{display:flex;justify-content:space-between;align-items:center;gap:10px;padding:6px 14px}.sres-top .lbl{color:rgba(242,241,238,.72)!important;text-transform:none;letter-spacing:.02em}.sres-x{border:0;background:transparent;color:rgba(242,241,238,.72);font-family:var(--mono);font-size:10px;letter-spacing:.14em;text-transform:uppercase;cursor:pointer;padding:4px}.sres-x:hover{color:#F2F1EE}.sres-g{border-top:1px solid rgba(242,241,238,.12);padding-top:6px;margin-top:4px}.sres-h{padding:4px 14px;color:rgba(242,241,238,.48)!important}.sres-h .num{margin-left:6px;color:#E0583F}.sres-i{display:flex;flex-direction:column;gap:2px;padding:8px 14px;text-decoration:none!important;border-left:2px solid transparent}.sres-i:hover{background:#1B1B1B;border-left-color:#C6301A}.sres-t{color:#F2F1EE;font-size:14px;font-weight:600;line-height:1.3}.sres-s{color:rgba(242,241,238,.55);font-size:12px}.sres-none{margin:6px 14px;color:rgba(242,241,238,.72);font-size:13.5px}
+.out{border:1px solid var(--line2);background:transparent;color:var(--mut);font-family:var(--mono);font-size:10px;letter-spacing:.16em;text-transform:uppercase;padding:7px 10px;cursor:pointer;margin-left:6px}
+.out:hover{color:var(--paper);border-color:var(--paper)}
+.demo{font-family:var(--mono);font-size:10px;letter-spacing:.14em;text-transform:uppercase;background:#E8A93C;color:#0B0B0B;padding:4px 8px;margin-left:8px}
+.fpt-toast{position:fixed;left:16px;bottom:16px;z-index:300;background:#0B0B0B;color:#F2F1EE;font:13px/1.4 'Archivo',system-ui,sans-serif;padding:10px 14px;border-left:3px solid #E8A93C}
+.fpt-toast:empty{display:none}
+.loading{padding:80px 24px;text-align:center;font:14px 'Archivo',system-ui,sans-serif;color:#9A9A9A}
+.btn[disabled],.btn.off{opacity:.45;cursor:not-allowed}
+@media (max-width:720px){.hdr{padding:12px 16px}.h1{font-size:36px}}
+
+.rule{display:flex;align-items:center;gap:8px;font-size:13.5px}
+.rule i{width:8px;height:8px;display:block}
+.err{margin:0;font-size:13.5px;color:#B3261E}
 </style>
-</head>
-<body>
-<header class="bb-hdr" id="hdr" hidden><div class="in"><div class="bb-brand"><div class="bb-logo"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 19V5l8 7 8-7v14"/></svg></div><div>BCB Partners Academy<small>Introducing FieldPulse</small></div></div><div id="barhost"></div></div></header>
-
-<div class="bb-login" id="loginwrap" hidden>
-  <section class="bb-pitch">
-    <div class="bb-brand"><div class="bb-logo"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 19V5l8 7 8-7v14"/></svg></div><div>BCB Partners Academy<small>Introducing FieldPulse</small></div></div>
-    <h1>Practice in FieldPulse before you touch the real one.</h1>
-    <div class="bb-prev" aria-hidden="true">
-      <div class="chrome"><i style="background:#F26B5B"></i><i style="background:#F5BF4F"></i><i style="background:#5CC66A"></i><span>FieldPulse · practice copy</span></div>
-      <div class="body">
-        <div class="nav"><div class="on"><b style="background:#1D5FD6"></b>Pulse Dashboard</div><div><b style="background:#B9A7F2"></b>Customers</div><div><b style="background:#8EC5F5"></b>Schedule</div><div><b style="background:#F5C46B"></b>Work</div><div class="sub">Jobs</div><div><b style="background:#9ED3B2"></b>Sales</div><div class="sub">Estimates</div><div class="sub">Invoices</div></div>
-        <div class="main"><div class="top">PULSE DASHBOARD <em>PRACTICE COPY</em></div>
-          <div class="area">
-            <div class="qa"><div><b style="background:#FDE7C8"></b>Create Customer</div><div class="hit"><b style="background:#D6E6FD"></b>Create Job</div><div><b style="background:#E6DFFC"></b>Create Estimate</div><div><b style="background:#DDF2E5"></b>Create Invoice</div></div>
-            <div class="stats"><div>Jobs Completed<strong>6 of 17</strong></div><div>New Estimates<strong>1</strong></div><div>Payments Collected<strong>$1,510</strong></div></div>
-            <div class="coach"><b>Step 1 of 12</b><br>A new caller needs a job. Click Create Job.</div>
-            <div class="cur"><i></i><svg width="22" height="22" viewBox="0 0 24 24" style="position:absolute;left:0;top:0"><path d="M4 2l14 9-6 1.5L9 20z" fill="#101A3A" stroke="#fff" stroke-width="1.5" stroke-linejoin="round"/></svg></div>
-          </div>
-        </div>
-      </div>
-    </div>
-  </section>
-  <section class="bb-side">
-    <div class="bb-card" id="login" hidden>
-      <h2>Sign in</h2>
-      <p class="lead">Use the email and password your trainer sent you.</p>
-      <div id="demonote" class="demo-note" hidden>Demo mode: nothing is saved online. Use any email and the password <b>demo</b>. Put "admin" in the email to see the Progress page.</div>
-      <form id="lf" novalidate>
-        <label for="em">Email</label><input id="em" type="email" autocomplete="username" placeholder="you@company.com" required>
-        <label for="pw">Password</label><input id="pw" type="password" autocomplete="current-password" required>
-        <button class="btn" id="go" type="submit">Sign in</button>
-        <p class="err" id="err" role="alert"></p>
-      </form>
-      <p class="foot">Forgot your password? Ask your trainer.</p>
-    </div>
-    <div class="bb-card" id="setpw" hidden>
-      <h2>Set your password</h2>
-      <p class="lead">Pick a password for <b id="spem"></b>. You'll use it every time you sign in.</p>
-      <form id="sf" novalidate>
-        <label for="p1">New password (at least 8 characters)</label><input id="p1" type="password" autocomplete="new-password" required minlength="8">
-        <label for="p2">Type it again</label><input id="p2" type="password" autocomplete="new-password" required minlength="8">
-        <button class="btn" id="sgo" type="submit">Save password</button>
-        <p class="err" id="serr" role="alert"></p>
-      </form>
-    </div>
-  </section>
-</div>
-
-<main class="bb-main" id="home" hidden>
-  <section class="bb-prog" id="prog"></section>
-  <div class="bb-tabs" id="tabs" role="tablist"></div>
-  <div class="bb-grid" id="mods"></div>
-</main>
 <script>/* read an invite or reset link before the login code clears it */
 window.FP_LINK = (function(){ var h = location.hash || "", g = function(k){ var m = h.match(new RegExp("[#&]"+k+"=([^&]*)")); return m ? decodeURIComponent(m[1].replace(/\+/g," ")) : ""; };
-  return {type:g("type"), error:g("error_description") || g("error")}; })();</script>
+  return {type:g("type"), error:g("error_description") || g("error")}; })();
+</script>
+</head>
+<body>
+<div id="app"></div>
+<div id="fpt-status" class="fpt-toast" role="status"></div>
+<script type="text/x-dc-template" id="tpl">
+<div class="bcb">
+  <header class="hdr">
+  <span class="brand"><svg class="logo" aria-hidden="true" focusable="false" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 127.96 26"><rect x="0.5" y="0.5" fill="none" stroke="currentColor" stroke-opacity="0.45" stroke-width="1"/><path d="M10.046875 19.015625V6.984375H13.3076171875Q14.6201171875 6.984375 15.21826171875 7.62353515625Q15.81640625 8.2626953125 15.81640625 9.732421875V10.2587890625Q15.81640625 11.1064453125 15.51220703125 11.6328125Q15.2080078125 12.1591796875 14.5859375 12.3232421875Q15.3994140625 12.5283203125 15.67626953125 13.28369140625Q15.953125 14.0390625 15.953125 15.1259765625Q15.953125 16.294921875 15.734375 17.169921875Q15.515625 18.044921875 14.94140625 18.5302734375Q14.3671875 19.015625 13.3076171875 19.015625ZM12.3984375 11.5166015625H12.890625Q13.2255859375 11.5166015625 13.3212890625 11.2568359375Q13.4169921875 10.9970703125 13.4169921875 10.634765625V9.4248046875Q13.4169921875 8.84375 12.904296875 8.84375H12.3984375ZM12.6376953125 16.896484375Q13.57421875 16.896484375 13.57421875 16.0078125V14.50390625Q13.57421875 13.9912109375 13.42041015625 13.69384765625Q13.2666015625 13.396484375 12.8427734375 13.396484375H12.3984375V16.8828125Q12.548828125 16.896484375 12.6376953125 16.896484375Z" fill="currentColor"/><path d="M38.6474609375 20.3046875V5.6953125H42.60693359375Q44.20068359375 5.6953125 44.927001953125 6.471435546875Q45.6533203125 7.24755859375 45.6533203125 9.0322265625V9.67138671875Q45.6533203125 10.70068359375 45.283935546875 11.33984375Q44.91455078125 11.97900390625 44.1591796875 12.17822265625Q45.14697265625 12.42724609375 45.483154296875 13.344482421875Q45.8193359375 14.26171875 45.8193359375 15.58154296875Q45.8193359375 17.0009765625 45.5537109375 18.0634765625Q45.2880859375 19.1259765625 44.5908203125 19.71533203125Q43.8935546875 20.3046875 42.60693359375 20.3046875ZM41.5029296875 11.19873046875H42.1005859375Q42.50732421875 11.19873046875 42.62353515625 10.88330078125Q42.73974609375 10.56787109375 42.73974609375 10.1279296875V8.65869140625Q42.73974609375 7.953125 42.1171875 7.953125H41.5029296875ZM41.79345703125 17.7314453125Q42.9306640625 17.7314453125 42.9306640625 16.65234375V14.826171875Q42.9306640625 14.20361328125 42.743896484375 13.842529296875Q42.55712890625 13.4814453125 42.04248046875 13.4814453125H41.5029296875V17.71484375Q41.685546875 17.7314453125 41.79345703125 17.7314453125ZM50.015546875 20.4375Q48.43009765625 20.4375 47.463056640625 19.44970703125Q46.496015625 18.4619140625 46.496015625 16.685546875V9.9453125Q46.496015625 7.8203125 47.338544921875 6.69140625Q48.18107421875 5.5625 50.081953125 5.5625Q51.11955078125 5.5625 51.928876953125 5.9443359375Q52.738203125 6.326171875 53.203046875 7.085693359375Q53.667890625 7.84521484375 53.667890625 8.9990234375V11.5224609375H50.7626171875V9.3642578125Q50.7626171875 8.70849609375 50.5966015625 8.480224609375Q50.4305859375 8.251953125 50.081953125 8.251953125Q49.67521484375 8.251953125 49.5341015625 8.546630859375Q49.39298828125 8.84130859375 49.39298828125 9.3310546875V16.64404296875Q49.39298828125 17.25 49.571455078125 17.4990234375Q49.749921875 17.748046875 50.081953125 17.748046875Q50.45548828125 17.748046875 50.609052734375 17.44091796875Q50.7626171875 17.1337890625 50.7626171875 16.64404296875V14.0126953125H53.70109375V16.77685546875Q53.70109375 18.70263671875 52.72990234375 19.570068359375Q51.7587109375 20.4375 50.015546875 20.4375ZM54.50228515625 20.3046875V5.6953125H58.4617578125Q60.0555078125 5.6953125 60.781826171875 6.471435546875Q61.50814453125 7.24755859375 61.50814453125 9.0322265625V9.67138671875Q61.50814453125 10.70068359375 61.138759765625 11.33984375Q60.769375 11.97900390625 60.01400390625 12.17822265625Q61.001796875 12.42724609375 61.337978515625 13.344482421875Q61.67416015625 14.26171875 61.67416015625 15.58154296875Q61.67416015625 17.0009765625 61.40853515625 18.0634765625Q61.14291015625 19.1259765625 60.44564453125 19.71533203125Q59.74837890625 20.3046875 58.4617578125 20.3046875ZM57.35775390625 11.19873046875H57.95541015625Q58.3621484375 11.19873046875 58.478359375 10.88330078125Q58.5945703125 10.56787109375 58.5945703125 10.1279296875V8.65869140625Q58.5945703125 7.953125 57.97201171875 7.953125H57.35775390625ZM57.64828125 17.7314453125Q58.78548828125 17.7314453125 58.78548828125 16.65234375V14.826171875Q58.78548828125 14.20361328125 58.598720703125 13.842529296875Q58.411953125 13.4814453125 57.8973046875 13.4814453125H57.35775390625V17.71484375Q57.54037109375 17.7314453125 57.64828125 17.7314453125ZM66.28142578125 20.3046875V5.6953125H70.1412890625Q71.353203125 5.6953125 72.062919921875 6.23486328125Q72.77263671875 6.7744140625 73.079765625 7.7705078125Q73.38689453125 8.7666015625 73.38689453125 10.14453125Q73.38689453125 11.47265625 73.1295703125 12.456298828125Q72.87224609375 13.43994140625 72.212333984375 13.9794921875Q71.552421875 14.51904296875 70.3405078125 14.51904296875H69.15349609375V20.3046875ZM69.15349609375 11.89599609375H69.31951171875Q70.13298828125 11.89599609375 70.31560546875 11.439453125Q70.49822265625 10.98291015625 70.49822265625 10.0947265625Q70.49822265625 9.2646484375 70.319755859375 8.812255859375Q70.1412890625 8.35986328125 69.4772265625 8.35986328125H69.15349609375ZM73.73984374999999 20.3046875 75.15097656249999 5.6953125H80.10654296874999L81.49277343749999 20.3046875H78.72861328124999L78.52109374999999 17.947265625H76.76132812499999L76.57871093749999 20.3046875ZM76.96884765624999 15.61474609375H78.29697265624999L77.65781249999999 8.185546875H77.52499999999999ZM82.21925781249999 20.3046875V5.6953125H86.70167968749999Q87.82228515624999 5.6953125 88.39503906249999 6.205810546875Q88.96779296874999 6.71630859375 89.16286132812499 7.633544921875Q89.35792968749999 8.55078125 89.35792968749999 9.78759765625Q89.35792968749999 10.98291015625 89.05495117187499 11.69677734375Q88.75197265624999 12.41064453125 87.91359374999999 12.6845703125Q88.60255859374999 12.82568359375 88.88063476562499 13.369384765625Q89.15871093749999 13.9130859375 89.15871093749999 14.7763671875V20.3046875H86.27833984374999V14.58544921875Q86.27833984374999 13.9462890625 86.01686523437499 13.792724609375Q85.75539062499999 13.63916015625 85.17433593749999 13.63916015625V20.3046875ZM85.19093749999999 11.107421875H85.89650390624999Q86.50246093749999 11.107421875 86.50246093749999 9.78759765625Q86.50246093749999 8.9326171875 86.36964843749999 8.6669921875Q86.23683593749999 8.4013671875 85.87160156249999 8.4013671875H85.19093749999999ZM91.40423828124999 20.3046875V8.5009765625H89.66937499999999V5.6953125H96.06097656249999V8.5009765625H94.32611328124999V20.3046875ZM96.70445312499999 20.3046875V5.6953125H99.70933593749999L101.05406249999999 12.69287109375V5.6953125H103.87632812499999V20.3046875H101.02085937499999L99.55992187499999 13.0V20.3046875ZM105.00124999999998 20.3046875V5.6953125H110.84499999999998V8.517578125H107.97292968749998V11.36474609375H110.72878906249998V14.1123046875H107.97292968749998V17.45751953125H111.03591796874998V20.3046875ZM111.82880859374998 20.3046875V5.6953125H116.31123046874998Q117.43183593749998 5.6953125 118.00458984374998 6.205810546875Q118.57734374999998 6.71630859375 118.77241210937498 7.633544921875Q118.96748046874998 8.55078125 118.96748046874998 9.78759765625Q118.96748046874998 10.98291015625 118.66450195312498 11.69677734375Q118.36152343749998 12.41064453125 117.52314453124998 12.6845703125Q118.21210937499998 12.82568359375 118.49018554687498 13.369384765625Q118.76826171874998 13.9130859375 118.76826171874998 14.7763671875V20.3046875H115.88789062499998V14.58544921875Q115.88789062499998 13.9462890625 115.62641601562498 13.792724609375Q115.36494140624998 13.63916015625 114.78388671874998 13.63916015625V20.3046875ZM114.80048828124998 11.107421875H115.50605468749998Q116.11201171874998 11.107421875 116.11201171874998 9.78759765625Q116.11201171874998 8.9326171875 115.97919921874998 8.6669921875Q115.84638671874998 8.4013671875 115.48115234374998 8.4013671875H114.80048828124998ZM123.23009765624998 20.4375Q121.22960937499998 20.4375 120.34557617187498 19.44140625Q119.46154296874998 18.4453125 119.46154296874998 16.2705078125V14.8427734375H122.35021484374998V16.6689453125Q122.35021484374998 17.17529296875 122.50377929687498 17.461669921875Q122.65734374999998 17.748046875 123.03917968749998 17.748046875Q123.43761718749998 17.748046875 123.59118164062498 17.515625Q123.74474609374998 17.283203125 123.74474609374998 16.751953125Q123.74474609374998 16.07958984375 123.61193359374998 15.627197265625Q123.47912109374998 15.1748046875 123.15124023437498 14.763916015625Q122.82335937499998 14.35302734375 122.24230468749998 13.80517578125L120.93078124999998 12.56005859375Q119.46154296874998 11.173828125 119.46154296874998 9.38916015625Q119.46154296874998 7.521484375 120.32897460937498 6.5419921875Q121.19640624999998 5.5625 122.83996093749998 5.5625Q124.84874999999998 5.5625 125.69127929687498 6.63330078125Q126.53380859374998 7.7041015625 126.53380859374998 9.88720703125H123.56212890624998V8.8828125Q123.56212890624998 8.583984375 123.39196289062498 8.41796875Q123.22179687499998 8.251953125 122.93126953124998 8.251953125Q122.58263671874998 8.251953125 122.42077148437498 8.447021484375Q122.25890624999998 8.64208984375 122.25890624999998 8.94921875Q122.25890624999998 9.25634765625 122.42492187499998 9.61328125Q122.59093749999998 9.97021484375 123.08068359374998 10.43505859375L124.76574218749998 12.0537109375Q125.27208984374998 12.53515625 125.69542968749998 13.070556640625Q126.11876953124998 13.60595703125 126.37609374999998 14.315673828125Q126.63341796874998 15.025390625 126.63341796874998 16.04638671875Q126.63341796874998 18.10498046875 125.87389648437498 19.271240234375Q125.11437499999998 20.4375 123.23009765624998 20.4375Z" fill="currentColor"/></svg><small>Academy</small></span>
+</header>
+  <sc-if value="{{isSignin}}">
+  <div style="flex:1;display:flex;flex-wrap:wrap;align-items:stretch">
+    <section style="flex:1 1 520px;min-width:0;padding:72px 56px 56px;box-sizing:border-box;display:flex;flex-direction:column;justify-content:center;gap:22px">
+      <h1 class="h1" style="font-size:64px;max-width:640px">Learn the office. Practice before it counts.</h1>
+      <p class="mut" style="margin:0;font-size:19px;max-width:560px">Short lessons on the work an <span class="marker" style="color:var(--paper)">office manager</span> does every day. You practice each one on a look-alike of your FSM with made-up customers, so nothing you click reaches a real customer.</p>
+      <ol style="list-style:none;margin:8px 0 0;padding:0;display:flex;flex-wrap:wrap;gap:0;border:1px solid var(--line2);width:max-content;max-width:100%">
+        <li class="lbl" style="padding:10px 14px;border-right:1px solid var(--line2);color:var(--paper)">Walk-through</li>
+        <li class="lbl" style="padding:10px 14px;border-right:1px solid var(--line2);color:var(--paper)">Check questions</li>
+        <li class="lbl" style="padding:10px 14px;color:var(--paper)">Practice on your own</li>
+      </ol>
+    </section>
+    <section style="flex:0 1 500px;min-width:0;padding:56px 48px;box-sizing:border-box;display:flex;align-items:center">
+      <form class="paper" style="width:100%;padding:30px 28px;display:flex;flex-direction:column;gap:16px" onSubmit="{{go}}" novalidate>
+        <div>
+          <h2 class="h2" style="font-size:34px">Sign in</h2>
+          <p style="margin:6px 0 0;font-size:14.5px;color:rgba(11,11,11,.65)">Use your work email and the password you set.</p>
+        </div>
+        <label class="field"><span class="lbl">Email</span><input id="em" type="email" placeholder="you@company.com" autocomplete="username" value="{{em}}" onInput="{{setEm}}"></label>
+        <label class="field"><span class="lbl">Password</span><input id="pw" type="password" autocomplete="current-password" value="{{pw}}" onInput="{{setPw}}"></label>
+        <sc-if value="{{err}}"><p class="err" role="alert">{{err}}</p></sc-if>
+        <button type="submit" id="go" class="btn" style="margin-top:4px" disabled="{{busy}}">{{goText}}</button>
+        <p style="margin:0;font-size:13.5px;color:rgba(11,11,11,.6)">Forgot your password? Ask your admin to reset it.</p>
+        <sc-if value="{{demo}}"><p style="margin:0;font-size:13px;color:#9A6200">Demo mode: nothing is saved online. Any email works with the password demo.</p></sc-if>
+      </form>
+    </section>
+  </div>
+  </sc-if>
+
+  <sc-if value="{{isSetpw}}">
+  <div style="flex:1;display:flex;align-items:center;justify-content:center;padding:56px 24px">
+    <div style="width:100%;max-width:460px">
+      <h1 class="h1">Set your password</h1>
+      <p class="mut" style="margin:10px 0 0;font-size:15.5px">For <b style="color:var(--paper)">{{spEmail}}</b>. You'll use it to sign in.</p>
+      <form class="paper" style="margin-top:22px;padding:26px 24px;display:flex;flex-direction:column;gap:16px" onSubmit="{{save}}" novalidate>
+        <label class="field"><span class="lbl">New password</span><input id="np" type="password" autocomplete="new-password" value="{{p1}}" onInput="{{setP1}}"></label>
+        <label class="field"><span class="lbl">Type it again</span><input id="np2" type="password" autocomplete="new-password" value="{{p2}}" onInput="{{setP2}}"></label>
+        <div style="display:flex;flex-direction:column;gap:6px">
+          <span class="rule" style="color:{{r1c}}"><i style="background:{{r1c}}"></i>At least 8 characters</span>
+          <span class="rule" style="color:{{r2c}}"><i style="background:{{r2c}}"></i>Passwords match</span>
+        </div>
+        <sc-if value="{{spErr}}"><p class="err" role="alert">{{spErr}}</p></sc-if>
+        <button type="submit" id="sgo" class="{{saveCls}}" aria-disabled="{{notReady}}" disabled="{{busy}}">{{saveText}}</button>
+      </form>
+      <p class="faint" style="margin:14px 0 0;font-size:13.5px">This link works once. If it has expired, ask your admin for a new one.</p>
+    </div>
+  </div>
+  </sc-if>
+</div>
+</script>
 <script src="js/config.js"></script>
 <script src="js/vendor/supabase-2.117.3.min.js"></script>
-<script src="js/lessons.js"></script>
 <script src="js/track.js"></script>
+<script src="js/catalog.js"></script>
+<script src="js/academy.js"></script>
+<script src="js/dc.js"></script>
 <script>
-(async function(){
-  var T = window.FPTrack, M = window.FP_LESSONS.modules, esc = T.esc;
-  var q = new URLSearchParams(location.search), next = q.get("next") || "";
-  if(!/^(m\d+|admin)\.html(#[a-z0-9-]*)?$/.test(next)) next = "";
-  function hdr(p){
-    var b = document.getElementById("barhost"); b.innerHTML = "";
-    if(!p) return;
-    b.className = "fpt-bar";
-    b.innerHTML = (T.live?"":'<span class="fpt-demo">Demo mode</span>')+(p.role==="admin"?'<a href="admin.html">Progress</a>':"")+'<span class="fpt-who">'+esc(p.full_name||p.email)+'</span><button type="button" id="out">Sign out</button>';
-    document.getElementById("out").onclick = async function(){ await T.signOut(); location.href = "index.html"; };
-  }
-  function setpw(p){
-    document.getElementById("spem").textContent = p.email;
-    document.getElementById("loginwrap").hidden = false; document.getElementById("login").hidden = true;
-    document.getElementById("setpw").hidden = false;
-    document.getElementById("sf").onsubmit = async function(e){
-      e.preventDefault();
-      var a = document.getElementById("p1").value, b = document.getElementById("p2").value, err = document.getElementById("serr"), go = document.getElementById("sgo");
-      if(a.length < 8){ err.textContent = "Use at least 8 characters."; return; }
-      if(a !== b){ err.textContent = "The two passwords don't match."; return; }
-      go.disabled = true; go.textContent = "Saving..."; err.textContent = "";
-      try{ await T.setPassword(a); document.getElementById("loginwrap").hidden = true; home(p); }
-      catch(x){ err.textContent = /different|same/i.test(String(x && x.message)) ? "Pick a different password than before." : /weak|short|least/i.test(String(x && x.message)) ? "That password is too weak. Try a longer one." : "Couldn't save it. Check your internet and try again."; }
-      finally{ go.disabled = false; go.textContent = "Save password"; }
+
+const NEXT_OK = /^(home|library|practice|sandbox|progress|certificate|final|team|certs|fsm|f|m\d+)\.html(\?day=(d[1-5]|x))?(#[a-z0-9-]*)?$/;
+function nextUrl(){ const q = new URLSearchParams(location.search).get('next') || ''; return NEXT_OK.test(q) ? q : 'fsm.html'; }
+class Component extends DCLogic {
+  constructor(p){ super(p); const D = p.data || {}; this.state = { mode: D.mode, spEmail: D.email || '', em: '', pw: '', err: D.err || '', busy: false, p1: '', p2: '', spErr: '', tried: false }; }
+  renderVals(){
+    const s = this.state, ok = '#1E7A3C', no = 'rgba(11,11,11,.45)';
+    const a = s.p1.trim().length >= 8, b = a && s.p1 === s.p2;
+    return {
+      isSignin: s.mode === 'signin', isSetpw: s.mode === 'setpw', demo: !window.FPTrack.live,
+      em: s.em, pw: s.pw, err: s.err, busy: s.busy, goText: s.busy ? 'Signing in...' : 'Sign in',
+      setEm: (e) => this.setState({ em: e.target.value }), setPw: (e) => this.setState({ pw: e.target.value }),
+      go: async (e) => {
+        e.preventDefault();
+        const em = s.em.trim() || (document.getElementById('em') || {}).value || '', pw = s.pw || (document.getElementById('pw') || {}).value || '';
+        if(!em.trim() || !pw){ this.setState({ err: 'Enter your email and password.' }); return; }
+        this.setState({ busy: true, err: '' });
+        try { await window.FPTrack.signIn(em.trim(), pw); location.replace(nextUrl()); }
+        catch(x){ this.setState({ busy: false, err: /invalid/i.test(String(x && x.message)) ? "That email and password don't match. Try again or ask your admin." : "Couldn't sign in. Check your internet and try again." }); }
+      },
+      spEmail: s.spEmail, p1: s.p1, p2: s.p2, r1c: a ? ok : no, r2c: b ? ok : no, notReady: !b, saveCls: 'btn' + (b ? '' : ' off'),
+      spErr: s.spErr || (s.tried && !b ? (!a ? 'Use at least 8 characters, not just spaces.' : 'The two passwords are not the same yet.') : ''),
+      saveText: s.busy ? 'Saving...' : 'Save password',
+      setP1: (e) => this.setState({ p1: e.target.value, spErr: '' }), setP2: (e) => this.setState({ p2: e.target.value, spErr: '' }),
+      save: async (e) => {
+        e.preventDefault();
+        if(!b){ this.setState({ tried: true }); return; }
+        this.setState({ busy: true, spErr: '' });
+        try { await window.FPTrack.setPassword(s.p1); location.replace('fsm.html'); }
+        catch(x){ const m = String(x && x.message); this.setState({ busy: false, spErr: /different|same/i.test(m) ? 'Pick a different password than before.' : /weak|short|least/i.test(m) ? 'That password is too weak. Try a longer one.' : "Couldn't save it. Check your internet and try again." }); }
+      }
     };
   }
-  async function home(p){
-    if(next){ location.replace(next); return; }
-    document.getElementById("hdr").hidden = false; hdr(p);
-    document.getElementById("loginwrap").hidden = true;
-    var rows = []; try{ rows = await T.myEvents(); }catch(e){}
-    var prog = T.progressFrom(rows), all = [];
-    var isDone = function(id){ var x = prog[id]||{}; return !!(x.walk && x.check && x.practice); };
-    var opened = function(id){ return rows.some(function(r){ return r.lesson_id===id; }); };
-    M.forEach(function(m){ m.lessons.forEach(function(l, i){ all.push({m:m, l:l, i:i}); }); });
-    var done = all.filter(function(x){ return isDone(x.l.id); }).length, nxt = all.find(function(x){ return !isDone(x.l.id); });
-    var name = (p.full_name || p.email).split(" ")[0];
-    document.getElementById("prog").innerHTML =
-      '<div class="hey">'+(rows.length ? "Welcome back, " : "Welcome, ")+esc(name)+'</div>'+
-      (nxt ? '<div class="bb-next"><div><div class="k">Up next</div><div class="t">'+esc(nxt.m.title.split(":")[0])+', lesson '+(nxt.i+1)+': '+esc(nxt.l.title)+'</div></div><a class="btn" href="'+esc(nxt.m.page)+'#'+esc(nxt.l.id)+'">'+(opened(nxt.l.id) || done ? "Continue" : "Start")+'</a></div>'
-           : '<div class="bb-next"><div><div class="k">All done</div><div class="t">Every lesson is finished. Open any one to review it.</div></div></div>');
-    var KIND = {"f-1":["form","Customers"],"f-2":["card","Customers"],"f-3":["form","Job Tags"],"f-4":["form","Customers"],"f-5":["list","Company Settings"],"f-6":["list","Communications"],"f-7":["list","Customers"],
-      "m1-1":["engage","Engage"],"m1-2":["form","Create Job"],"m1-3":["engage","Engage"],"m1-4":["board","Schedule"],"m1-5":["list","Booking Portal"],"m1-6":["report","Reports"],"m1-7":["card","Customers"],"m1-8":["form","Create Job"],"m1-9":["engage","Engage"],
-      "m2-1":["form","Create Job"],"m2-2":["form","Job record"],"m2-3":["list","Communications"],"m2-4":["form","Job record"],"m2-5":["board","Schedule"],"m2-6":["list","Jobs"],
-      "m3-1":["form", "Invoice"],"m3-2":["form", "Send Invoice"],"m3-3":["list", "Jobs"],"m3-4":["card", "Payments"],"m3-5":["report", "Reporting"],"m3-6":["list", "Invoices"],"m3-7":["card", "Payments"],"m3-8":["form", "Invoice"],"m3-9":["form", "Invoice"],"m3-10":["list", "Company Settings"],"m4-1":["form", "Estimate"],"m4-2":["form", "Send Estimate"],"m4-3":["list", "Estimates"],"m4-4":["list", "Estimates"],"m4-5":["form", "Create Job"],"m5-1":["list", "QuickBooks"],"m5-2":["form", "Invoice"],"m5-3":["board", "Timesheets"],"m5-4":["report", "Reporting"],"m5-5":["list", "Team Members"],"m5-6":["form", "Team Members"],"m5-7":["list", "Team Members"],"m6-1":["report", "Reporting"],"m6-2":["report", "Dashboard"],"m6-3":["report", "Reporting"],"m6-4":["report", "Reporting"],"m6-5":["report", "Reporting"],"m6-6":["report", "Reporting"],"m7-1":["form","Customers"],"m7-2":["list","Team Members"],"m7-3":["form","Job"],"m7-4":["list","Company Settings"],"m7-5":["form","Job"],"m7-6":["card","Customers"]};
-    var SK = {
-      engage:'<div style="display:flex;gap:6px"><div class="g" style="flex:1;height:72px;background:#F5F7FB"></div><div style="width:42%;display:flex;flex-direction:column;gap:5px"><div class="o" style="height:20px"></div><div class="g" style="height:20px"></div><div class="g" style="height:20px"></div></div></div>',
-      form:'<div style="display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:6px"><div class="o" style="grid-column:span 2;height:18px"></div><div class="g" style="height:18px"></div><div class="g" style="height:18px"></div><div class="g" style="height:18px"></div><div class="g" style="height:18px"></div></div>',
-      board:'<div style="display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:4px"><div style="height:30px;border-radius:4px;background:#D6E6FD"></div><div style="height:30px;border-radius:4px;background:#FDE2DE;border:1.5px solid #C4412F"></div><div></div><div style="height:30px;border-radius:4px;background:#DDF2E5"></div><div></div><div style="height:30px;border-radius:4px;background:#D6E6FD"></div><div style="height:30px;border-radius:4px;background:#E6DFFC"></div><div></div></div>',
-      list:'<div style="display:flex;flex-direction:column;gap:5px"><div class="g" style="height:14px"></div><div class="o" style="height:14px"></div><div class="g" style="height:14px"></div><div class="g" style="height:14px"></div></div>',
-      card:'<div style="display:flex;gap:8px;align-items:center"><div style="width:92px;height:56px;border-radius:8px;background:#101A3A;position:relative"><div style="position:absolute;left:8px;top:10px;width:18px;height:13px;border-radius:3px;background:#F5C46B"></div></div><div style="flex:1;display:flex;flex-direction:column;gap:5px"><div class="g" style="height:14px"></div><div class="o" style="height:14px"></div></div></div>',
-      report:'<div style="display:flex;gap:6px;align-items:flex-end;height:64px"><div style="flex:1;height:40%;background:#D6E6FD;border-radius:3px"></div><div style="flex:1;height:70%;background:#D6E6FD;border-radius:3px"></div><div style="flex:1;height:55%;background:#F5C46B;border-radius:3px"></div><div style="flex:1;height:85%;background:#D6E6FD;border-radius:3px"></div><div style="flex:1;height:60%;background:#D6E6FD;border-radius:3px"></div></div>'};
-    var cur = nxt ? nxt.m.id : M[0].id;
-    function draw(){
-      document.getElementById("tabs").innerHTML = M.map(function(m){ return '<button type="button" role="tab" data-m="'+esc(m.id)+'" aria-selected="'+(m.id===cur)+'">'+esc(({f:"Foundations",m1:"Module 1 · Calls",m2:"Module 2 · Scheduling",m3:"Module 3 · Invoicing",m4:"Module 4 · Estimates",m5:"Module 5 · Payroll",m6:"Module 6 · Reporting",m7:"Module 7 · Compliance"})[m.id] || m.title.split(":")[0])+'</button>'; }).join("");
-      var m = M.filter(function(x){ return x.id===cur; })[0];
-      document.getElementById("mods").innerHTML = m.lessons.map(function(l, i){
-        var k = KIND[l.id] || ["list",""], dn = isDone(l.id), up = nxt && nxt.l.id===l.id;
-        var pill = dn ? '<span class="pill d">Done</span>' : up ? '<span class="pill u">Up next</span>' : opened(l.id) ? '<span class="pill s">Started</span>' : '';
-        return '<a class="lcard" href="'+esc(m.page)+'#'+esc(l.id)+'"><div class="th" aria-hidden="true"><div class="win"><i></i><div>'+SK[k[0]]+'</div></div>'+pill+'</div><div class="tx"><div class="ls">Lesson '+(i+1)+(k[1] ? ' · '+esc(k[1]) : '')+'</div><div class="lt">'+esc(l.title)+'</div></div></a>';
-      }).join("");
-      Array.prototype.forEach.call(document.querySelectorAll("#tabs button"), function(b){ b.onclick = function(){ cur = b.getAttribute("data-m"); draw(); }; });
-    }
-    draw();
-    document.getElementById("home").hidden = false;
-  }
-  var L = window.FP_LINK || {}, p = null; try{ p = await T.init(); }catch(e){}
-  try{ if(L.type || L.error) history.replaceState(null, "", location.pathname + location.search); }catch(e){}
-  if(p && (L.type==="invite" || L.type==="recovery")){ setpw(p); return; }
-  if(p){ home(p); return; }
-  if(L.error) document.getElementById("err").textContent = "That link has expired or was already used. Ask your trainer for a new one.";
-  document.getElementById("demonote").hidden = T.live;
-  document.getElementById("loginwrap").hidden = false; document.getElementById("login").hidden = false;
-  document.getElementById("lf").onsubmit = async function(e){
-    e.preventDefault();
-    var go = document.getElementById("go"), err = document.getElementById("err"), em = document.getElementById("em").value.trim(), pw = document.getElementById("pw").value;
-    if(!em || !pw){ err.textContent = "Enter your email and password."; return; }
-    go.disabled = true; go.textContent = "Signing in..."; err.textContent = "";
-    try{ var prof = await T.signIn(em, pw); home(prof); }
-    catch(x){ err.textContent = /invalid/i.test(String(x && x.message)) ? "That email and password don't match. Try again or ask your trainer." : "Couldn't sign in. Check your internet and try again."; }
-    finally{ go.disabled = false; go.textContent = "Sign in"; }
-  };
-})();
+}
+ACAD.start(Component, { auth: 'none' }, async (me) => {
+  const L = window.FP_LINK || {};
+  try { if(L.type || L.error) history.replaceState(null, '', location.pathname + location.search); } catch(e) {}
+  if(me && (L.type === 'invite' || L.type === 'recovery')) return { mode: 'setpw', email: me.email };
+  if(me){ location.replace(nextUrl()); return new Promise(() => {}); }
+  return { mode: 'signin', err: L.error ? 'That link has expired or was already used. Ask your admin for a new one.' : '' };
+});
+
 </script>
 </body>
 </html>

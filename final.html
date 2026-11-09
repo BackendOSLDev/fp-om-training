@@ -1,0 +1,216 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="robots" content="noindex">
+<title>Final review check · BCB Partners Academy</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Anton&amp;family=Archivo:wght@400;500;600&amp;family=JetBrains+Mono:wght@400;700&amp;family=Permanent+Marker&amp;family=Source+Sans+3:wght@400;500;600;700;900&amp;display=swap">
+<style>
+/* BCB Partners look, taken from bluecollarballerpartners.com: near-black ground, off-white type, one red, square corners.
+   Anton for headings, Archivo for reading, JetBrains Mono for labels and buttons. */
+body{margin:0;background:#0B0B0B}
+.bcb{--ink:#0B0B0B;--ink2:#131313;--ink3:#1B1B1B;--paper:#F2F1EE;--mut:rgba(242,241,238,.72);--faint:rgba(242,241,238,.48);--line:rgba(242,241,238,.12);--line2:rgba(242,241,238,.24);--ok:#62C482;--warn:#E8A93C;--red:#C6301A;--red2:#DD3B22;
+  --display:'Anton',Impact,'Arial Narrow',sans-serif;--body:'Archivo',system-ui,-apple-system,'Segoe UI',sans-serif;--mono:'JetBrains Mono',ui-monospace,Menlo,monospace;
+  min-height:100vh;background:var(--ink);color:var(--paper);font-family:var(--body);font-size:15px;line-height:1.5;display:flex;flex-direction:column}
+/* Working pages use a white page; the header bar stays BCB black. Front-door pages (sign in, choose FSM) stay dark. */
+.bcb.light{--ink:#FFFFFF;--ink2:#F6F5F2;--ink3:#EEECE7;--paper:#0B0B0B;--mut:rgba(11,11,11,.7);--faint:rgba(11,11,11,.52);--line:rgba(11,11,11,.12);--line2:rgba(11,11,11,.26);--ok:#1E7A3C;--warn:#9A6200;}
+.bcb.light .hdr{--ink:#0B0B0B;--ink2:#131313;--ink3:#1B1B1B;--paper:#F2F1EE;--mut:rgba(242,241,238,.72);--faint:rgba(242,241,238,.48);--line:rgba(242,241,238,.12);--line2:rgba(242,241,238,.24);--ok:#62C482;--warn:#E8A93C;background:#0B0B0B;color:#F2F1EE}
+.bcb a{color:var(--paper);text-decoration:underline;text-decoration-color:var(--line2);text-underline-offset:3px}
+.bcb a:hover{text-decoration-color:var(--red)}
+.bcb :focus-visible{outline:2px solid var(--red);outline-offset:2px}
+.hdr{display:flex;flex-wrap:wrap;align-items:center;gap:12px 28px;padding:14px 32px;border-bottom:1px solid var(--line);background:var(--ink)}
+.brand{display:flex;align-items:center;gap:12px;text-decoration:none!important;color:var(--paper)!important}
+.brand .logo{height:24px;width:auto;display:block}
+.brand small{font-family:var(--mono);font-size:10px;letter-spacing:.22em;text-transform:uppercase;color:var(--faint);padding-left:12px;border-left:1px solid var(--line2)}
+.nav{display:flex;align-items:center;gap:4px;margin-left:auto;flex-wrap:wrap}
+.toplink{font-family:var(--mono);font-size:11px;letter-spacing:.18em;text-transform:uppercase;color:var(--mut)!important;text-decoration:none!important;padding:8px 10px;border-bottom:2px solid transparent}
+.toplink:hover{color:var(--paper)!important}
+.toplink.on{color:var(--paper)!important;border-bottom-color:var(--red)}
+.who{width:32px;height:32px;margin-left:10px;border:1px solid var(--line2);display:grid;place-items:center;font-family:var(--mono);font-size:11px;color:var(--paper)}
+.search{flex:1 1 260px;max-width:380px;display:flex;align-items:center;gap:8px;border:1px solid var(--line2);padding:0 12px;min-height:38px;background:var(--ink2)}
+.search input{border:0;background:transparent;font:inherit;font-size:14px;flex:1;min-width:0;outline:none;color:var(--paper)}
+.search input::placeholder{color:var(--faint)}
+.lbl{font-family:var(--mono);font-size:11px;letter-spacing:.2em;text-transform:uppercase;color:var(--faint);margin:0}
+.h1{font-family:var(--display);font-weight:400;text-transform:uppercase;font-size:46px;line-height:.98;letter-spacing:-.005em;margin:0;text-wrap:balance}
+.h2{font-family:var(--display);font-weight:400;text-transform:uppercase;font-size:26px;line-height:1.05;margin:0;text-wrap:balance}
+.h3{font-family:var(--display);font-weight:400;text-transform:uppercase;font-size:19px;line-height:1.1;margin:0}
+.mut{color:var(--mut)}.faint{color:var(--faint)}
+.marker{font-family:'Permanent Marker',cursive;text-transform:none;letter-spacing:.01em;border-bottom:2px solid var(--paper)}
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;min-height:42px;padding:0 20px;border:1px solid var(--red);background:var(--red);color:#F2F1EE!important;font-family:var(--mono);font-size:11px;letter-spacing:.18em;text-transform:uppercase;text-decoration:none!important;cursor:pointer;border-radius:0}
+.btn:hover{background:var(--red2);border-color:var(--red2)}
+.btn.ghost{background:transparent;border-color:var(--line2);color:var(--paper)!important}
+.btn.ghost:hover{border-color:var(--paper)}
+.btn.done{background:transparent;border-color:var(--ok);color:var(--ok)!important;cursor:default}
+.panel{border:1px solid var(--line);background:var(--ink2)}
+.paper{--ink:#FFFFFF;--ink2:#F6F5F2;--ink3:#EEECE7;--paper:#0B0B0B;--mut:rgba(11,11,11,.7);--faint:rgba(11,11,11,.52);--line:rgba(11,11,11,.12);--line2:rgba(11,11,11,.26);--ok:#1E7A3C;--warn:#9A6200;--ink2:#FFFFFF;background:#F2F1EE;color:#0B0B0B}
+.bcb.light .paper{--ink:#0B0B0B;--ink2:#131313;--ink3:#1B1B1B;--paper:#F2F1EE;--mut:rgba(242,241,238,.72);--faint:rgba(242,241,238,.48);--line:rgba(242,241,238,.12);--line2:rgba(242,241,238,.24);--ok:#62C482;--warn:#E8A93C;background:#0B0B0B;color:#F2F1EE}
+.tabs{display:flex;flex-wrap:wrap;gap:0;border:1px solid var(--line2);width:max-content;max-width:100%}
+.tabb{border:0;border-right:1px solid var(--line2);background:transparent;color:var(--paper);font-family:var(--mono);font-size:10.5px;letter-spacing:.18em;text-transform:uppercase;padding:10px 14px;cursor:pointer;min-height:38px}
+.tabb:last-child{border-right:0}
+.tabb:hover{background:var(--ink3)}
+.tabb.on{background:var(--red);color:#F2F1EE}
+.field{display:flex;flex-direction:column;gap:6px}
+.field input,.field select{font:inherit;font-size:15px;color:var(--paper);background:var(--ink2);border:1px solid var(--line2);border-radius:0;min-height:44px;padding:0 12px}
+.field input:focus,.field select:focus{outline:none;border-color:var(--paper)}
+.num{font-variant-numeric:tabular-nums}
+.fsmchip{display:inline-flex;align-items:center;gap:8px;border:1px solid var(--line2);padding:6px 10px;font-family:var(--mono);font-size:10.5px;letter-spacing:.16em;text-transform:uppercase;color:var(--paper)!important;text-decoration:none!important}
+.fsmchip:hover{border-color:var(--paper)}
+.fsmchip .dot{width:7px;height:7px;background:var(--ok)}
+.fsmchip .chg{color:var(--faint);padding-left:8px;border-left:1px solid var(--line2)}
+.bar{display:block;height:4px;background:var(--line);overflow:hidden}.bar>i{display:block;height:100%;background:var(--ok)}
+.sw{position:relative;flex:1 1 260px;max-width:440px}.sw .search{max-width:none}.sres{position:absolute;left:0;right:0;top:calc(100% + 6px);z-index:50;background:#131313;border:1px solid rgba(242,241,238,.24);box-shadow:0 18px 40px rgba(0,0,0,.45);max-height:560px;overflow:auto;padding:6px 0 10px}.sres-top{display:flex;justify-content:space-between;align-items:center;gap:10px;padding:6px 14px}.sres-top .lbl{color:rgba(242,241,238,.72)!important;text-transform:none;letter-spacing:.02em}.sres-x{border:0;background:transparent;color:rgba(242,241,238,.72);font-family:var(--mono);font-size:10px;letter-spacing:.14em;text-transform:uppercase;cursor:pointer;padding:4px}.sres-x:hover{color:#F2F1EE}.sres-g{border-top:1px solid rgba(242,241,238,.12);padding-top:6px;margin-top:4px}.sres-h{padding:4px 14px;color:rgba(242,241,238,.48)!important}.sres-h .num{margin-left:6px;color:#E0583F}.sres-i{display:flex;flex-direction:column;gap:2px;padding:8px 14px;text-decoration:none!important;border-left:2px solid transparent}.sres-i:hover{background:#1B1B1B;border-left-color:#C6301A}.sres-t{color:#F2F1EE;font-size:14px;font-weight:600;line-height:1.3}.sres-s{color:rgba(242,241,238,.55);font-size:12px}.sres-none{margin:6px 14px;color:rgba(242,241,238,.72);font-size:13.5px}
+.out{border:1px solid var(--line2);background:transparent;color:var(--mut);font-family:var(--mono);font-size:10px;letter-spacing:.16em;text-transform:uppercase;padding:7px 10px;cursor:pointer;margin-left:6px}
+.out:hover{color:var(--paper);border-color:var(--paper)}
+.demo{font-family:var(--mono);font-size:10px;letter-spacing:.14em;text-transform:uppercase;background:#E8A93C;color:#0B0B0B;padding:4px 8px;margin-left:8px}
+.fpt-toast{position:fixed;left:16px;bottom:16px;z-index:300;background:#0B0B0B;color:#F2F1EE;font:13px/1.4 'Archivo',system-ui,sans-serif;padding:10px 14px;border-left:3px solid #E8A93C}
+.fpt-toast:empty{display:none}
+.loading{padding:80px 24px;text-align:center;font:14px 'Archivo',system-ui,sans-serif;color:#9A9A9A}
+.btn[disabled],.btn.off{opacity:.45;cursor:not-allowed}
+@media (max-width:720px){.hdr{padding:12px 16px}.h1{font-size:36px}}
+
+
+.fq{padding:18px 20px;border-top:1px solid var(--line)}
+.fq:first-child{border-top:0}
+.opt{display:block;width:100%;text-align:left;border:1px solid var(--line2);background:#FFFFFF;padding:9px 12px;margin-top:7px;font:inherit;font-size:15px;color:var(--paper);cursor:pointer}
+.opt:hover{border-color:var(--paper)}
+.opt.pick{border-color:var(--paper);background:var(--ink3);font-weight:600}
+.opt.right{border-color:var(--ok);background:#ECFDF3}
+.opt.wrong{border-color:#B3261E;background:#FEF3F2}
+.dstat{padding:14px 18px;border-right:1px solid var(--line)}
+.dstat:last-child{border-right:0}
+.refl textarea{width:100%;box-sizing:border-box;min-height:74px;font:inherit;font-size:15px;border:1px solid var(--line2);padding:10px;margin-top:6px;background:#FFFFFF;color:var(--paper)}
+</style>
+</head>
+<body>
+<div id="app"></div>
+<div id="fpt-status" class="fpt-toast" role="status"></div>
+<script type="text/x-dc-template" id="tpl">
+<div class="bcb light">
+  <header class="hdr">
+  <a class="brand" href="home.html" aria-label="BCB Partners Academy home"><svg class="logo" aria-hidden="true" focusable="false" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 127.96 26"><rect x="0.5" y="0.5" fill="none" stroke="currentColor" stroke-opacity="0.45" stroke-width="1"/><path d="M10.046875 19.015625V6.984375H13.3076171875Q14.6201171875 6.984375 15.21826171875 7.62353515625Q15.81640625 8.2626953125 15.81640625 9.732421875V10.2587890625Q15.81640625 11.1064453125 15.51220703125 11.6328125Q15.2080078125 12.1591796875 14.5859375 12.3232421875Q15.3994140625 12.5283203125 15.67626953125 13.28369140625Q15.953125 14.0390625 15.953125 15.1259765625Q15.953125 16.294921875 15.734375 17.169921875Q15.515625 18.044921875 14.94140625 18.5302734375Q14.3671875 19.015625 13.3076171875 19.015625ZM12.3984375 11.5166015625H12.890625Q13.2255859375 11.5166015625 13.3212890625 11.2568359375Q13.4169921875 10.9970703125 13.4169921875 10.634765625V9.4248046875Q13.4169921875 8.84375 12.904296875 8.84375H12.3984375ZM12.6376953125 16.896484375Q13.57421875 16.896484375 13.57421875 16.0078125V14.50390625Q13.57421875 13.9912109375 13.42041015625 13.69384765625Q13.2666015625 13.396484375 12.8427734375 13.396484375H12.3984375V16.8828125Q12.548828125 16.896484375 12.6376953125 16.896484375Z" fill="currentColor"/><path d="M38.6474609375 20.3046875V5.6953125H42.60693359375Q44.20068359375 5.6953125 44.927001953125 6.471435546875Q45.6533203125 7.24755859375 45.6533203125 9.0322265625V9.67138671875Q45.6533203125 10.70068359375 45.283935546875 11.33984375Q44.91455078125 11.97900390625 44.1591796875 12.17822265625Q45.14697265625 12.42724609375 45.483154296875 13.344482421875Q45.8193359375 14.26171875 45.8193359375 15.58154296875Q45.8193359375 17.0009765625 45.5537109375 18.0634765625Q45.2880859375 19.1259765625 44.5908203125 19.71533203125Q43.8935546875 20.3046875 42.60693359375 20.3046875ZM41.5029296875 11.19873046875H42.1005859375Q42.50732421875 11.19873046875 42.62353515625 10.88330078125Q42.73974609375 10.56787109375 42.73974609375 10.1279296875V8.65869140625Q42.73974609375 7.953125 42.1171875 7.953125H41.5029296875ZM41.79345703125 17.7314453125Q42.9306640625 17.7314453125 42.9306640625 16.65234375V14.826171875Q42.9306640625 14.20361328125 42.743896484375 13.842529296875Q42.55712890625 13.4814453125 42.04248046875 13.4814453125H41.5029296875V17.71484375Q41.685546875 17.7314453125 41.79345703125 17.7314453125ZM50.015546875 20.4375Q48.43009765625 20.4375 47.463056640625 19.44970703125Q46.496015625 18.4619140625 46.496015625 16.685546875V9.9453125Q46.496015625 7.8203125 47.338544921875 6.69140625Q48.18107421875 5.5625 50.081953125 5.5625Q51.11955078125 5.5625 51.928876953125 5.9443359375Q52.738203125 6.326171875 53.203046875 7.085693359375Q53.667890625 7.84521484375 53.667890625 8.9990234375V11.5224609375H50.7626171875V9.3642578125Q50.7626171875 8.70849609375 50.5966015625 8.480224609375Q50.4305859375 8.251953125 50.081953125 8.251953125Q49.67521484375 8.251953125 49.5341015625 8.546630859375Q49.39298828125 8.84130859375 49.39298828125 9.3310546875V16.64404296875Q49.39298828125 17.25 49.571455078125 17.4990234375Q49.749921875 17.748046875 50.081953125 17.748046875Q50.45548828125 17.748046875 50.609052734375 17.44091796875Q50.7626171875 17.1337890625 50.7626171875 16.64404296875V14.0126953125H53.70109375V16.77685546875Q53.70109375 18.70263671875 52.72990234375 19.570068359375Q51.7587109375 20.4375 50.015546875 20.4375ZM54.50228515625 20.3046875V5.6953125H58.4617578125Q60.0555078125 5.6953125 60.781826171875 6.471435546875Q61.50814453125 7.24755859375 61.50814453125 9.0322265625V9.67138671875Q61.50814453125 10.70068359375 61.138759765625 11.33984375Q60.769375 11.97900390625 60.01400390625 12.17822265625Q61.001796875 12.42724609375 61.337978515625 13.344482421875Q61.67416015625 14.26171875 61.67416015625 15.58154296875Q61.67416015625 17.0009765625 61.40853515625 18.0634765625Q61.14291015625 19.1259765625 60.44564453125 19.71533203125Q59.74837890625 20.3046875 58.4617578125 20.3046875ZM57.35775390625 11.19873046875H57.95541015625Q58.3621484375 11.19873046875 58.478359375 10.88330078125Q58.5945703125 10.56787109375 58.5945703125 10.1279296875V8.65869140625Q58.5945703125 7.953125 57.97201171875 7.953125H57.35775390625ZM57.64828125 17.7314453125Q58.78548828125 17.7314453125 58.78548828125 16.65234375V14.826171875Q58.78548828125 14.20361328125 58.598720703125 13.842529296875Q58.411953125 13.4814453125 57.8973046875 13.4814453125H57.35775390625V17.71484375Q57.54037109375 17.7314453125 57.64828125 17.7314453125ZM66.28142578125 20.3046875V5.6953125H70.1412890625Q71.353203125 5.6953125 72.062919921875 6.23486328125Q72.77263671875 6.7744140625 73.079765625 7.7705078125Q73.38689453125 8.7666015625 73.38689453125 10.14453125Q73.38689453125 11.47265625 73.1295703125 12.456298828125Q72.87224609375 13.43994140625 72.212333984375 13.9794921875Q71.552421875 14.51904296875 70.3405078125 14.51904296875H69.15349609375V20.3046875ZM69.15349609375 11.89599609375H69.31951171875Q70.13298828125 11.89599609375 70.31560546875 11.439453125Q70.49822265625 10.98291015625 70.49822265625 10.0947265625Q70.49822265625 9.2646484375 70.319755859375 8.812255859375Q70.1412890625 8.35986328125 69.4772265625 8.35986328125H69.15349609375ZM73.73984374999999 20.3046875 75.15097656249999 5.6953125H80.10654296874999L81.49277343749999 20.3046875H78.72861328124999L78.52109374999999 17.947265625H76.76132812499999L76.57871093749999 20.3046875ZM76.96884765624999 15.61474609375H78.29697265624999L77.65781249999999 8.185546875H77.52499999999999ZM82.21925781249999 20.3046875V5.6953125H86.70167968749999Q87.82228515624999 5.6953125 88.39503906249999 6.205810546875Q88.96779296874999 6.71630859375 89.16286132812499 7.633544921875Q89.35792968749999 8.55078125 89.35792968749999 9.78759765625Q89.35792968749999 10.98291015625 89.05495117187499 11.69677734375Q88.75197265624999 12.41064453125 87.91359374999999 12.6845703125Q88.60255859374999 12.82568359375 88.88063476562499 13.369384765625Q89.15871093749999 13.9130859375 89.15871093749999 14.7763671875V20.3046875H86.27833984374999V14.58544921875Q86.27833984374999 13.9462890625 86.01686523437499 13.792724609375Q85.75539062499999 13.63916015625 85.17433593749999 13.63916015625V20.3046875ZM85.19093749999999 11.107421875H85.89650390624999Q86.50246093749999 11.107421875 86.50246093749999 9.78759765625Q86.50246093749999 8.9326171875 86.36964843749999 8.6669921875Q86.23683593749999 8.4013671875 85.87160156249999 8.4013671875H85.19093749999999ZM91.40423828124999 20.3046875V8.5009765625H89.66937499999999V5.6953125H96.06097656249999V8.5009765625H94.32611328124999V20.3046875ZM96.70445312499999 20.3046875V5.6953125H99.70933593749999L101.05406249999999 12.69287109375V5.6953125H103.87632812499999V20.3046875H101.02085937499999L99.55992187499999 13.0V20.3046875ZM105.00124999999998 20.3046875V5.6953125H110.84499999999998V8.517578125H107.97292968749998V11.36474609375H110.72878906249998V14.1123046875H107.97292968749998V17.45751953125H111.03591796874998V20.3046875ZM111.82880859374998 20.3046875V5.6953125H116.31123046874998Q117.43183593749998 5.6953125 118.00458984374998 6.205810546875Q118.57734374999998 6.71630859375 118.77241210937498 7.633544921875Q118.96748046874998 8.55078125 118.96748046874998 9.78759765625Q118.96748046874998 10.98291015625 118.66450195312498 11.69677734375Q118.36152343749998 12.41064453125 117.52314453124998 12.6845703125Q118.21210937499998 12.82568359375 118.49018554687498 13.369384765625Q118.76826171874998 13.9130859375 118.76826171874998 14.7763671875V20.3046875H115.88789062499998V14.58544921875Q115.88789062499998 13.9462890625 115.62641601562498 13.792724609375Q115.36494140624998 13.63916015625 114.78388671874998 13.63916015625V20.3046875ZM114.80048828124998 11.107421875H115.50605468749998Q116.11201171874998 11.107421875 116.11201171874998 9.78759765625Q116.11201171874998 8.9326171875 115.97919921874998 8.6669921875Q115.84638671874998 8.4013671875 115.48115234374998 8.4013671875H114.80048828124998ZM123.23009765624998 20.4375Q121.22960937499998 20.4375 120.34557617187498 19.44140625Q119.46154296874998 18.4453125 119.46154296874998 16.2705078125V14.8427734375H122.35021484374998V16.6689453125Q122.35021484374998 17.17529296875 122.50377929687498 17.461669921875Q122.65734374999998 17.748046875 123.03917968749998 17.748046875Q123.43761718749998 17.748046875 123.59118164062498 17.515625Q123.74474609374998 17.283203125 123.74474609374998 16.751953125Q123.74474609374998 16.07958984375 123.61193359374998 15.627197265625Q123.47912109374998 15.1748046875 123.15124023437498 14.763916015625Q122.82335937499998 14.35302734375 122.24230468749998 13.80517578125L120.93078124999998 12.56005859375Q119.46154296874998 11.173828125 119.46154296874998 9.38916015625Q119.46154296874998 7.521484375 120.32897460937498 6.5419921875Q121.19640624999998 5.5625 122.83996093749998 5.5625Q124.84874999999998 5.5625 125.69127929687498 6.63330078125Q126.53380859374998 7.7041015625 126.53380859374998 9.88720703125H123.56212890624998V8.8828125Q123.56212890624998 8.583984375 123.39196289062498 8.41796875Q123.22179687499998 8.251953125 122.93126953124998 8.251953125Q122.58263671874998 8.251953125 122.42077148437498 8.447021484375Q122.25890624999998 8.64208984375 122.25890624999998 8.94921875Q122.25890624999998 9.25634765625 122.42492187499998 9.61328125Q122.59093749999998 9.97021484375 123.08068359374998 10.43505859375L124.76574218749998 12.0537109375Q125.27208984374998 12.53515625 125.69542968749998 13.070556640625Q126.11876953124998 13.60595703125 126.37609374999998 14.315673828125Q126.63341796874998 15.025390625 126.63341796874998 16.04638671875Q126.63341796874998 18.10498046875 125.87389648437498 19.271240234375Q125.11437499999998 20.4375 123.23009765624998 20.4375Z" fill="currentColor"/></svg><small>Academy</small></a>
+  <a class="fsmchip" href="fsm.html" title="Switch FSM training"><span class="dot" aria-hidden="true"></span>FieldPulse<span class="chg">Switch</span></a>
+  <nav class="nav" aria-label="Main"><a class="toplink on" href="home.html" aria-current="page">Lessons</a><a class="toplink" href="library.html">SOP Library</a><a class="toplink" href="practice.html">Practice</a><a class="toplink" href="progress.html">My progress</a><a class="toplink" href="certificate.html">Certificate</a><sc-if value="{{hd.admin}}"><a class="toplink" href="team.html">Team progress</a><a class="toplink" href="certs.html">Certifications</a></sc-if><sc-if value="{{hd.demo}}"><span class="demo">Demo mode</span></sc-if><span class="who" title="{{hd.name}}">{{hd.ini}}</span><button type="button" class="out" onClick="{{hd.signOut}}">Sign out</button></nav>
+</header>
+  <main style="padding:36px 40px 64px;box-sizing:border-box;width:100%;max-width:980px;margin:0 auto">
+    <p class="lbl"><a href="home.html?day=d5">Day 5 · Review and certification</a></p>
+    <h1 class="h1" style="margin-top:10px">Final review check</h1>
+    <p class="mut" style="margin:10px 0 0;font-size:15.5px;max-width:700px">20 questions from Days 1 to 4, five per day, taken from the lesson checks. One answer each, then see your score. It shows what to review before your certificate. Your trainer sees your score and your reflection in Team progress.</p>
+    <sc-if value="{{prev}}"><p class="faint" style="margin:8px 0 0;font-size:14px">{{prev}}</p></sc-if>
+
+    <sc-if value="{{showQs}}" hint-placeholder-val="{{ true }}">
+      <section class="panel" style="margin-top:24px" aria-label="Questions">
+        <sc-for list="{{qs}}" as="q" hint-placeholder-count="4">
+          <div class="fq">
+            <p class="lbl">{{q.tag}}</p>
+            <p style="margin:6px 0 0;font-size:16.5px;font-weight:600">{{q.n}}. {{q.q}}</p>
+            <sc-for list="{{q.opts}}" as="o" hint-placeholder-count="3"><button type="button" class="{{o.cls}}" onClick="{{o.pick}}" disabled="{{q.locked}}">{{o.t}}</button></sc-for>
+            <sc-if value="{{q.showWhy}}" hint-placeholder-val="{{ false }}"><p style="margin:8px 0 0;font-size:14px;color:{{q.whyColor}}">{{q.why}}</p></sc-if>
+          </div>
+        </sc-for>
+      </section>
+      <div style="display:flex;flex-wrap:wrap;gap:12px;align-items:center;margin-top:16px">
+        <button type="button" class="btn" onClick="{{submit}}" disabled="{{busy}}">See my score</button>
+        <span class="mut" style="font-size:14px">{{answered}} of 20 answered</span>
+        <sc-if value="{{needAll}}" hint-placeholder-val="{{ false }}"><span style="font-size:14px;color:#B3261E">Answer all 20 first.</span></sc-if>
+      </div>
+    </sc-if>
+
+    <sc-if value="{{done}}" hint-placeholder-val="{{ false }}">
+      <section class="paper" style="margin-top:24px;padding:20px 22px" aria-label="Your score">
+        <p class="lbl">Your score</p>
+        <p style="margin:6px 0 0"><span style="font-family:var(--display);font-size:48px;line-height:1">{{score}}</span> <span class="mut">of 20</span></p>
+        <div class="panel" style="margin-top:16px;display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr))">
+          <sc-for list="{{byDay}}" as="d" hint-placeholder-count="4"><div class="dstat"><p class="lbl">{{d.name}}</p><p class="num" style="margin:6px 0 0;font-size:20px;font-weight:600;color:{{d.c}}">{{d.s}} of 5</p></div></sc-for>
+        </div>
+        <sc-if value="{{hasMiss}}" hint-placeholder-val="{{ true }}">
+          <p style="margin:18px 0 6px;font-weight:600">Review these lessons</p>
+          <sc-for list="{{miss}}" as="m" hint-placeholder-count="3"><p style="margin:4px 0"><a href="{{m.href}}">{{m.t}}</a> <span class="faint" style="font-size:13px">{{m.where}}</span></p></sc-for>
+        </sc-if>
+        <sc-if value="{{noMiss}}" hint-placeholder-val="{{ false }}"><p style="margin:18px 0 0">All 20 right. Nothing to review.</p></sc-if>
+        <p class="mut" style="margin:16px 0 0;font-size:14px">{{savedNote}} The right answers are marked below. There is no pass mark on this check yet. Your certificate still needs the 50 lessons, every lesson check, and a practice result of Ready.</p>
+        <button type="button" class="btn ghost" style="margin-top:14px" onClick="{{retry}}">Take it again</button>
+      </section>
+    </sc-if>
+
+    <h2 id="reflect" class="h2" style="margin:44px 0 6px">Your reflection</h2>
+    <p class="mut" style="margin:0 0 14px;font-size:15px">Three short answers in your own words. Your trainer reads them before your results 1:1.</p>
+    <div class="refl" style="display:flex;flex-direction:column;gap:14px">
+      <label style="font-size:15px;font-weight:600">What was the hardest part of Days 1 to 4?<textarea onInput="{{setR1}}" placeholder="Type here" value="{{r1}}" maxlength="4000"></textarea></label>
+      <label style="font-size:15px;font-weight:600">Which day do you want more practice on, and why?<textarea onInput="{{setR2}}" placeholder="Type here" value="{{r2}}" maxlength="4000"></textarea></label>
+      <label style="font-size:15px;font-weight:600">On your first day with a client, what will you check first?<textarea onInput="{{setR3}}" placeholder="Type here" value="{{r3}}" maxlength="4000"></textarea></label>
+    </div>
+    <div style="display:flex;gap:12px;align-items:center;margin-top:14px;flex-wrap:wrap">
+      <button type="button" class="btn" onClick="{{saveR}}" disabled="{{rBusy}}">Save my reflection</button>
+      <span style="font-size:14px;color:{{rColor}}">{{rMsg}}</span>
+    </div>
+
+    <div style="margin-top:44px;padding-top:20px;border-top:1px solid var(--line);display:flex;flex-wrap:wrap;gap:12px 24px">
+      <a href="progress.html" style="font-weight:600">Fix missed lesson checks in My progress &rarr;</a>
+      <a href="practice.html" style="font-weight:600">Practice tasks &rarr;</a>
+      <a href="certificate.html" style="font-weight:600">Certificate &rarr;</a>
+    </div>
+  </main>
+</div>
+</script>
+<script src="js/config.js"></script>
+<script src="js/vendor/supabase-2.117.3.min.js"></script>
+<script src="js/track.js"></script>
+<script src="js/catalog.js"></script>
+<script src="js/academy.js"></script>
+<script src="js/dc.js"></script>
+<script>
+
+const FQ = window.ACAD_FQ;
+class Component extends DCLogic {
+  constructor(p){ super(p); const R = p.data.refl || {};
+    this.state = { ans: {}, done: false, needAll: false, busy: false, saved: '', r1: R.r1 || '', r2: R.r2 || '', r3: R.r3 || '', rMsg: '', rOk: false, rBusy: false, tries: p.data.tries || [] }; }
+  componentDidMount(){ if (location.hash === '#reflect') setTimeout(() => { const el = document.getElementById('reflect'); if (el) el.scrollIntoView(); }, 50); }
+  renderVals() {
+    const A = this.state.ans, done = this.state.done;
+    const DN = { d1: 'Day 1', d2: 'Day 2', d3: 'Day 3', d4: 'Day 4' };
+    const qs = FQ.map((q, i) => {
+      const x = A[i], ok = x === q.a;
+      return { n: i + 1, tag: DN[q.day] + ' · ' + q.lt, q: q.q, locked: done, showWhy: done, why: ok ? 'Right. ' + q.why : 'Not right. The answer is: ' + q.o[q.a] + '. ' + q.why, whyColor: ok ? 'var(--ok)' : '#B3261E',
+        opts: q.o.map((t, oi) => ({ t, cls: 'opt' + (done ? (oi === q.a ? ' right' : (x === oi ? ' wrong' : '')) : (x === oi ? ' pick' : '')),
+          pick: () => { if (!this.state.done) this.setState({ ans: Object.assign({}, this.state.ans, { [i]: oi }), needAll: false }); } })) };
+    });
+    const answered = Object.keys(A).length;
+    const right = FQ.filter((q, i) => A[i] === q.a);
+    const byDay = ['d1', 'd2', 'd3', 'd4'].map((d) => { const s = FQ.filter((q, i) => q.day === d && A[i] === q.a).length; return { name: DN[d], s, c: s === 5 ? 'var(--ok)' : s >= 3 ? 'var(--paper)' : '#B3261E' }; });
+    const miss = FQ.map((q, i) => ({ q, i })).filter((x) => A[x.i] !== x.q.a).map((x) => { const L = ACAD.BY[x.q.lid]; return { t: x.q.lt, where: DN[x.q.day], href: L ? ACAD.href(L) : 'home.html' }; });
+    const tries = this.state.tries, last = tries[tries.length - 1];
+    return {
+      hd: ACAD.hdr(this.props.me), busy: this.state.busy,
+      prev: last ? 'You have taken it ' + tries.length + (tries.length === 1 ? ' time' : ' times') + '. Last score: ' + last.score + ' of 20 on ' + ACAD.fmtDay(last.created_at) + '.' : '',
+      qs, answered, needAll: this.state.needAll, showQs: true, done, score: right.length, byDay, miss, hasMiss: miss.length > 0, noMiss: done && miss.length === 0,
+      savedNote: this.state.saved,
+      submit: async () => {
+        if (Object.keys(this.state.ans).length < FQ.length) { this.setState({ needAll: true }); return; }
+        const score = FQ.filter((q, i) => this.state.ans[i] === q.a).length, by_day = byDay.map((d) => d.s), answers = FQ.map((q, i) => this.state.ans[i]);
+        this.setState({ busy: true });
+        let saved = 'Your score is saved.';
+        try { await FPTrack.finalAdd({ score, by_day, answers }); } catch (e) { saved = "Your score couldn't be saved. Check your internet and take it again."; }
+        this.setState({ done: true, needAll: false, busy: false, saved, tries: saved === 'Your score is saved.' ? tries.concat([{ score, by_day, created_at: new Date().toISOString() }]) : tries });
+        setTimeout(() => { try { const el = document.querySelector('[aria-label="Your score"]'); if (el) el.scrollIntoView({ block: 'start' }); } catch (e) {} }, 60);
+      },
+      retry: () => this.setState({ ans: {}, done: false, needAll: false, saved: '' }),
+      r1: this.state.r1, r2: this.state.r2, r3: this.state.r3, rBusy: this.state.rBusy,
+      setR1: (e) => this.setState({ r1: e.target.value, rMsg: '' }), setR2: (e) => this.setState({ r2: e.target.value, rMsg: '' }), setR3: (e) => this.setState({ r3: e.target.value, rMsg: '' }),
+      saveR: async () => {
+        const v = [this.state.r1, this.state.r2, this.state.r3];
+        if (!v.every((x) => x.trim().length > 0)) { this.setState({ rOk: false, rMsg: 'Answer all three first.' }); return; }
+        this.setState({ rBusy: true, rMsg: '' });
+        try { await FPTrack.reflSave({ r1: v[0].trim(), r2: v[1].trim(), r3: v[2].trim() }); this.setState({ rBusy: false, rOk: true, rMsg: 'Saved. Your trainer can read it in Team progress.' }); }
+        catch (e) { this.setState({ rBusy: false, rOk: false, rMsg: "Couldn't save it. Check your internet and try again." }); }
+      },
+      rMsg: this.state.rMsg, rColor: this.state.rOk ? 'var(--ok)' : '#B3261E'
+    };
+  }
+}
+ACAD.start(Component, { auth: 'user' }, async () => { const [tries, refl] = await Promise.all([FPTrack.finalMine(), FPTrack.reflGet()]); return { tries: tries || [], refl }; });
+
+</script>
+</body>
+</html>

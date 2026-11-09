@@ -1,62 +1,50 @@
-# FieldPulse OM Training site
+# BCB Partners Academy (FieldPulse office manager training)
 
-Lessons for Modules 1 and 2, with a login. Every lesson a trainee opens or finishes is saved, so trainers can see who finished what.
+A 5-day program with a login. Days 1 to 4 have 50 lessons and 54 practice tasks. Day 5 is the final review check, the reflection and the certificate. Owner reporting (Module 6) is an extra and does not count toward the certificate.
 
-1. index.html: sign in, then the module list.
-2. m1.html, m2.html: the lessons.
-3. admin.html: the Progress page (trainers only).
-4. supabase/schema.sql: the database setup. Run it once.
-5. supabase/admin.sql: handy queries for trainers.
+## Pages
 
-Leave js/config.js blank and the site runs in demo mode. In demo mode nothing is saved online.
+1. index.html: sign in. An invite or reset link also lands here and asks for a new password.
+2. fsm.html: choose your training (FieldPulse now, the others say coming soon).
+3. home.html: the 5-day program, lesson cards by day, and Day 5 steps.
+4. f.html and m1.html to m7.html: the interactive lessons (walk-through, steps, practice, check questions).
+5. library.html: the SOP Library (45 SOPs).
+6. practice.html: the 54 practice tasks for Days 1 to 4, plus Owner reporting as extra. sandbox.html: free practice, no tasks.
+7. final.html: the final review check (20 questions) and the reflection.
+8. progress.html: My progress. certificate.html: the certificate. verify.html: public certificate check, no login.
+9. team.html and certs.html: admins only (Team progress, Certifications). admin.html sends old links to team.html.
 
 ## What gets saved
 
-One row each time a trainee:
+1. lesson_events: one row each time a trainee opens or finishes part of a lesson, or marks an SOP as read.
+2. practice_results: one row per trainee with their practice tasks and result (Ready, Ready with coaching, Not ready yet).
+3. final_checks: one row per try of the final review check, so trainers can compare the first try to the next.
+4. reflections: one row per trainee (three short answers).
+5. certificates: made only by the database when the rule is met. Admins can revoke (a reason is required) or restore.
 
-1. Opens a lesson for the first time.
-2. Finishes the walk-through.
-3. Gets every check question right. The row also saves the first-try score.
-4. Passes practice. The row also saves how many hints they used.
+Before it issues a certificate, the database checks the trainee's saved rows: a walk-through, check and practice row for all 50 lessons of Days 1 to 4, and a practice result of Ready (54 tasks done, at least 46 on your own, no serious slips). The site saves a check row only when every answer is right. Every issue, revoke and restore is kept in certificate_log.
 
-Each row has the time, plus the minutes they've spent on that lesson so far. Minutes only count while the tab is open and they've clicked or typed in the last 2 minutes.
-A lesson is done when the walk-through, check and practice are all done.
+Trainees see only their own rows. Admins see everyone. The verify page shows only the name, training, date and status of one certificate ID.
 
-## Setup (one time)
+## Setup
 
-### Supabase (login and database)
+1. Supabase, one time: SQL Editor > New query > paste all of supabase/schema.sql > Run. Then do the same with supabase/academy_2026_11_09.sql. Both are safe to run again.
+2. Supabase > Authentication > Sign In / Providers: Email on, and "Allow new users to sign up" OFF. Only people an admin adds can sign in and save progress.
+3. js/config.js holds the Project URL and the public key. Never put the secret or service_role key in this repo.
+4. GitHub Pages: Settings > Pages > Deploy from a branch > main > / (root).
 
-1. Create a free project at supabase.com.
-2. Open SQL Editor > New query. Paste all of supabase/schema.sql and click Run.
-3. Go to Authentication > Sign In / Providers. Make sure Email is on. Turn OFF "Allow new users to sign up", so only trainers can add people.
-4. Add yourself: Authentication > Users > Add user > Create new user. Enter your email and a password, and tick Auto Confirm.
-5. Make yourself an admin: run query 1 from supabase/admin.sql with your email.
-6. Go to Project Settings > API. Copy the Project URL and the public key (it's called "publishable" or "anon public").
-7. Never copy the secret or service_role key into this repo.
-
-### Connect the site
-
-1. Open js/config.js. Paste the Project URL into SUPABASE_URL and the public key into SUPABASE_KEY.
-
-### GitHub Pages (hosting)
-
-1. Create a public repo, then upload every file in this folder: Add file > Upload files, and drag in the whole folder contents.
-2. Go to Settings > Pages > Build and deployment. Set Source to "Deploy from a branch", Branch to main, and folder to / (root). Click Save.
-3. After about a minute, the site is live at https://YOUR-NAME.github.io/REPO-NAME/
+Leave js/config.js blank and the site runs in demo mode (nothing saved online, any email with the password demo, an email with "admin" in it is an admin).
 
 ## Add a trainee
 
-1. In Supabase, go to Authentication > Users > Add user > Create new user. Enter their email and a password, and tick Auto Confirm.
+1. Supabase > Authentication > Users > Add user > Create new user. Enter their email and a password, tick Auto Confirm.
 2. Set their name with query 2 in supabase/admin.sql.
 3. Send them the site link, their email and their password.
 
-Don't use "Send invitation" for trainees. Supabase's built-in email only sends to people on the Supabase team for this project, and only 2 emails an hour. Invites and reset emails to anyone else won't arrive. If an invite does arrive, the link opens the site and asks them to set a password.
-
 ## Things to know
 
-1. On the free Supabase plan, a project pauses after 1 week with no activity. If the site stops letting people sign in, open the Supabase dashboard and click Resume (or Restore).
-2. The lesson pages are public to anyone with the link. They use made-up practice data only. The progress records are only visible after sign-in.
-3. To reset a password, run query 4 in supabase/admin.sql in the SQL Editor. For someone on the Supabase team, you can also click the user and use Send password recovery.
-4. Times show as fixed UTC-4, labeled EDT. To change that, edit TIME_ZONE and TIME_LABEL in js/config.js.
-
-Last site update: Nov 5, 2026 (home page with lesson cards).
+1. On the free Supabase plan, a project pauses after 1 week with no activity. If sign-in stops working, open the Supabase dashboard and click Resume.
+2. Lesson pages and free practice use made-up practice data only.
+3. Free practice is kept in the trainee's browser. Practice tasks, lessons, the final check, the reflection and the certificate are saved to their account.
+4. Keep staff emails out of this repo (it is public). Admin emails go in the admin_emails table from the Supabase SQL Editor.
+5. Times show as fixed UTC-4, labeled EDT (TIME_ZONE and TIME_LABEL in js/config.js).

@@ -1,0 +1,309 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="robots" content="noindex">
+<title>Team progress · BCB Partners Academy</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Anton&amp;family=Archivo:wght@400;500;600&amp;family=JetBrains+Mono:wght@400;700&amp;family=Permanent+Marker&amp;family=Source+Sans+3:wght@400;500;600;700;900&amp;display=swap">
+<style>
+/* BCB Partners look, taken from bluecollarballerpartners.com: near-black ground, off-white type, one red, square corners.
+   Anton for headings, Archivo for reading, JetBrains Mono for labels and buttons. */
+body{margin:0;background:#0B0B0B}
+.bcb{--ink:#0B0B0B;--ink2:#131313;--ink3:#1B1B1B;--paper:#F2F1EE;--mut:rgba(242,241,238,.72);--faint:rgba(242,241,238,.48);--line:rgba(242,241,238,.12);--line2:rgba(242,241,238,.24);--ok:#62C482;--warn:#E8A93C;--red:#C6301A;--red2:#DD3B22;
+  --display:'Anton',Impact,'Arial Narrow',sans-serif;--body:'Archivo',system-ui,-apple-system,'Segoe UI',sans-serif;--mono:'JetBrains Mono',ui-monospace,Menlo,monospace;
+  min-height:100vh;background:var(--ink);color:var(--paper);font-family:var(--body);font-size:15px;line-height:1.5;display:flex;flex-direction:column}
+/* Working pages use a white page; the header bar stays BCB black. Front-door pages (sign in, choose FSM) stay dark. */
+.bcb.light{--ink:#FFFFFF;--ink2:#F6F5F2;--ink3:#EEECE7;--paper:#0B0B0B;--mut:rgba(11,11,11,.7);--faint:rgba(11,11,11,.52);--line:rgba(11,11,11,.12);--line2:rgba(11,11,11,.26);--ok:#1E7A3C;--warn:#9A6200;}
+.bcb.light .hdr{--ink:#0B0B0B;--ink2:#131313;--ink3:#1B1B1B;--paper:#F2F1EE;--mut:rgba(242,241,238,.72);--faint:rgba(242,241,238,.48);--line:rgba(242,241,238,.12);--line2:rgba(242,241,238,.24);--ok:#62C482;--warn:#E8A93C;background:#0B0B0B;color:#F2F1EE}
+.bcb a{color:var(--paper);text-decoration:underline;text-decoration-color:var(--line2);text-underline-offset:3px}
+.bcb a:hover{text-decoration-color:var(--red)}
+.bcb :focus-visible{outline:2px solid var(--red);outline-offset:2px}
+.hdr{display:flex;flex-wrap:wrap;align-items:center;gap:12px 28px;padding:14px 32px;border-bottom:1px solid var(--line);background:var(--ink)}
+.brand{display:flex;align-items:center;gap:12px;text-decoration:none!important;color:var(--paper)!important}
+.brand .logo{height:24px;width:auto;display:block}
+.brand small{font-family:var(--mono);font-size:10px;letter-spacing:.22em;text-transform:uppercase;color:var(--faint);padding-left:12px;border-left:1px solid var(--line2)}
+.nav{display:flex;align-items:center;gap:4px;margin-left:auto;flex-wrap:wrap}
+.toplink{font-family:var(--mono);font-size:11px;letter-spacing:.18em;text-transform:uppercase;color:var(--mut)!important;text-decoration:none!important;padding:8px 10px;border-bottom:2px solid transparent}
+.toplink:hover{color:var(--paper)!important}
+.toplink.on{color:var(--paper)!important;border-bottom-color:var(--red)}
+.who{width:32px;height:32px;margin-left:10px;border:1px solid var(--line2);display:grid;place-items:center;font-family:var(--mono);font-size:11px;color:var(--paper)}
+.search{flex:1 1 260px;max-width:380px;display:flex;align-items:center;gap:8px;border:1px solid var(--line2);padding:0 12px;min-height:38px;background:var(--ink2)}
+.search input{border:0;background:transparent;font:inherit;font-size:14px;flex:1;min-width:0;outline:none;color:var(--paper)}
+.search input::placeholder{color:var(--faint)}
+.lbl{font-family:var(--mono);font-size:11px;letter-spacing:.2em;text-transform:uppercase;color:var(--faint);margin:0}
+.h1{font-family:var(--display);font-weight:400;text-transform:uppercase;font-size:46px;line-height:.98;letter-spacing:-.005em;margin:0;text-wrap:balance}
+.h2{font-family:var(--display);font-weight:400;text-transform:uppercase;font-size:26px;line-height:1.05;margin:0;text-wrap:balance}
+.h3{font-family:var(--display);font-weight:400;text-transform:uppercase;font-size:19px;line-height:1.1;margin:0}
+.mut{color:var(--mut)}.faint{color:var(--faint)}
+.marker{font-family:'Permanent Marker',cursive;text-transform:none;letter-spacing:.01em;border-bottom:2px solid var(--paper)}
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;min-height:42px;padding:0 20px;border:1px solid var(--red);background:var(--red);color:#F2F1EE!important;font-family:var(--mono);font-size:11px;letter-spacing:.18em;text-transform:uppercase;text-decoration:none!important;cursor:pointer;border-radius:0}
+.btn:hover{background:var(--red2);border-color:var(--red2)}
+.btn.ghost{background:transparent;border-color:var(--line2);color:var(--paper)!important}
+.btn.ghost:hover{border-color:var(--paper)}
+.btn.done{background:transparent;border-color:var(--ok);color:var(--ok)!important;cursor:default}
+.panel{border:1px solid var(--line);background:var(--ink2)}
+.paper{--ink:#FFFFFF;--ink2:#F6F5F2;--ink3:#EEECE7;--paper:#0B0B0B;--mut:rgba(11,11,11,.7);--faint:rgba(11,11,11,.52);--line:rgba(11,11,11,.12);--line2:rgba(11,11,11,.26);--ok:#1E7A3C;--warn:#9A6200;--ink2:#FFFFFF;background:#F2F1EE;color:#0B0B0B}
+.bcb.light .paper{--ink:#0B0B0B;--ink2:#131313;--ink3:#1B1B1B;--paper:#F2F1EE;--mut:rgba(242,241,238,.72);--faint:rgba(242,241,238,.48);--line:rgba(242,241,238,.12);--line2:rgba(242,241,238,.24);--ok:#62C482;--warn:#E8A93C;background:#0B0B0B;color:#F2F1EE}
+.tabs{display:flex;flex-wrap:wrap;gap:0;border:1px solid var(--line2);width:max-content;max-width:100%}
+.tabb{border:0;border-right:1px solid var(--line2);background:transparent;color:var(--paper);font-family:var(--mono);font-size:10.5px;letter-spacing:.18em;text-transform:uppercase;padding:10px 14px;cursor:pointer;min-height:38px}
+.tabb:last-child{border-right:0}
+.tabb:hover{background:var(--ink3)}
+.tabb.on{background:var(--red);color:#F2F1EE}
+.field{display:flex;flex-direction:column;gap:6px}
+.field input,.field select{font:inherit;font-size:15px;color:var(--paper);background:var(--ink2);border:1px solid var(--line2);border-radius:0;min-height:44px;padding:0 12px}
+.field input:focus,.field select:focus{outline:none;border-color:var(--paper)}
+.num{font-variant-numeric:tabular-nums}
+.fsmchip{display:inline-flex;align-items:center;gap:8px;border:1px solid var(--line2);padding:6px 10px;font-family:var(--mono);font-size:10.5px;letter-spacing:.16em;text-transform:uppercase;color:var(--paper)!important;text-decoration:none!important}
+.fsmchip:hover{border-color:var(--paper)}
+.fsmchip .dot{width:7px;height:7px;background:var(--ok)}
+.fsmchip .chg{color:var(--faint);padding-left:8px;border-left:1px solid var(--line2)}
+.bar{display:block;height:4px;background:var(--line);overflow:hidden}.bar>i{display:block;height:100%;background:var(--ok)}
+.sw{position:relative;flex:1 1 260px;max-width:440px}.sw .search{max-width:none}.sres{position:absolute;left:0;right:0;top:calc(100% + 6px);z-index:50;background:#131313;border:1px solid rgba(242,241,238,.24);box-shadow:0 18px 40px rgba(0,0,0,.45);max-height:560px;overflow:auto;padding:6px 0 10px}.sres-top{display:flex;justify-content:space-between;align-items:center;gap:10px;padding:6px 14px}.sres-top .lbl{color:rgba(242,241,238,.72)!important;text-transform:none;letter-spacing:.02em}.sres-x{border:0;background:transparent;color:rgba(242,241,238,.72);font-family:var(--mono);font-size:10px;letter-spacing:.14em;text-transform:uppercase;cursor:pointer;padding:4px}.sres-x:hover{color:#F2F1EE}.sres-g{border-top:1px solid rgba(242,241,238,.12);padding-top:6px;margin-top:4px}.sres-h{padding:4px 14px;color:rgba(242,241,238,.48)!important}.sres-h .num{margin-left:6px;color:#E0583F}.sres-i{display:flex;flex-direction:column;gap:2px;padding:8px 14px;text-decoration:none!important;border-left:2px solid transparent}.sres-i:hover{background:#1B1B1B;border-left-color:#C6301A}.sres-t{color:#F2F1EE;font-size:14px;font-weight:600;line-height:1.3}.sres-s{color:rgba(242,241,238,.55);font-size:12px}.sres-none{margin:6px 14px;color:rgba(242,241,238,.72);font-size:13.5px}
+.out{border:1px solid var(--line2);background:transparent;color:var(--mut);font-family:var(--mono);font-size:10px;letter-spacing:.16em;text-transform:uppercase;padding:7px 10px;cursor:pointer;margin-left:6px}
+.out:hover{color:var(--paper);border-color:var(--paper)}
+.demo{font-family:var(--mono);font-size:10px;letter-spacing:.14em;text-transform:uppercase;background:#E8A93C;color:#0B0B0B;padding:4px 8px;margin-left:8px}
+.fpt-toast{position:fixed;left:16px;bottom:16px;z-index:300;background:#0B0B0B;color:#F2F1EE;font:13px/1.4 'Archivo',system-ui,sans-serif;padding:10px 14px;border-left:3px solid #E8A93C}
+.fpt-toast:empty{display:none}
+.loading{padding:80px 24px;text-align:center;font:14px 'Archivo',system-ui,sans-serif;color:#9A9A9A}
+.btn[disabled],.btn.off{opacity:.45;cursor:not-allowed}
+@media (max-width:720px){.hdr{padding:12px 16px}.h1{font-size:36px}}
+
+
+table.pt{width:100%;border-collapse:collapse;font-size:14px}
+table.pt th{text-align:left;font-family:var(--mono);font-weight:400;font-size:10px;letter-spacing:.16em;text-transform:uppercase;color:var(--faint);padding:12px;border-bottom:1px solid var(--line2);white-space:nowrap;background:var(--ink2)}
+table.pt td{padding:13px 12px;border-bottom:1px solid var(--line);vertical-align:middle}
+table.pt th.c,table.pt td.c{text-align:center;padding-left:6px;padding-right:6px}
+table.pt tr.row{cursor:pointer}
+table.pt tr.row:hover td{background:var(--ink3)}
+table.pt tr.sel td{background:var(--ink3)}
+table.pt tr.sel td:first-child{box-shadow:inset 2px 0 0 var(--red)}
+.whob{border:0;background:transparent;font:inherit;text-align:left;padding:0;cursor:pointer;color:var(--paper)}
+.whob:hover .wn{text-decoration:underline;text-decoration-color:var(--red)}
+.mod{display:flex;align-items:center;gap:14px;width:100%;min-height:50px;padding:10px 16px;border:0;border-top:1px solid var(--line);background:var(--ink2);font:inherit;text-align:left;cursor:pointer;color:var(--paper)}
+.mod:hover{background:var(--ink3)}
+table.lt{width:100%;border-collapse:collapse;font-size:14px}
+table.lt th{text-align:left;font-family:var(--mono);font-weight:400;font-size:9.5px;letter-spacing:.14em;text-transform:uppercase;color:var(--faint);padding:9px 16px;border-bottom:1px solid var(--line)}
+table.lt td{padding:10px 16px;border-bottom:1px solid var(--line)}
+</style>
+</head>
+<body>
+<div id="app"></div>
+<div id="fpt-status" class="fpt-toast" role="status"></div>
+<script type="text/x-dc-template" id="tpl">
+<div class="bcb light">
+  <header class="hdr">
+  <a class="brand" href="home.html" aria-label="BCB Partners Academy home"><svg class="logo" aria-hidden="true" focusable="false" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 127.96 26"><rect x="0.5" y="0.5" fill="none" stroke="currentColor" stroke-opacity="0.45" stroke-width="1"/><path d="M10.046875 19.015625V6.984375H13.3076171875Q14.6201171875 6.984375 15.21826171875 7.62353515625Q15.81640625 8.2626953125 15.81640625 9.732421875V10.2587890625Q15.81640625 11.1064453125 15.51220703125 11.6328125Q15.2080078125 12.1591796875 14.5859375 12.3232421875Q15.3994140625 12.5283203125 15.67626953125 13.28369140625Q15.953125 14.0390625 15.953125 15.1259765625Q15.953125 16.294921875 15.734375 17.169921875Q15.515625 18.044921875 14.94140625 18.5302734375Q14.3671875 19.015625 13.3076171875 19.015625ZM12.3984375 11.5166015625H12.890625Q13.2255859375 11.5166015625 13.3212890625 11.2568359375Q13.4169921875 10.9970703125 13.4169921875 10.634765625V9.4248046875Q13.4169921875 8.84375 12.904296875 8.84375H12.3984375ZM12.6376953125 16.896484375Q13.57421875 16.896484375 13.57421875 16.0078125V14.50390625Q13.57421875 13.9912109375 13.42041015625 13.69384765625Q13.2666015625 13.396484375 12.8427734375 13.396484375H12.3984375V16.8828125Q12.548828125 16.896484375 12.6376953125 16.896484375Z" fill="currentColor"/><path d="M38.6474609375 20.3046875V5.6953125H42.60693359375Q44.20068359375 5.6953125 44.927001953125 6.471435546875Q45.6533203125 7.24755859375 45.6533203125 9.0322265625V9.67138671875Q45.6533203125 10.70068359375 45.283935546875 11.33984375Q44.91455078125 11.97900390625 44.1591796875 12.17822265625Q45.14697265625 12.42724609375 45.483154296875 13.344482421875Q45.8193359375 14.26171875 45.8193359375 15.58154296875Q45.8193359375 17.0009765625 45.5537109375 18.0634765625Q45.2880859375 19.1259765625 44.5908203125 19.71533203125Q43.8935546875 20.3046875 42.60693359375 20.3046875ZM41.5029296875 11.19873046875H42.1005859375Q42.50732421875 11.19873046875 42.62353515625 10.88330078125Q42.73974609375 10.56787109375 42.73974609375 10.1279296875V8.65869140625Q42.73974609375 7.953125 42.1171875 7.953125H41.5029296875ZM41.79345703125 17.7314453125Q42.9306640625 17.7314453125 42.9306640625 16.65234375V14.826171875Q42.9306640625 14.20361328125 42.743896484375 13.842529296875Q42.55712890625 13.4814453125 42.04248046875 13.4814453125H41.5029296875V17.71484375Q41.685546875 17.7314453125 41.79345703125 17.7314453125ZM50.015546875 20.4375Q48.43009765625 20.4375 47.463056640625 19.44970703125Q46.496015625 18.4619140625 46.496015625 16.685546875V9.9453125Q46.496015625 7.8203125 47.338544921875 6.69140625Q48.18107421875 5.5625 50.081953125 5.5625Q51.11955078125 5.5625 51.928876953125 5.9443359375Q52.738203125 6.326171875 53.203046875 7.085693359375Q53.667890625 7.84521484375 53.667890625 8.9990234375V11.5224609375H50.7626171875V9.3642578125Q50.7626171875 8.70849609375 50.5966015625 8.480224609375Q50.4305859375 8.251953125 50.081953125 8.251953125Q49.67521484375 8.251953125 49.5341015625 8.546630859375Q49.39298828125 8.84130859375 49.39298828125 9.3310546875V16.64404296875Q49.39298828125 17.25 49.571455078125 17.4990234375Q49.749921875 17.748046875 50.081953125 17.748046875Q50.45548828125 17.748046875 50.609052734375 17.44091796875Q50.7626171875 17.1337890625 50.7626171875 16.64404296875V14.0126953125H53.70109375V16.77685546875Q53.70109375 18.70263671875 52.72990234375 19.570068359375Q51.7587109375 20.4375 50.015546875 20.4375ZM54.50228515625 20.3046875V5.6953125H58.4617578125Q60.0555078125 5.6953125 60.781826171875 6.471435546875Q61.50814453125 7.24755859375 61.50814453125 9.0322265625V9.67138671875Q61.50814453125 10.70068359375 61.138759765625 11.33984375Q60.769375 11.97900390625 60.01400390625 12.17822265625Q61.001796875 12.42724609375 61.337978515625 13.344482421875Q61.67416015625 14.26171875 61.67416015625 15.58154296875Q61.67416015625 17.0009765625 61.40853515625 18.0634765625Q61.14291015625 19.1259765625 60.44564453125 19.71533203125Q59.74837890625 20.3046875 58.4617578125 20.3046875ZM57.35775390625 11.19873046875H57.95541015625Q58.3621484375 11.19873046875 58.478359375 10.88330078125Q58.5945703125 10.56787109375 58.5945703125 10.1279296875V8.65869140625Q58.5945703125 7.953125 57.97201171875 7.953125H57.35775390625ZM57.64828125 17.7314453125Q58.78548828125 17.7314453125 58.78548828125 16.65234375V14.826171875Q58.78548828125 14.20361328125 58.598720703125 13.842529296875Q58.411953125 13.4814453125 57.8973046875 13.4814453125H57.35775390625V17.71484375Q57.54037109375 17.7314453125 57.64828125 17.7314453125ZM66.28142578125 20.3046875V5.6953125H70.1412890625Q71.353203125 5.6953125 72.062919921875 6.23486328125Q72.77263671875 6.7744140625 73.079765625 7.7705078125Q73.38689453125 8.7666015625 73.38689453125 10.14453125Q73.38689453125 11.47265625 73.1295703125 12.456298828125Q72.87224609375 13.43994140625 72.212333984375 13.9794921875Q71.552421875 14.51904296875 70.3405078125 14.51904296875H69.15349609375V20.3046875ZM69.15349609375 11.89599609375H69.31951171875Q70.13298828125 11.89599609375 70.31560546875 11.439453125Q70.49822265625 10.98291015625 70.49822265625 10.0947265625Q70.49822265625 9.2646484375 70.319755859375 8.812255859375Q70.1412890625 8.35986328125 69.4772265625 8.35986328125H69.15349609375ZM73.73984374999999 20.3046875 75.15097656249999 5.6953125H80.10654296874999L81.49277343749999 20.3046875H78.72861328124999L78.52109374999999 17.947265625H76.76132812499999L76.57871093749999 20.3046875ZM76.96884765624999 15.61474609375H78.29697265624999L77.65781249999999 8.185546875H77.52499999999999ZM82.21925781249999 20.3046875V5.6953125H86.70167968749999Q87.82228515624999 5.6953125 88.39503906249999 6.205810546875Q88.96779296874999 6.71630859375 89.16286132812499 7.633544921875Q89.35792968749999 8.55078125 89.35792968749999 9.78759765625Q89.35792968749999 10.98291015625 89.05495117187499 11.69677734375Q88.75197265624999 12.41064453125 87.91359374999999 12.6845703125Q88.60255859374999 12.82568359375 88.88063476562499 13.369384765625Q89.15871093749999 13.9130859375 89.15871093749999 14.7763671875V20.3046875H86.27833984374999V14.58544921875Q86.27833984374999 13.9462890625 86.01686523437499 13.792724609375Q85.75539062499999 13.63916015625 85.17433593749999 13.63916015625V20.3046875ZM85.19093749999999 11.107421875H85.89650390624999Q86.50246093749999 11.107421875 86.50246093749999 9.78759765625Q86.50246093749999 8.9326171875 86.36964843749999 8.6669921875Q86.23683593749999 8.4013671875 85.87160156249999 8.4013671875H85.19093749999999ZM91.40423828124999 20.3046875V8.5009765625H89.66937499999999V5.6953125H96.06097656249999V8.5009765625H94.32611328124999V20.3046875ZM96.70445312499999 20.3046875V5.6953125H99.70933593749999L101.05406249999999 12.69287109375V5.6953125H103.87632812499999V20.3046875H101.02085937499999L99.55992187499999 13.0V20.3046875ZM105.00124999999998 20.3046875V5.6953125H110.84499999999998V8.517578125H107.97292968749998V11.36474609375H110.72878906249998V14.1123046875H107.97292968749998V17.45751953125H111.03591796874998V20.3046875ZM111.82880859374998 20.3046875V5.6953125H116.31123046874998Q117.43183593749998 5.6953125 118.00458984374998 6.205810546875Q118.57734374999998 6.71630859375 118.77241210937498 7.633544921875Q118.96748046874998 8.55078125 118.96748046874998 9.78759765625Q118.96748046874998 10.98291015625 118.66450195312498 11.69677734375Q118.36152343749998 12.41064453125 117.52314453124998 12.6845703125Q118.21210937499998 12.82568359375 118.49018554687498 13.369384765625Q118.76826171874998 13.9130859375 118.76826171874998 14.7763671875V20.3046875H115.88789062499998V14.58544921875Q115.88789062499998 13.9462890625 115.62641601562498 13.792724609375Q115.36494140624998 13.63916015625 114.78388671874998 13.63916015625V20.3046875ZM114.80048828124998 11.107421875H115.50605468749998Q116.11201171874998 11.107421875 116.11201171874998 9.78759765625Q116.11201171874998 8.9326171875 115.97919921874998 8.6669921875Q115.84638671874998 8.4013671875 115.48115234374998 8.4013671875H114.80048828124998ZM123.23009765624998 20.4375Q121.22960937499998 20.4375 120.34557617187498 19.44140625Q119.46154296874998 18.4453125 119.46154296874998 16.2705078125V14.8427734375H122.35021484374998V16.6689453125Q122.35021484374998 17.17529296875 122.50377929687498 17.461669921875Q122.65734374999998 17.748046875 123.03917968749998 17.748046875Q123.43761718749998 17.748046875 123.59118164062498 17.515625Q123.74474609374998 17.283203125 123.74474609374998 16.751953125Q123.74474609374998 16.07958984375 123.61193359374998 15.627197265625Q123.47912109374998 15.1748046875 123.15124023437498 14.763916015625Q122.82335937499998 14.35302734375 122.24230468749998 13.80517578125L120.93078124999998 12.56005859375Q119.46154296874998 11.173828125 119.46154296874998 9.38916015625Q119.46154296874998 7.521484375 120.32897460937498 6.5419921875Q121.19640624999998 5.5625 122.83996093749998 5.5625Q124.84874999999998 5.5625 125.69127929687498 6.63330078125Q126.53380859374998 7.7041015625 126.53380859374998 9.88720703125H123.56212890624998V8.8828125Q123.56212890624998 8.583984375 123.39196289062498 8.41796875Q123.22179687499998 8.251953125 122.93126953124998 8.251953125Q122.58263671874998 8.251953125 122.42077148437498 8.447021484375Q122.25890624999998 8.64208984375 122.25890624999998 8.94921875Q122.25890624999998 9.25634765625 122.42492187499998 9.61328125Q122.59093749999998 9.97021484375 123.08068359374998 10.43505859375L124.76574218749998 12.0537109375Q125.27208984374998 12.53515625 125.69542968749998 13.070556640625Q126.11876953124998 13.60595703125 126.37609374999998 14.315673828125Q126.63341796874998 15.025390625 126.63341796874998 16.04638671875Q126.63341796874998 18.10498046875 125.87389648437498 19.271240234375Q125.11437499999998 20.4375 123.23009765624998 20.4375Z" fill="currentColor"/></svg><small>Academy</small></a>
+  <a class="fsmchip" href="fsm.html" title="Switch FSM training"><span class="dot" aria-hidden="true"></span>FieldPulse<span class="chg">Switch</span></a>
+  <nav class="nav" aria-label="Main"><a class="toplink" href="home.html">Lessons</a><a class="toplink" href="library.html">SOP Library</a><a class="toplink" href="practice.html">Practice</a><a class="toplink" href="progress.html">My progress</a><a class="toplink" href="certificate.html">Certificate</a><sc-if value="{{hd.admin}}"><a class="toplink on" href="team.html" aria-current="page">Team progress</a><a class="toplink" href="certs.html">Certifications</a></sc-if><sc-if value="{{hd.demo}}"><span class="demo">Demo mode</span></sc-if><span class="who" title="{{hd.name}}">{{hd.ini}}</span><button type="button" class="out" onClick="{{hd.signOut}}">Sign out</button></nav>
+</header>
+
+  <main style="padding:36px 40px 64px;box-sizing:border-box;width:100%;max-width:1380px;margin:0 auto">
+    <div style="display:flex;flex-wrap:wrap;align-items:flex-end;justify-content:space-between;gap:14px">
+      <div>
+        <p class="lbl">Admins only</p>
+        <h1 class="h1" style="margin-top:10px">Team progress</h1>
+        <p class="mut" style="margin:10px 0 0;font-size:14.5px;max-width:720px">{{sub}}</p>
+      </div>
+      <div style="display:flex;gap:10px;flex-wrap:wrap">
+        <button type="button" class="btn ghost" onClick="{{csv}}"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="square" aria-hidden="true"><path d="M12 4v11M7 10l5 5 5-5M5 20h14"></path></svg>Download CSV</button>
+      </div>
+    </div>
+
+    <div class="tabs" style="margin-top:22px" role="tablist">
+      <sc-for list="{{filters}}" as="f" hint-placeholder-count="4">
+        <button type="button" role="tab" class="{{f.cls}}" aria-selected="{{f.on}}" onClick="{{f.pick}}">{{f.name}} &nbsp;{{f.n}}</button>
+      </sc-for>
+    </div>
+
+    <div style="margin-top:16px;border:1px solid var(--line);overflow-x:auto">
+      <table class="pt">
+        <thead>
+          <tr>
+            <th>Trainee</th><th>Lessons done</th>
+            <th class="c" title="Basics and intake">Day 1</th><th class="c" title="Intake follow-up, scheduling and dispatch">Day 2</th><th class="c" title="Invoicing, payments and estimates">Day 3</th><th class="c" title="Payroll prep and compliance">Day 4</th><th class="c" title="Owner reporting, not part of the certificate">Extra</th>
+            <th>Practice</th><th>Final check</th><th>SOPs read</th><th>Time</th><th>Last active</th>
+          </tr>
+        </thead>
+        <tbody>
+          <sc-for list="{{rows}}" as="r" hint-placeholder-count="3">
+            <tr class="{{r.cls}}" onClick="{{r.pick}}">
+              <td>
+                <button type="button" class="whob" onClick="{{r.pick}}" aria-label="{{r.aria}}">
+                  <span class="wn" style="display:block;font-weight:600">{{r.name}}</span>
+                  <span class="faint" style="display:block;font-size:13px">{{r.email}}</span>
+                </button>
+              </td>
+              <td style="min-width:150px">
+                <span class="num" style="font-family:var(--display);font-size:22px">{{r.done}}</span><span class="faint"> of 50</span>
+                <span class="bar" style="margin-top:6px;width:120px"><i style="width:{{r.pct}}"></i></span>
+              </td>
+              <sc-for list="{{r.mods}}" as="m" hint-placeholder-count="5">
+                <td class="c num" style="font-family:var(--mono);font-size:12px;color:{{m.c}}">{{m.t}}</td>
+              </sc-for>
+              <td style="white-space:nowrap;color:{{r.pc}}">{{r.prac}}</td>
+              <td class="num">{{r.fin}}</td>
+              <td class="num">{{r.sops}} <span class="faint">of 45</span></td>
+              <td class="num" style="white-space:nowrap">{{r.time}}</td>
+              <td class="mut" style="white-space:nowrap">{{r.last}}</td>
+            </tr>
+          </sc-for>
+        </tbody>
+      </table>
+      <sc-if value="{{noRows}}"><p class="mut" style="margin:0;padding:18px 16px;font-size:14.5px">No trainees here yet.</p></sc-if>
+    </div>
+
+    <sc-if value="{{hasSel}}" hint-placeholder-val="{{ true }}">
+      <section style="margin-top:36px;display:flex;flex-wrap:wrap;gap:28px;align-items:flex-start" aria-label="Trainee detail">
+        <div style="flex:999 1 620px;min-width:0">
+          <div style="display:flex;flex-wrap:wrap;align-items:baseline;justify-content:space-between;gap:8px">
+            <h2 class="h2">{{sel.name}}</h2>
+            <span class="mut" style="font-size:14px">{{sel.summary}}</span>
+          </div>
+          <div style="margin-top:14px;border:1px solid var(--line);border-top:0">
+            <sc-for list="{{sel.mods}}" as="m" hint-placeholder-count="8">
+              <div>
+                <button type="button" class="mod" onClick="{{m.toggle}}" aria-expanded="{{m.open}}">
+                  <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="square" aria-hidden="true" style="{{m.rot}}"><path d="M9 6l6 6-6 6"></path></svg>
+                  <span style="flex:1;font-weight:600;font-size:15px">{{m.name}}</span>
+                  <span class="num faint" style="font-family:var(--mono);font-size:11px">{{m.count}} done{{m.time}}</span>
+                </button>
+                <sc-if value="{{m.open}}" hint-placeholder-val="{{ false }}">
+                  <div style="overflow-x:auto;background:var(--ink)">
+                    <table class="lt">
+                      <thead><tr><th>Lesson</th><th>Walk-through</th><th>Check questions</th><th>Practice</th><th>Time</th><th>Last</th></tr></thead>
+                      <tbody>
+                        <sc-for list="{{m.lessons}}" as="l" hint-placeholder-count="5">
+                          <tr>
+                            <td><span class="faint">{{l.n}}.</span> {{l.t}}</td>
+                            <td style="color:{{l.wc}}">{{l.w}}</td>
+                            <td style="color:{{l.cc}}">{{l.c}}</td>
+                            <td style="color:{{l.pc}}">{{l.p}}</td>
+                            <td class="num">{{l.min}}</td>
+                            <td class="faint" style="white-space:nowrap">{{l.last}}</td>
+                          </tr>
+                        </sc-for>
+                      </tbody>
+                    </table>
+                  </div>
+                </sc-if>
+              </div>
+            </sc-for>
+          </div>
+        </div>
+
+        <aside style="flex:1 1 280px;max-width:340px" aria-label="Recent activity">
+          <sc-if value="{{sel.hasDay5}}" hint-placeholder-val="{{ false }}">
+            <h3 class="h3" style="margin:6px 0 10px">Day 5</h3>
+            <p style="margin:0 0 8px;font-size:14px"><b>Final check:</b> {{sel.fin}}</p>
+            <p style="margin:0 0 8px;font-size:14px"><b>Practice:</b> {{sel.prac}}</p>
+            <p style="margin:0 0 12px;font-size:14px"><b>Certificate:</b> {{sel.cert}}</p>
+            <sc-for list="{{sel.refl}}" as="x" hint-placeholder-count="3"><p style="margin:0 0 8px;font-size:14px;line-height:1.45"><span class="faint" style="display:block;font-size:12.5px">{{x.q}}</span>{{x.a}}</p></sc-for>
+          </sc-if>
+          <h3 class="h3" style="margin:6px 0 14px">Recent activity</h3>
+          <ol style="list-style:none;margin:0;padding:0;border-left:1px solid var(--line2)">
+            <sc-for list="{{sel.log}}" as="a" hint-placeholder-count="6">
+              <li style="padding:0 0 16px 18px;position:relative">
+                <span style="position:absolute;left:-4px;top:7px;width:7px;height:7px;background:{{a.c}}"></span>
+                <span style="display:block;font-size:14px;line-height:1.4">{{a.t}}</span>
+                <span class="faint" style="display:block;font-size:12.5px;margin-top:2px">{{a.when}}</span>
+              </li>
+            </sc-for>
+          </ol>
+        </aside>
+      </section>
+    </sc-if>
+  </main>
+</div>
+</script>
+<script src="js/config.js"></script>
+<script src="js/vendor/supabase-2.117.3.min.js"></script>
+<script src="js/track.js"></script>
+<script src="js/catalog.js"></script>
+<script src="js/academy.js"></script>
+<script src="js/dc.js"></script>
+<script src="js/sop-names.js"></script>
+<script>
+
+const OK = 'var(--ok)', NO = 'var(--faint)', MID = 'var(--warn)', INFO = 'var(--paper)';
+const DAYN = { f: 'Day 1 · Foundations', m1: 'Days 1 and 2 · Module 1: Calls and new jobs (lessons 1 to 5 on Day 1, 6 to 9 on Day 2)', m2: 'Day 2 · Module 2: Scheduling and dispatch', m3: 'Day 3 · Module 3: Invoicing and getting paid', m4: 'Day 3 · Module 4: Estimates', m5: 'Day 4 · Module 5: Accounting and payroll', m7: 'Day 4 · Module 7: Compliance and admin', m6: 'Extra · Module 6: Owner reporting (not part of the certificate)' };
+const SHOW = ['f', 'm1', 'm2', 'm3', 'm4', 'm5', 'm7', 'm6'];
+const RQ = ['Hardest part of Days 1 to 4', 'Wants more practice on', 'Will check first with a client'];
+function build(D){
+  const byU = {}; D.events.forEach((e) => { (byU[e.user_id] = byU[e.user_id] || []).push(e); });
+  const pick1 = (arr) => { const m = {}; (arr || []).forEach((r) => { m[r.user_id] = r; }); return m; };
+  const PR = pick1(D.practice), RF = pick1(D.refl), CT = pick1(D.certs), FN = {};
+  D.finals.forEach((f) => { (FN[f.user_id] = FN[f.user_id] || []).push(f); });
+  const people = D.profiles.filter((u) => u.role !== 'admin').concat(D.profiles.filter((u) => u.role === 'admin' && byU[u.id]));
+  return people.map((u) => { const rows = byU[u.id] || [], P = ACAD.progress(rows), S = ACAD.summary(P);
+    return { u, rows, P, S, pr: PR[u.id] || null, refl: RF[u.id] || null, cert: CT[u.id] || null, fin: FN[u.id] || [] }; });
+}
+class Component extends DCLogic {
+  constructor(p){ super(p); this.T = build(p.data); this.state = { f: 'all', sel: this.T[0] ? this.T[0].u.id : null, open: { f: true } }; }
+  renderVals() {
+    const T = this.T;
+    const status = (t) => t.S.done === 50 ? 'fin' : t.rows.length ? 'prog' : 'none';
+    const F = [['all', 'All'], ['prog', 'In progress'], ['none', 'Not started'], ['fin', 'Finished']];
+    const filters = F.map(([id, name]) => ({ name, n: id === 'all' ? T.length : T.filter((t) => status(t) === id).length,
+      on: this.state.f === id, cls: 'tabb' + (this.state.f === id ? ' on' : ''), pick: () => this.setState({ f: id }) }));
+    const finTxt = (t) => t.fin.length ? t.fin[t.fin.length - 1].score + ' of 20' + (t.fin.length > 1 ? ' (try ' + t.fin.length + ', first ' + t.fin[0].score + ')' : '') : '-';
+    const vis = T.filter((t) => this.state.f === 'all' || status(t) === this.state.f);
+    const rows = vis.map((t) => {
+      const name = (t.u.full_name || t.u.email) + (t.u.role === 'admin' ? ' (admin)' : '');
+      return { name, email: t.u.email, done: t.S.done, pct: Math.round(t.S.done / 50 * 100) + '%', sops: t.S.sops, time: t.S.min ? ACAD.fmtMin(t.S.min) : '-',
+        last: t.S.last ? ACAD.fmtTime(t.S.last) : 'Not started', fin: finTxt(t),
+        prac: t.pr ? t.pr.result + ' · ' + t.pr.done + '/54' : '-', pc: t.pr && t.pr.result === 'Ready' ? OK : t.pr ? INFO : NO,
+        aria: 'Show ' + name, cls: 'row' + (this.state.sel === t.u.id ? ' sel' : ''), pick: () => this.setState({ sel: t.u.id }),
+        mods: ['d1', 'd2', 'd3', 'd4', 'x'].map((d) => { const ls = ACAD.L.filter((x) => x.day === d), n = ls.filter((x) => ACAD.isDone(t.P, x.id)).length, started = ls.some((x) => t.P[x.id]);
+          return { t: n ? n + '/' + ls.length : (started ? '0/' + ls.length : '-'), c: n === ls.length ? OK : n ? 'var(--paper)' : NO }; }) };
+    });
+    const t = T.find((x) => x.u.id === this.state.sel);
+    let sel = null;
+    if (t) {
+      const NAME = { open: 'Started', walk: 'Finished the walk-through of', check: 'Passed the check questions of', practice: 'Passed the practice of', read: 'Read' };
+      const log = t.rows.slice().reverse().slice(0, 10).map((r) => {
+        if (r.lesson_id.startsWith('sop-')) return { t: 'Read SOP: ' + (FP_LIB_TITLES[r.lesson_id.slice(4)] || r.lesson_id), when: ACAD.fmtTime(r.created_at), c: INFO };
+        const x = ACAD.BY[r.lesson_id], nm = x ? ACAD.modShort(x.mod) + ', lesson ' + x.n + ': ' + x.title : r.lesson_id;
+        const extra = r.part === 'check' && r.total ? ' (' + r.score + ' of ' + r.total + ' right on the first try)' : r.part === 'practice' && r.hints ? ' (' + r.hints + (r.hints === 1 ? ' hint)' : ' hints)') : '';
+        return { t: (NAME[r.part] || r.part) + ' ' + nm + extra, when: ACAD.fmtTime(r.created_at), c: r.part === 'open' ? MID : OK };
+      });
+      const cert = t.cert ? (t.cert.status === 'active' ? t.cert.cert_id + ', issued ' + ACAD.fmtDay(t.cert.issued_at) : 'Revoked (' + (t.cert.revoke_reason || 'no reason') + ')') : 'Not yet';
+      sel = { hasDay5: !!(t.fin.length || t.refl || t.pr || t.cert), fin: finTxt(t), prac: t.pr ? t.pr.result + ', ' + t.pr.done + ' of 54 done, ' + t.pr.own + ' on own, ' + t.pr.serious + ' serious slips' : 'Not started', cert,
+        refl: t.refl ? [t.refl.r1, t.refl.r2, t.refl.r3].map((a, i) => ({ q: RQ[i], a: a || '-' })) : [],
+        name: t.u.full_name || t.u.email, summary: t.S.done + ' of 50 lessons' + (t.S.extra ? ' + ' + t.S.extra + ' extra' : '') + ' · ' + t.S.sops + ' of 45 SOPs read · ' + ACAD.fmtMin(t.S.min),
+        log: log.length ? log : [{ t: 'No activity yet.', when: '', c: NO }],
+        mods: SHOW.map((m) => {
+          const ls = ACAD.L.filter((x) => x.mod === m), open = !!this.state.open[m];
+          const lessons = ls.map((x) => { const p = t.P[x.id] || {};
+            return { n: x.n, t: x.title, w: p.walk ? 'Done' : p.open ? 'Started' : '-', wc: p.walk ? OK : p.open ? MID : NO,
+              c: p.check ? 'Passed' + (p.total ? ' (' + p.score + ' of ' + p.total + ' first try)' : '') : p.walk ? 'Not yet' : '-', cc: p.check ? OK : p.walk ? MID : NO,
+              p: p.practice ? 'Passed' + (p.hints ? ', ' + p.hints + (p.hints === 1 ? ' hint' : ' hints') : '') : '-', pc: p.practice ? OK : NO,
+              min: p.min ? (p.min < 10 ? Math.round(p.min * 10) / 10 : Math.round(p.min)) + ' min' : '-', last: p.last ? ACAD.fmtDay(p.last) : '-' }; });
+          const n = ls.filter((x) => ACAD.isDone(t.P, x.id)).length, mins = ls.reduce((a, x) => a + ((t.P[x.id] || {}).min || 0), 0);
+          return { name: DAYN[m], count: n + ' of ' + ls.length, time: mins ? ' · ' + ACAD.fmtMin(mins) : '', open, rot: open ? 'transform:rotate(90deg)' : '', lessons,
+            toggle: () => this.setState({ open: Object.assign({}, this.state.open, { [m]: !open }) }) };
+        }) };
+    }
+    const nt = T.filter((x) => x.u.role !== 'admin').length;
+    return { hd: ACAD.hdr(this.props.me), filters, rows, noRows: !rows.length, hasSel: !!sel,
+      sub: nt + (nt === 1 ? ' trainee' : ' trainees') + '. Updated ' + ACAD.fmtTime(this.props.data.at) + '.',
+      sel: sel || { name: '', summary: '', mods: [], log: [], hasDay5: false, fin: '', refl: [], prac: '', cert: '' },
+      csv: () => {
+        const q = (v) => { let x = String(v == null ? '' : v); if (x === '-') x = ''; if (/^[=+\-@\t\r]/.test(x)) x = "'" + x; return '"' + x.replace(/"/g, '""') + '"'; };
+        const head = ['Name', 'Email', 'Lessons done (of 50)', 'Day 1', 'Day 2', 'Day 3', 'Day 4', 'Extra', 'Practice result', 'Practice done', 'Practice on own', 'Final check', 'SOPs read', 'Minutes', 'Last active', 'Certificate'];
+        const lines = [head.map(q).join(',')].concat(T.map((t) => { const r = rows.find((x) => x.email === t.u.email) || {};
+          const md = ['d1', 'd2', 'd3', 'd4', 'x'].map((d) => ACAD.L.filter((x) => x.day === d && ACAD.isDone(t.P, x.id)).length);
+          return [t.u.full_name, t.u.email, t.S.done].concat(md).concat([t.pr ? t.pr.result : 'Not started', t.pr ? t.pr.done : 0, t.pr ? t.pr.own : 0, finTxt(t), t.S.sops, Math.round(t.S.min), t.S.last ? ACAD.fmtTime(t.S.last) : '', t.cert ? t.cert.cert_id + ' ' + t.cert.status : '']).map(q).join(','); }));
+        const a = document.createElement('a'); a.href = URL.createObjectURL(new Blob([lines.join('\n')], { type: 'text/csv' })); a.download = 'bcb-academy-team-progress.csv'; document.body.appendChild(a); a.click(); a.remove();
+      } };
+  }
+}
+ACAD.start(Component, { auth: 'admin' }, async () => {
+  const [profiles, events, practice, finals, refl, certs] = await Promise.all([FPTrack.profiles(), FPTrack.events(), FPTrack.practiceAll(), FPTrack.finalAll(), FPTrack.reflAll(), FPTrack.certsAll()]);
+  return { profiles, events, practice, finals, refl, certs, at: new Date().toISOString() };
+});
+
+</script>
+</body>
+</html>
