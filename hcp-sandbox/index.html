@@ -1,0 +1,51 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="robots" content="noindex, nofollow">
+<title>HCP Sandbox</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@400;500;600;700&display=swap">
+<link rel="stylesheet" href="styles.css">
+</head>
+<body>
+<div class="shell" id="shell">
+  <aside class="side">
+    <div class="side-top">
+      <div class="logo" aria-label="Demo company logo">Demo<br>Plumbing</div>
+      <button class="icon-btn collapse" data-action="collapse" aria-label="Collapse menu"></button>
+    </div>
+    <nav class="side-scroll" id="nav"></nav>
+    <div class="side-foot" id="foot"></div>
+  </aside>
+
+  <div class="main">
+    <header class="top">
+      <label class="search">
+        <span class="search-icon"></span>
+        <input id="search" type="text" placeholder="Search records" aria-label="Search records">
+      </label>
+      <div class="top-icons" id="topIcons"></div>
+    </header>
+    <main class="page" id="page"></main>
+  </div>
+  <aside class="practice" id="practice" aria-label="Practice calls" hidden></aside>
+</div>
+
+<div class="menu" id="createMenu" role="menu" hidden></div>
+<div class="modal" id="modal" hidden></div>
+<button class="practice-open" id="practiceOpen" data-p-open>Practice calls</button>
+<button class="chat" id="chat" data-soon="Chat" aria-label="Chat"></button>
+<div class="demo-label">Demo – illustrative, fictional data · <button data-action="reset">Reset</button></div>
+<div class="toast" id="toast" role="status" hidden></div>
+
+<script src="data.js"></script>
+<script src="intake.js"></script>
+<script src="scheduling.js"></script>
+<script src="newcall.js"></script>
+<script src="estimates.js"></script>
+<script src="invoices.js"></script>
+<script src="app.js"></script>
+</body>
+</html>
