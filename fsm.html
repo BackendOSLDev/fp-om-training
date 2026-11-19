@@ -118,7 +118,7 @@ body{margin:0;background:#0B0B0B}
             <div style="margin-top:auto;display:flex;flex-direction:column;gap:10px">
               <div style="display:flex;justify-content:space-between;align-items:baseline"><span class="lbl">Your progress</span><span class="num" style="font-family:var(--mono);font-size:11px">{{c.prog}}</span></div>
               <span class="bar" style="background:rgba(11,11,11,.12)"><i style="width:{{c.pct}};background:#1E7A3C"></i></span>
-              <a class="btn" href="home.html" style="margin-top:6px">{{c.go}} &rarr;</a>
+              <a class="btn" href="{{c.href}}" style="margin-top:6px">{{c.go}} &rarr;</a>
             </div>
           </sc-if>
 
@@ -142,18 +142,22 @@ class Component extends DCLogic {
     const S = this.props.data, n = S.done;
     const F = [
       { id: 'fp', name: 'FieldPulse', mono: 'FP', live: true, blurb: 'The day-to-day office work, practiced on a FieldPulse look-alike with made-up customers.', facts: ['5-day program, ' + ACAD.NL + ' lessons', '45 SOPs', 'Help center videos and articles'] },
-      { id: 'hcp', name: 'Housecall Pro', mono: 'HP' },
+      { id: 'hcp', name: 'Housecall Pro', mono: 'HP', live: true, href: 'hcp/home.html', nl: 49, blurb: 'The day-to-day office work, practiced on a Housecall Pro look-alike with made-up customers.', facts: ['5-day program, 49 lessons plus 5 extra', 'Housecall Pro help center articles'] },
       { id: 'st', name: 'ServiceTitan', mono: 'ST' },
       { id: 'jb', name: 'Jobber', mono: 'JB' }
     ];
     const cards = F.map((f) => ({ name: f.name, mono: f.mono, blurb: f.blurb || '', facts: f.facts || [], live: !!f.live,
       tag: f.live ? 'Available' : 'Coming soon', tagc: f.live ? '#1E7A3C' : '#E8A93C', cls: 'fsm' + (f.live ? ' live' : ' soon'),
-      aria: f.live ? 'Open the FieldPulse training' : f.name + ' training, coming soon',
-      prog: n + ' of ' + ACAD.NL + ' lessons', pct: Math.round(n / ACAD.NL * 100) + '%', go: n || S.opened ? 'Continue training' : 'Start training' }));
+      aria: f.live ? 'Open the ' + f.name + ' training' : f.name + ' training, coming soon', href: f.href || 'home.html',
+      prog: (f.id === 'hcp' ? S.hcp : n) + ' of ' + (f.nl || ACAD.NL) + ' lessons', pct: Math.round((f.id === 'hcp' ? S.hcp : n) / (f.nl || ACAD.NL) * 100) + '%', go: (f.id === 'hcp' ? S.hcp : (n || S.opened)) ? 'Continue training' : 'Start training' }));
     return { cards, hd: ACAD.hdr(this.props.me) };
   }
 }
-ACAD.start(Component, { auth: 'user' }, async () => { const rows = await FPTrack.myEvents(); const S = ACAD.summary(ACAD.progress(rows)); S.opened = rows.length > 0; return S; });
+ACAD.start(Component, { auth: 'user' }, async () => { const rows = await FPTrack.myEvents(); const S = ACAD.summary(ACAD.progress(rows)); S.opened = rows.length > 0;
+  /* Housecall Pro progress: lessons of Days 1 to 4 with all 3 parts done (Module 6 is extra). Live: this person's saved HCP rows. Demo: the HCP demo store. */
+  S.hcp = 0; try { let ev = []; if (FPTrack.live) ev = (await FPTrack.myEventsAll()).filter((e) => /^h/.test(e.lesson_id)); else { const d = JSON.parse(localStorage.getItem('fpdemo:db:hcp') || 'null'), me = JSON.parse(localStorage.getItem('fpdemo:me') || 'null'); if (d && me) ev = d.events.filter((e) => e.user_id === me); }
+    const p = {}; ev.forEach((e) => { if (/^(walk|check|practice)$/.test(e.part)) (p[e.lesson_id] = p[e.lesson_id] || {})[e.part] = 1; }); S.hcp = Object.keys(p).filter((k) => p[k].walk && p[k].check && p[k].practice && !/^hm6-/.test(k)).length; } catch (e) {}
+  return S; });
 
 </script>
 </body>

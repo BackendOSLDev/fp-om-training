@@ -145,7 +145,7 @@ window.FP_LINK = (function(){ var h = location.hash || "", g = function(k){ var 
 <script src="js/dc.js"></script>
 <script>
 
-const NEXT_OK = /^(home|library|practice|sandbox|progress|certificate|final|team|certs|fsm|f|m\d+)\.html(\?day=(d[1-5]|x))?(#[a-z0-9-]*)?$/;
+const NEXT_OK = /^(hcp\/)?(home|library|practice|sandbox|progress|certificate|final|team|certs|fsm|f|m\d+)\.html(\?day=(d[1-5]|x))?(#[a-z0-9-]*)?$/;
 function nextUrl(){ const q = new URLSearchParams(location.search).get('next') || ''; return NEXT_OK.test(q) ? q : 'fsm.html'; }
 class Component extends DCLogic {
   constructor(p){ super(p); const D = p.data || {}; this.state = { mode: D.mode, spEmail: D.email || '', em: '', pw: '', err: D.err || '', busy: false, p1: '', p2: '', spErr: '', tried: false }; }
