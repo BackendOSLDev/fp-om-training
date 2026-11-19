@@ -27,6 +27,17 @@ var DAYS = [
 ];
 var XTRA = { id: 'x', num: '+', name: 'Owner reporting', tasks: 6, checks: 18,
   summary: 'Giving the owner clear numbers without them having to ask. Extra lessons. They do not count toward the certificate.' };
+if(window.ACAD_DAYS_TEXT) DAYS.forEach(function(d){ Object.assign(d, window.ACAD_DAYS_TEXT[d.id] || {}); });
+if(window.ACAD_XTRA_TEXT) Object.assign(XTRA, window.ACAD_XTRA_TEXT);
+/* Nov 19 (HCP go-live): a training with no certification yet (window.ACAD_NOCERT) gets Day 5 and help text without the final check, reflection or certificate */
+var NOCERT = !!window.ACAD_NOCERT;
+if(NOCERT){
+  DAYS[0].start = ['How the 5 days work: Days 1 to 4 teach the work, Day 5 reviews it.', 'How each day is graded.', DAYS[0].start[2]];
+  Object.assign(DAYS[4], { name: 'Review',
+    summary: 'Fix your weak spots and get your practice result to Ready. Certification is coming later.',
+    start: ['Your Day 4 grade, and all four day grades side by side.', 'What a Ready practice result needs.', 'Today: your weak spots and your practice result.'] });
+  XTRA.summary = 'Giving the owner clear numbers without them having to ask. Extra lessons.';
+}
 DAYS.forEach(function(d){ if(d.id === 'd5') return; d.tasks = (PT[d.id] || []).length; d.checks = L.filter(function(x){ return x.day === d.id; }).reduce(function(a, x){ return a + (x.nq || 0); }, 0); });
 XTRA.tasks = (PT.x || []).length; XTRA.checks = L.filter(function(x){ return x.day === 'x'; }).reduce(function(a, x){ return a + (x.nq || 0); }, 0);
 
@@ -106,6 +117,7 @@ var GRADE_RULE = { hints: 2 };
 var GRADE_TEXT = 'Pass = every lesson and practice task of the day done, at most 2 knowledge checks needed a hint before they were first finished, at most 2 practice tasks needed a hint, and no serious slips. ' +
   'Pass with coaching = all done and no serious slips, but more hints than that. Redo = a serious slip in that day\'s practice: start that day over in Practice tasks. ' +
   'The certificate still looks at the totals: all ' + NL + ' lessons and a Ready practice result (at most ' + MAXH + ' practice tasks with a hint across Days 1 to 4, no serious slips).';
+if(NOCERT) GRADE_TEXT = GRADE_TEXT.slice(0, GRADE_TEXT.indexOf(' The certificate still'));
 var GRADE_COLOR = { 'Pass': 'var(--ok)', 'Pass with coaching': 'var(--warn)', 'Redo': 'var(--red)', 'In progress': 'var(--paper)', 'Not started': 'var(--faint)' };
 function dayGrade(P, pr, d){
   var les = L.filter(function(x){ return x.day === d; });
@@ -133,13 +145,16 @@ function grades(P, pr){ return ['d1', 'd2', 'd3', 'd4'].map(function(d){ return 
 function agenda(d, P, pr){
   var D = DAYS.filter(function(x){ return x.id === d; })[0]; if(!D) return [];
   var start = { when: 'Start of day', t: 'Start-of-day check', who: 'With your trainer · 15 min', d: D.start || [] };
+  if(d === 'd5' && NOCERT) return [start,
+    { when: 'Then', t: 'Review and practice', who: 'On your own', d: ['The steps below, in order.'] },
+    { when: 'End of day', t: 'Results 1:1', who: 'With your trainer', d: ['Your trainer goes over your four day grades and your practice result.'] }];
   if(d === 'd5') return [start,
     { when: 'Then', t: 'Final check, review, practice and reflection', who: 'On your own', d: ['The five steps below, in order.'] },
     { when: 'End of day', t: 'Results 1:1', who: 'With your trainer', d: ['Your trainer goes over your four day grades, your final check and your reflection.'] }];
   var nL = L.filter(function(x){ return x.day === d; }).length, G = dayGrade(P || {}, pr, d);
   return [start,
     { when: 'Then', t: nL + ' lessons · ' + D.checks + ' check questions', who: 'On your own', d: ['Each lesson: the walk-through, its check questions (retry as often as you need), then the knowledge check on your own.', 'Help videos and articles are inside each lesson.'] },
-    { when: 'Then', t: D.tasks + ' practice tasks', who: 'On your own', d: ['The same work again in the practice copy of FieldPulse, with no orange boxes.'] },
+    { when: 'Then', t: D.tasks + ' practice tasks', who: 'On your own', d: ['The same work again in the practice copy of ' + (window.ACAD_FSM || 'FieldPulse') + ', with no orange boxes.'] },
     { when: 'End of day', t: 'Your day grade: ' + G.grade, who: 'On your own', d: ['See it on My progress. Your trainer sees it too and goes over it at the next start-of-day check.'], color: G.color }];
 }
 
@@ -148,7 +163,7 @@ function hdr(me){
   var nm = (me && (me.full_name || me.email)) || '';
   var ini = nm.split(/[\s@._-]+/).filter(Boolean).slice(0, 2).map(function(w){ return w[0].toUpperCase(); }).join('') || '?';
   return { name: nm, ini: ini, admin: !!(me && me.role === 'admin'), demo: !window.FPTrack.live,
-    signOut: function(){ window.FPTrack.signOut().then(function(){ location.href = 'index.html'; }); return false; } };
+    signOut: function(){ window.FPTrack.signOut().then(function(){ location.href = (window.ACAD_TRACK ? '../' : '') + (window.FP_CONFIG && window.FP_CONFIG.SIGNIN || 'index.html'); }); return false; } };
 }
 
 /* header search over lessons, SOPs and help videos (same scoring as the mockup) */

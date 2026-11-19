@@ -11,6 +11,10 @@ function supa(){
   var sb = window.supabase.createClient(CFG.SUPABASE_URL, CFG.SUPABASE_KEY, {auth:{persistSession:true, autoRefreshToken:true, storageKey:"fpom-auth"}});
   function chk(r){ if(r.error) throw r.error; return r.data; }
   async function all(q){ var out = [], from = 0, n = 1000; for(;;){ var d = chk(await q().range(from, from+n-1)); out = out.concat(d); if(d.length<n) return out; from += n; } }
+  /* Nov 19 (HCP go-live): each training reads only its own lesson rows (HCP lesson ids start with "h") and keeps its own practice row */
+  /* read the track when called: track.js loads before the track catalog sets window.ACAD_TRACK */
+  function PT(){ return window.ACAD_TRACK === "hcp" ? "hcp_practice_results" : "practice_results"; }
+  function mine(rows){ var hcp = window.ACAD_TRACK === "hcp"; return (rows||[]).filter(function(r){ var h = /^h/.test(r.lesson_id||""); return hcp ? h : !h; }); }
   return {
     live: true,
     async session(){ var d = chk(await sb.auth.getSession()); return d.session ? d.session.user : null; },
@@ -19,13 +23,14 @@ function supa(){
     async setPassword(pw){ chk(await sb.auth.updateUser({password:pw})); },
     async profile(uid){ return chk(await sb.from("profiles").select("id,email,full_name,role").eq("id", uid).maybeSingle()); },
     async insert(row){ chk(await sb.from("lesson_events").insert(row)); },
-    async myEvents(uid){ return all(function(){ return sb.from("lesson_events").select("lesson_id,part,score,total,hints,minutes,created_at").eq("user_id", uid).order("id"); }); },
+    async myEventsRaw(uid){ return all(function(){ return sb.from("lesson_events").select("lesson_id,part,score,total,hints,minutes,created_at").eq("user_id", uid).order("id"); }); },
+    async myEvents(uid){ return mine(await this.myEventsRaw(uid)); },
     async profiles(){ return all(function(){ return sb.from("profiles").select("id,email,full_name,role,created_at").order("full_name"); }); },
-    async events(){ return all(function(){ return sb.from("lesson_events").select("user_id,lesson_id,part,score,total,hints,minutes,created_at").order("id"); }); },
+    async events(){ return mine(await all(function(){ return sb.from("lesson_events").select("user_id,lesson_id,part,score,total,hints,minutes,created_at").order("id"); })); },
     /* 5-day program: practice result, final check, reflection, certificate */
-    async practiceGet(uid){ return chk(await sb.from("practice_results").select("data,done,own,serious,slips,result,updated_at").eq("user_id", uid).maybeSingle()); },
-    async practiceSave(row){ chk(await sb.from("practice_results").upsert(row, {onConflict:"user_id"})); },
-    async practiceAll(){ return all(function(){ return sb.from("practice_results").select("user_id,data,done,own,serious,slips,result,updated_at").order("user_id"); }); },
+    async practiceGet(uid){ return chk(await sb.from(PT()).select("data,done,own,serious,slips,result,updated_at").eq("user_id", uid).maybeSingle()); },
+    async practiceSave(row){ chk(await sb.from(PT()).upsert(row, {onConflict:"user_id"})); },
+    async practiceAll(){ return all(function(){ return sb.from(PT()).select("user_id,data,done,own,serious,slips,result,updated_at").order("user_id"); }); },
     async finalAdd(row){ chk(await sb.from("final_checks").insert(row)); },
     async finalMine(uid){ return chk(await sb.from("final_checks").select("score,by_day,created_at").eq("user_id", uid).order("id")); },
     async finalAll(){ return all(function(){ return sb.from("final_checks").select("user_id,score,by_day,created_at").order("id"); }); },
@@ -41,9 +46,11 @@ function supa(){
 }
 function demo(){
   /* Demo: any email, password "demo". An email with "admin" in it is an admin. Saved in this browser only. */
-  var K = "fpdemo:db";
-  function db(){ return ls(K) || {users:{}, events:[]}; }
-  function put(d){ ls(K, d); }
+  /* Nov 18 (HCP track mockup): each training keeps its own demo data; people come from the shared sign-in list */
+  /* Nov 19: the track is read when called (track.js loads before the track catalog sets window.ACAD_TRACK) */
+  function TK(){ var t = window.ACAD_TRACK || ""; return {t:t, k:"fpdemo:db" + (t ? ":" + t : "")}; }
+  function db(){ var T = TK(), d = ls(T.k) || {users:{}, events:[]}; if(T.t){ var base = ls("fpdemo:db"); if(base && base.users) Object.keys(base.users).forEach(function(k){ if(!d.users[k]) d.users[k] = base.users[k]; }); } return d; }
+  function put(d){ ls(TK().k, d); }
   function wait(){ return new Promise(function(r){ setTimeout(r, 30); }); }
   return {
     live: false,
@@ -58,6 +65,7 @@ function demo(){
     async insert(row){ await wait(); var d = db(), me = ls("fpdemo:me"); if(!me) throw new Error("Not signed in");
       d.events.push(Object.assign({user_id:me, created_at:new Date().toISOString()}, row)); put(d); },
     async myEvents(uid){ return db().events.filter(function(e){ return e.user_id===uid; }); },
+    async myEventsRaw(uid){ return this.myEvents(uid); },
     async profiles(){ var d = db(), me = ls("fpdemo:me"); if(!me || d.users[me].role!=="admin") return me ? [d.users[me]] : []; return Object.keys(d.users).map(function(k){ return d.users[k]; }); },
     async events(){ var d = db(), me = ls("fpdemo:me"); if(!me) return []; return d.users[me].role==="admin" ? d.events : d.events.filter(function(e){ return e.user_id===me; }); },
     /* same rules as the database: own rows only, admins read everyone */
@@ -80,7 +88,7 @@ function demo(){
       var pr = (d.practice||{})[me]; if(!pr || pr.result!=="Ready" || pr.done<NT || pr.own<OWN || pr.serious>0) throw new Error("Not ready: practice result is not Ready yet");
       d.certs = d.certs||[]; d.certNo = (d.certNo||0)+1;
       var yr = new Intl.DateTimeFormat("en-US", {timeZone:"Etc/GMT+4", year:"numeric"}).format(new Date()), rnd = ""; for(var ri = 0; ri < 8; ri++) rnd += "XY23456789ABCDEF"[Math.floor(Math.random()*16)];
-      var c = {cert_id:"BCB-FP-"+yr+"-"+String(d.certNo).padStart(4,"0")+"-"+rnd, user_id:me, full_name:d.users[me].full_name||d.users[me].email, training:"FieldPulse office operations, 5-day program", issued_at:new Date().toISOString(), status:"active", revoked_at:null, revoke_reason:null};
+      var c = {cert_id:"BCB-"+(window.ACAD_CERTCODE||"FP")+"-"+yr+"-"+String(d.certNo).padStart(4,"0")+"-"+rnd, user_id:me, full_name:d.users[me].full_name||d.users[me].email, training:(window.ACAD_TRAINING||"FieldPulse office operations, 5-day program"), issued_at:new Date().toISOString(), status:"active", revoked_at:null, revoke_reason:null};
       d.certs.push(c); put(d); return c; },
     async certVerify(id){ id = String(id||"").trim().toUpperCase(); var c = (db().certs||[]).filter(function(x){ return x.cert_id===id; })[0]; return c ? {cert_id:c.cert_id, full_name:c.full_name, training:c.training, issued_at:c.issued_at, status:c.status, revoked_at:c.revoked_at} : null; },
     async certsAll(){ var d = db(), me = ls("fpdemo:me"); return d.users[me] && d.users[me].role==="admin" ? (d.certs||[]) : (d.certs||[]).filter(function(c){ return c.user_id===me; }); },
@@ -97,7 +105,7 @@ var ME = null, PROF = null, OUTKEY = null, TIMEKEY = null, OPENKEY = null, PRACK
 /* each tab queues into its own outbox (no two tabs write the same key); a flush sends every outbox of this user */
 var TAB = Math.random().toString(36).slice(2, 10);
 function outbox(v){ return ls(OUTKEY, v); }
-function outKeys(){ var out = [], base = "fpom-outbox:" + (ME ? ME.id : ""); try{ for(var i = 0; i < localStorage.length; i++){ var k = localStorage.key(i); if(k === base || k.indexOf(base + ":") === 0) out.push(k); } }catch(e){} if(out.indexOf(OUTKEY) < 0) out.push(OUTKEY); return out; }
+function outKeys(){ var out = [], base = "fpom-outbox:" + (ME ? ME.id : "") + (window.ACAD_TRACK ? ":" + window.ACAD_TRACK : ""), np = base.split(":").length + 1; try{ for(var i = 0; i < localStorage.length; i++){ var k = localStorage.key(i); if(k === base || (k.indexOf(base + ":") === 0 && k.split(":").length === np)) out.push(k); } }catch(e){} if(out.indexOf(OUTKEY) < 0) out.push(OUTKEY); return out; }
 function pending(){ return outKeys().some(function(k){ return (ls(k) || []).length; }); }
 function times(){ return ls(TIMEKEY) || {}; }
 function minutesFor(id){ var s = times()[id] || 0; return Math.round(s/6)/10; }
@@ -153,7 +161,7 @@ var T = window.FPTrack = {
   async init(u){
     u = u || await B.session(); if(!u) return null;
     ME = u; PROF = await B.profile(u.id) || {id:u.id, email:u.email, full_name:(u.email||"").split("@")[0], role:"trainee"};
-    OUTKEY = "fpom-outbox:"+u.id+":"+TAB; TIMEKEY = "fpom-time:"+u.id; OPENKEY = "fpom-open:"+u.id; PRACKEY = "fpom-prac-pending:"+u.id;
+    var TS = window.ACAD_TRACK ? ":" + window.ACAD_TRACK : ""; OUTKEY = "fpom-outbox:"+u.id+TS+":"+TAB; TIMEKEY = "fpom-time:"+u.id+TS; OPENKEY = "fpom-open:"+u.id+TS; PRACKEY = "fpom-prac-pending:"+u.id+TS;
     flush(); return PROF;
   },
   async signOut(){ await B.signOut(); ME = PROF = null; },
@@ -163,6 +171,8 @@ var T = window.FPTrack = {
   event: function(id, part, extra){ if(!ME) return; extra = extra || {};
     queue({lesson_id:id, part:part, score:extra.score==null?null:extra.score, total:extra.total==null?null:extra.total, hints:extra.hints==null?null:extra.hints, minutes:minutesFor(id)}); },
   myEvents: function(){ return ME ? B.myEvents(ME.id) : Promise.resolve([]); },
+  /* every training's rows for this person (Choose your training page) */
+  myEventsAll: function(){ return ME ? B.myEventsRaw(ME.id) : Promise.resolve([]); },
   profiles: function(){ return B.profiles(); },
   events: function(){ return B.events(); },
   /* 5-day program */
@@ -183,7 +193,7 @@ var T = window.FPTrack = {
   /* new pages: sign-in required; sends to the sign-in page and back */
   async page(opts){
     opts = opts || {}; var p = null; try{ p = await T.init(); }catch(e){}
-    if(!p){ location.replace("index.html?next="+encodeURIComponent(location.pathname.split("/").pop()+location.search+location.hash)); return null; }
+    if(!p){ location.replace((window.ACAD_TRACK ? "../" : "")+(window.FP_CONFIG && window.FP_CONFIG.SIGNIN || "index.html")+"?next="+encodeURIComponent((window.ACAD_TRACK ? window.ACAD_TRACK+"/" : "")+location.pathname.split("/").pop()+location.search+location.hash)); return null; }
     if(opts.admin && p.role!=="admin"){ location.replace("home.html"); return null; }
     /* send anything still waiting from an earlier page first, so the numbers shown are current (give up waiting after 8 seconds) */
     await Promise.race([flushDone(), new Promise(function(r){ setTimeout(r, 8000); })]);
@@ -196,7 +206,7 @@ var T = window.FPTrack = {
   /* lesson pages: send to the login page if not signed in, else seed this module's progress and start the page */
   async gate(mod, start){
     var p = null; try{ p = await T.init(); }catch(e){}
-    if(!p){ location.replace("index.html?next="+encodeURIComponent(location.pathname.split("/").pop()+location.hash)); return; }
+    if(!p){ location.replace((window.ACAD_TRACK ? "../" : "")+(window.FP_CONFIG && window.FP_CONFIG.SIGNIN || "index.html")+"?next="+encodeURIComponent((window.ACAD_TRACK ? window.ACAD_TRACK+"/" : "")+location.pathname.split("/").pop()+location.hash)); return; }
     mod.key = mod.key+":"+p.id;
     try{ var rows = await T.myEvents(), prog = T.progressFrom(rows), cur = ls(mod.key) || {};
       Object.keys(prog).forEach(function(id){ if(id.indexOf(mod.prefix)!==0) return; cur[id] = Object.assign(cur[id]||{}, prog[id]); });
@@ -211,11 +221,11 @@ var T = window.FPTrack = {
     var host = document.querySelector(".ob-hdr .in"); if(!host || !PROF) return;
     var nm = PROF.full_name || PROF.email || "", ini = nm.split(/[\s@._-]+/).filter(Boolean).slice(0, 2).map(function(w){ return w[0].toUpperCase(); }).join("") || "?";
     var d = document.createElement("nav"); d.className = "fpt-bar"; d.setAttribute("aria-label", "Main");
-    d.innerHTML = '<span id="fpt-status" class="fpt-st" role="status"></span><a class="on" href="home.html">Lessons</a><a href="library.html">SOP Library</a><a href="practice.html">Practice</a><a href="progress.html">My progress</a><a href="certificate.html">Certificate</a>'
-      + (PROF.role==="admin" ? '<a href="team.html">Team progress</a><a href="certs.html">Certifications</a>' : "")
+    d.innerHTML = '<span id="fpt-status" class="fpt-st" role="status"></span><a class="on" href="home.html">Lessons</a>' + (window.ACAD_TRACK ? '' : '<a href="library.html">SOP Library</a>') + '<a href="practice.html">Practice</a><a href="progress.html">My progress</a>' + (window.ACAD_TRACK ? '' : '<a href="certificate.html">Certificate</a>')
+      + (PROF.role==="admin" ? (window.ACAD_TRACK ? '<a href="team.html">Team progress</a>' : '<a href="team.html">Team progress</a><a href="certs.html">Certifications</a>') : "")
       + (B.live ? "" : '<span class="fpt-demo">Demo mode</span>') + '<span class="fpt-who" title="'+esc(nm)+'">'+esc(ini)+'</span><button type="button" id="fpt-out">Sign out</button>';
     host.appendChild(d);
-    document.getElementById("fpt-out").onclick = async function(){ await T.signOut(); location.href = "index.html"; };
+    document.getElementById("fpt-out").onclick = async function(){ await T.signOut(); location.href = (window.ACAD_TRACK ? "../" : "") + (window.FP_CONFIG && window.FP_CONFIG.SIGNIN || "index.html"); };
   }
 };
 document.addEventListener("visibilitychange", function(){ if(document.visibilityState==="hidden") flush(); });
